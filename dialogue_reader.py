@@ -34,4 +34,4 @@ def read_dialogue(filepath):
                     break
 
 
-read_dialogue('Dialogue/test.txt')
+read_dialogue('Dialogue/opening_cutscene.txt')
