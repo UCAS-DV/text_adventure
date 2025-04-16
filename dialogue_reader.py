@@ -33,5 +33,8 @@ def read_dialogue(filepath):
                 if target_path in ['1', '2']:
                     break
 
+def read_description(description):
+    for line in description:
+        input(f'{line} (Enter to Continue)')
 
 read_dialogue('Dialogue/opening_cutscene.txt')

@@ -13,3 +13,8 @@ class ally:
         self.hp = hp
         self.nerves = nerves
         self.attacks = attacks
+
+viyh = boss('The Voice In Your Head', 50, 100, [], 'Dialogue/opening_cutscene.txt', 'Dialogue/test.txt')
+player = ally('Unpaid Intern', 
+              100, 100, 
+              [])

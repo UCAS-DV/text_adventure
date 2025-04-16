@@ -1,5 +1,0 @@
-1Hey!
-1Do you like apples?
-`Nod`Shake Head
-1I also like apples!
-2I also HATE apples!
