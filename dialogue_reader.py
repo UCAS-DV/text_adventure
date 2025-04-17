@@ -37,4 +37,4 @@ def read_description(description):
     for line in description:
         input(f'{line} (Enter to Continue)')
 
-read_dialogue('Dialogue/opening_cutscene.txt')
+# read_dialogue('Dialogue/opening_cutscene.txt')
