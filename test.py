@@ -1,1 +1,0 @@
-print('Apples'[:1])

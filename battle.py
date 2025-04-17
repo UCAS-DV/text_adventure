@@ -1,2 +1,0 @@
-def battle(allies, boss):
-    

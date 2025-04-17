@@ -1,0 +1,47 @@
+Dialogue:
+
+DEFINE FUNCTION read_dialogue_file with the parameter filepath
+
+    OPEN dialogue_file at filepath
+        SPLIT dialogue_file into dialogue list as dialogue_list
+
+    RETURN dialogue_list
+
+DEFINE FUNCTION read_dialogue with parameter filepath
+
+    dialogue equals dialogue_list from read_dialogue_file using filepath
+    target_path equals "1"
+
+    FOR EACH line in dialogue
+        path equals first character of line
+
+        IF path equals target_path
+            PRINT line
+            wait for user input
+
+        ELSE IF path equals "`"
+
+            decisions equals line split by "`"
+
+            LOOP FOReVER
+                PRINT first decision
+                PRINT second decision
+                SET target_path to user choice
+
+                IF target_path is "1" or "2"
+                    BREAK LOOP
+
+DEFINE FUNCTION read_description with parameter description
+
+    FOR EACH line in description
+        PRINT line
+        wait for user input
+
+Battling:
+
+    DEFINE FUNCTION battle with parametes allies, enemies, cutscene
+
+        turn equals -1
+
+        IF turn equals -1
+            
