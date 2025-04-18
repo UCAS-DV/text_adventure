@@ -1,14 +1,14 @@
 from battle import battle
 
 class enemy:
-    def __init__(self, name, hp, nerves, attacks):
+    def __init__(self, name, max_health, hp, max_nerves, nerves, attacks):
         self.name = name
         self.hp = hp
         self.nerves = nerves
         self.attacks = attacks
 
 class ally:
-    def __init__(self, name, hp, nerves, attacks):
+    def __init__(self, name, max_health, hp, max_nerves, nerves, attacks):
         self.name = name
         self.hp = hp
         self.nerves = nerves
@@ -32,4 +32,4 @@ player = ally('Unpaid Intern',
               100, 100, 
               [test_ally_attack])
 
-battle([player], [viyh], ['Test', 'testing', 'tester'])
+battle([player], [viyh], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt')
