@@ -6,7 +6,7 @@
 1And the phone is ringing!
 1You go and pick up your phone.
 1It's the President of the Even More United States of America!
-1You answer...
+1You answer.
 1"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 1"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 1"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA!"
@@ -31,6 +31,7 @@
 1But wait!
 1You don't even know how to fight yet!
 1Let me teach you!
+1...
 1Who am I?
 1Why I'm the voice in your head, of course!
 1Now sit down and listen up, this is important!
