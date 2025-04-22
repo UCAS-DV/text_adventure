@@ -9,6 +9,11 @@ class enemy:
         self.nerves = max_nerves
         self.min_nerves = min_nerves
         self.attacks = attacks
+    def __str__(self):
+        print(f'-~-~-~-~-{self.name}-~-~-~-~-')
+        print(f'HP: {self.hp}/{self.max_hp}')
+        print(f'Nerves: {self.nerves}/{self.max_nerves}')
+        print(f'Minimum Nerves: {self.min_nerves}')
 
 class ally:
     def __init__(self, name, max_hp, max_nerves, min_nerves, attacks):
@@ -34,12 +39,30 @@ class attack:
         self.super_fail = super_fail
 
 class item:
-    def __init__(self, name, item_description, hp, nerves, action_description):
+    def __init__(self, name, item_description, hp, nerves, offensive, multi, action_description):
         self.name = name
         self.i_desc = item_description
         self.hp = hp
         self.nerves = nerves
         self.a_desc = action_description
+        self.offensive = offensive
+        self.multi = multi
+
+    def __str__(self):
+        # Affects single enemy
+        if self.offensive and not self.multi:
+            return f'{self.name}:\n    {self.i_desc}\n    Damage: {-self.hp}\n    Nerves: {self.nerves}\n    Target: Enemy'
+        # Affects multiple enemies
+        elif self.offensive and self.multi:
+            return f'{self.name}:\n    {self.i_desc}\n    Damage: {-self.hp}\n    Nerves: {self.nerves}\n    Target: Enemies'
+        # Affects single ally
+        elif not self.offensive and not self.multi:
+            return f'{self.name}:\n    {self.i_desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: Ally'
+        # Affects multiple allies
+        elif not self.offensive and self.multi:
+            return f'{self.name}:\n    {self.i_desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: Allies'
+
+
 
 test_enemy_attack = attack('Test Attack 1', -20, -20, ['0'], ['1'], ['2'], ['3'])
 test_ally_attack = attack('Test Attack 2', -20, -20, ['0'], ['1'], ['2'], ['3'])
@@ -52,9 +75,27 @@ player = ally(name='Unpaid Intern',
               max_hp=100, max_nerves=100, min_nerves=10, 
               attacks=[test_ally_attack])
 
-test_item = item(name='Item',
+sin_off_item = item(name='Item 1',
                  item_description='An item made for testing!',
                  hp=-20, nerves=-20,
-                 action_description=['This is an item.', 'It is being used.'])
+                 action_description=['This is an item.', 'It is being used.'],
+                 offensive=True, multi=False)
+mult_off_item = item(name='Item 2',
+                 item_description='An item made for testing!',
+                 hp=-20, nerves=-20,
+                 action_description=['This is an item.', 'It is being used.'],
+                 offensive=True, multi=True)
+sin_self_item = item(name='Item 3',
+                 item_description='An item made for testing!',
+                 hp=20, nerves=20,
+                 action_description=['This is an item.', 'It is being used.'],
+                 offensive=False, multi=False)
+mult_self_item = item(name='Item 4',
+                 item_description='An item made for testing!',
+                 hp=20, nerves=20,
+                 action_description=['This is an item.', 'It is being used.'],
+                 offensive=False, multi=True)
 
-battle([player], [viyh], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt')
+test_inventory = [sin_off_item, mult_off_item, sin_self_item, mult_self_item]
+
+battle([player], [viyh], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
