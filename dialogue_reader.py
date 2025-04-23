@@ -19,7 +19,8 @@ def read_dialogue(filepath):
 
         # IF dialogue on current path, print dialogue
         if path == target_path:
-            input(f'{line[1:]} (Enter to Continue)')
+            if input(f'{line[1:]} (Enter to Continue)').lower() == 'skip':
+                break
         
         elif path == '`':
             decisions = line.split('`')
