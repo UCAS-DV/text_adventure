@@ -9,17 +9,21 @@ def show_stats(target):
 
 def use_item(item, allies, enemies):
 
-    read_description(item.a_desc)
+    
 
     while True:
         if item.offensive:
             # IF item affects multiple enemies
             if item.multi:
+
+                read_description(item.a_desc)
+
+                # Applies effects to all enemies
                 for enemy in enemies:  
                     enemy.hp += item.hp
                     enemy.nerves += item.nerves
 
-                    input(f'All enemies lost {-item.hp} health.\nAll enemies lost {-item.nerves} nerves.')
+                input(f'All enemies lost {-item.hp} health.\nAll enemies lost {-item.nerves} nerves.')
                 
                 break
             else:
@@ -32,14 +36,51 @@ def use_item(item, allies, enemies):
 
                 enemies.remove(enemy_selected)
 
+                read_description(item.a_desc)
+
                 # Apply Effects
                 enemy_selected.hp += item.hp
                 enemy_selected.nerves += item.nerves
 
                 enemies.append(enemy_selected)
 
+                input(f'{enemy_selected.name} lost {-item.hp} health.\n{enemy_selected.name} lost {-item.nerves} nerves.')
                 break
+        else:
+            # IF item affects multiple allies
+            if item.multi:
 
+                read_description(item.a_desc)
+
+                # Applies effects to all allies
+                for ally in allies:  
+                    ally.hp += item.hp
+                    ally.nerves += item.nerves
+
+                input(f'All allies gained {item.hp} health.\nAll enemies gained {item.nerves} nerves.')
+
+                break
+            else:
+                
+                # Print out all enemy info and have user select enemy
+                ally_info = []
+                for ally in allies:
+                    ally_info.append(f'{ally}')
+                ally_selected = allies[inq_select('Which item would you like to select? ', *ally_info) - 1]
+
+                allies.remove(ally_selected)
+
+                read_description(item.a_desc)
+
+                # Apply Effects
+                ally_selected.hp += item.hp
+                ally_selected.nerves += item.nerves
+
+                allies.append(ally_selected)   
+
+                input(f'{ally_selected.name} gained {item.hp} health.\n{ally_selected.name} gained {item.nerves} nerves.')
+
+                break
     return allies, enemies
 
 
@@ -60,6 +101,7 @@ def battle(allies, enemies, opening, closing, inventory):
             if ally.hp >= 0:
                 lost = False
 
+        # Checks if every enemy has been knocked down
         won = True
         for enemy in enemies:
             if enemy.hp >= 0:
@@ -124,8 +166,6 @@ def battle(allies, enemies, opening, closing, inventory):
                     
                     allies, enemies = use_item(item_selected, allies, enemies)
                     inventory.remove(item_selected)
-                        
-
 
     read_dialogue(closing)
     return victory, inventory
