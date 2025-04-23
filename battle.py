@@ -155,6 +155,10 @@ def battle(allies, enemies, opening, closing, inventory):
                             for enemy in enemies:
                                 show_stats(enemy)
 
+                # Attacks
+                case 2:
+                    pass
+                
                 # Use Item
                 case 3: 
                     item_info = []

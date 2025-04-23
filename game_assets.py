@@ -90,6 +90,8 @@ mult_self_item = item(name='Item 4',item_description='An item made for testing!'
                  action_description=['This is an item.', 'It is being used.'],
                  offensive=False, multi=True)
 
+test_inventory = [sin_off_item, mult_off_item, sin_self_item, mult_self_item]
+
 test_enemy = enemy(name='Test Enemy',
                    max_hp=50, max_nerves=100, min_nerves=10,
                    attacks=[test_enemy_attack])
@@ -107,6 +109,5 @@ player = ally(name='Unpaid Intern',
               max_hp=100, max_nerves=100, min_nerves=10, 
               attacks=[test_ally_attack])
 
-test_inventory = [sin_off_item, mult_off_item, sin_self_item, mult_self_item]
 
-battle([player, test_ally], [viyh, test_enemy], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
+
