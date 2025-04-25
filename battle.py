@@ -1,5 +1,21 @@
 from dialogue_reader import *
 from helper_funcs import inq_select
+import random
+
+def roll_nerves(nerves):
+
+    roll = random.randint(1,int(nerves))
+
+    if roll < nerves * 0.1:
+        return 1.5
+    elif roll < nerves:
+       return 1
+        
+    if roll > nerves * 1.5:
+        return 0
+    elif roll > nerves:
+        return 0.5
+
 
 def show_stats(target):
     print(f'-~-~-~-~-{target.name}-~-~-~-~-')

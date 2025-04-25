@@ -1,7 +1,7 @@
 from battle import battle
 
 class enemy:
-    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks):
+    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, effects):
         self.name = name
 
         self.max_hp = max_hp
@@ -12,13 +12,14 @@ class enemy:
         self.min_nerves = min_nerves
 
         self.attacks = attacks
+        self.effects = effects
 
     def __str__(self):
         return f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
 
 
 class ally:
-    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks):
+    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, effects):
         self.name = name
 
         self.max_hp = max_hp
@@ -29,12 +30,14 @@ class ally:
         self.min_nerves = min_nerves
 
         self.attacks = attacks
+        self.effect = effects
 
     def __str__(self):
         return f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
 
 class attack:
-    def __init__(self, name, hp, nerves, offensive, multi, super_success, success, fail, super_fail):
+    def __init__(self, name, hp, nerves, offensive, multi, super_success, success, fail, super_fail, ability):
+        #ADD ABILITY AFTER MULTI
         self.name = name
 
         self.hp = hp
@@ -47,6 +50,7 @@ class attack:
         self.success = success
         self.fail = fail
         self.super_fail = super_fail
+        self.ability = ability
 
 class item:
     def __init__(self, name, item_description, hp, nerves, offensive, multi, action_description):
@@ -74,13 +78,13 @@ class item:
 
 
 # Testing Assets Start
-test_enemy_attack = attack('Test Attack 1', -20, -20, True, False, ['0'], ['1'], ['2'], ['3'])
-test_ally_attack = attack('Test Attack 2', -20, -20, True, False, ['0'], ['1'], ['2'], ['3'])
+test_enemy_attack = attack('Test Attack 1', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
+test_ally_attack = attack('Test Attack 2', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 
-sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=-20, nerves=-20,
+sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=20, nerves=20,
                  action_description=['This is an item.', 'It is being used.'],
                  offensive=True, multi=False)
-mult_off_item = item(name='Item 2',item_description='An item made for testing!',hp=-20, nerves=-20,
+mult_off_item = item(name='Item 2',item_description='An item made for testing!',hp=20, nerves=20,
                  action_description=['This is an item.', 'It is being used.'],
                  offensive=True, multi=True)
 sin_self_item = item(name='Item 3',item_description='An item made for testing!',hp=20, nerves=20,
@@ -94,20 +98,24 @@ test_inventory = [sin_off_item, mult_off_item, sin_self_item, mult_self_item]
 
 test_enemy = enemy(name='Test Enemy',
                    max_hp=50, max_nerves=100, min_nerves=10,
-                   attacks=[test_enemy_attack])
+                   attacks=[test_enemy_attack],effects=[])
 
 test_ally = ally(name='Test Ally', 
               max_hp=100, max_nerves=100, min_nerves=10, 
-              attacks=[test_ally_attack])
+              attacks=[test_ally_attack],effects=[])
 # Testing Assets End
 
 viyh = enemy(name='The Voice In Your Head', 
              max_hp=50, max_nerves=100, min_nerves=10, 
-             attacks=[test_enemy_attack])
+             attacks=[test_enemy_attack],effects=[])
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=10, 
-              attacks=[test_ally_attack])
+              attacks=[test_ally_attack],effects=[])
+
+
+
+
 
 
 
