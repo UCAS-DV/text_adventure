@@ -1,0 +1,1 @@
+# See when the player can explore certain areas and give them the options to explore that scetion of the map they unlocked frm defeting the previous boss
