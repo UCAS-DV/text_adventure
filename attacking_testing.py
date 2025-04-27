@@ -2,7 +2,7 @@ import game_assets
 import random
 
 
-josh = game_assets.enemy("Josh",50,50,10,[game_assets.test_enemy_attack],[1,2])
+josh = game_assets.enemy("Josh",50,50,10,[game_assets.test_enemy_attack],[2])
 you = game_assets.ally("you",50,50,10,[game_assets.test_ally_attack],[])
 
 

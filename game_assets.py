@@ -36,9 +36,10 @@ class ally:
         return f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
 
 class attack:
-    def __init__(self, name, hp, nerves, offensive, multi, super_success, success, fail, super_fail, ability):
+    def __init__(self, name, description, hp, nerves, offensive, multi, super_success, success, fail, super_fail, ability):
         #ADD ABILITY AFTER MULTI
         self.name = name
+        self.desc = description
 
         self.hp = hp
         self.nerves = nerves
@@ -51,6 +52,20 @@ class attack:
         self.fail = fail
         self.super_fail = super_fail
         self.ability = ability
+
+    def __str__(self):
+        # Affects single enemy
+        if self.offensive and not self.multi:
+            return f'{self.name}:\n    {self.desc}\n    Damage: {-self.hp}\n    Nerves: {self.nerves}\n    Target: Enemy'
+        # Affects multiple enemies
+        elif self.offensive and self.multi:
+            return f'{self.name}:\n    {self.desc}\n    Damage: {-self.hp}\n    Nerves: {self.nerves}\n    Target: All Enemies'
+        # Affects single ally
+        elif not self.offensive and not self.multi:
+            return f'{self.name}:\n    {self.desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: Ally'
+        # Affects multiple allies
+        elif not self.offensive and self.multi:
+            return f'{self.name}:\n    {self.desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Allies'
 
 class item:
     def __init__(self, name, item_description, hp, nerves, offensive, multi, action_description):
@@ -78,8 +93,8 @@ class item:
 
 
 # Testing Assets Start
-test_enemy_attack = attack('Test Attack 1', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
-test_ally_attack = attack('Test Attack 2', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
+test_enemy_attack = attack('Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
+test_ally_attack = attack('Test Attack 2', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 
 sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=20, nerves=20,
                  action_description=['This is an item.', 'It is being used.'],
@@ -113,7 +128,7 @@ player = ally(name='Unpaid Intern',
               max_hp=100, max_nerves=100, min_nerves=10, 
               attacks=[test_ally_attack],effects=[])
 
-
+battle([player, test_ally], [viyh, test_enemy], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
 
 
 

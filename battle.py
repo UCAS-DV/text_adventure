@@ -15,7 +15,45 @@ def roll_nerves(nerves):
         return 0
     elif roll > nerves:
         return 0.5
+        
+def attack_them(att, target, nerves):
+    dmg = att.hp
+    nerve_dmg = att.nerves
 
+    nerve_multiplier = roll_nerves(nerves)
+
+    dmg *= nerve_multiplier
+    nerve_dmg *= nerve_multiplier
+
+    if 1 in target.effects:
+        dmg *= 1.5
+    if 2 in target.effects:
+        dmg *= 0.75
+
+    dmg = round(dmg)
+    target.hp -= dmg
+
+    nerve_dmg = round(nerve_dmg)
+    target.nerves -= nerve_dmg
+
+    if dmg < 0:
+        print(f'{target.name} lost {dmg} health!')
+    elif dmg > 0:
+        print(f'{target.name} gained {dmg} health!')
+
+    if nerve_dmg < 0:
+        print(f'{target.name} lost {nerve_dmg} nerves!')
+    elif nerve_dmg > 0:
+        print(f'{target.name} gained {nerve_dmg} nerves!')
+
+
+def format(unformatted_list):
+
+    list_info = []
+    for list_item in unformatted_list:
+        list_info.append(f'{list_item}')
+
+    return list_info
 
 def show_stats(target):
     print(f'-~-~-~-~-{target.name}-~-~-~-~-')
@@ -24,8 +62,6 @@ def show_stats(target):
     print(f'Minimum Nerves: {target.min_nerves}')
 
 def use_item(item, allies, enemies):
-
-    
 
     while True:
         if item.offensive:
@@ -99,8 +135,6 @@ def use_item(item, allies, enemies):
                 break
     return allies, enemies
 
-
-
 def battle(allies, enemies, opening, closing, inventory):
 
     read_dialogue(opening)
@@ -159,7 +193,7 @@ def battle(allies, enemies, opening, closing, inventory):
                         # Allied Stats
                         case 1:
                             for ally in allies:
-                                show_stats(ally)
+                                print(ally)
                         # Enemies Stats
                         case 2:
                             for enemy in enemies:
@@ -167,20 +201,38 @@ def battle(allies, enemies, opening, closing, inventory):
                         # All Stats
                         case 3:
                             for ally in allies:
-                                show_stats(ally)
+                                print(ally)
                             for enemy in enemies:
-                                show_stats(enemy)
+                                print(enemy)
 
                 # Attacks
                 case 2:
-                    pass
+
+                    ally_info = format(allies)
+                    ally_selected = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
+
+                    if ally_selected.hp > 0:
+                        attack_info = format(ally_selected.attacks)
+                        attack_selected = ally_selected.attacks[inq_select('Which attack would you like to select? ', *attack_info) - 1]
+
+                        if not attack_selected.multi:
+
+                            if attack_selected.offensive:
+                                target_info = format(enemies)
+                                target = enemies[inq_select('Which enemy would you like to attack? ', *target_info) - 1]
+
+                            else:
+                                target = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
+
+                            attack_them(attack_selected, target, ally_selected.nerves)
+
+                    else: input('Oops! Seems like you selected a downed ally!')
+
                 
                 # Use Item
-                case 3: 
-                    item_info = []
-                    for item in inventory:
-                        item_info.append(f'{item}')
+                case 3:
 
+                    item_info = format(inventory)
 
                     item_selected = inventory[inq_select('Which item would you like to select? ', *item_info) - 1]
                     
