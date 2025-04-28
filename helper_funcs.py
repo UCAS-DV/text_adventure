@@ -1,4 +1,3 @@
-
 from InquirerPy import inquirer
 
 def inq_select(*args): # *args allows for indefinite parameters, stored in a list, named args 
