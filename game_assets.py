@@ -47,6 +47,7 @@ class attack:
         self.offensive = offensive
         self.multi = multi
 
+
         self.super_success = super_success
         self.success = success
         self.fail = fail
@@ -68,12 +69,15 @@ class attack:
             return f'{self.name}:\n    {self.desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Allies'
 
 class item:
-    def __init__(self, name, item_description, hp, nerves, offensive, multi, action_description):
+    def __init__(self, name, item_description, hp, nerves, offensive, multi, ability, action_description):
         self.name = name
         self.i_desc = item_description
+        self.a_desc = action_description
+
         self.hp = hp
         self.nerves = nerves
-        self.a_desc = action_description
+        self.ability = ability
+        
         self.offensive = offensive
         self.multi = multi
 
@@ -91,15 +95,14 @@ class item:
         elif not self.offensive and self.multi:
             return f'{self.name}:\n    {self.i_desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Allies'
 
-
 # Testing Assets Start
 test_enemy_attack = attack('Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 test_ally_attack = attack('Test Attack 2', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 
-sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=20, nerves=20,
+sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=-20, nerves=-20,
                  action_description=['This is an item.', 'It is being used.'],
                  offensive=True, multi=False)
-mult_off_item = item(name='Item 2',item_description='An item made for testing!',hp=20, nerves=20,
+mult_off_item = item(name='Item 2',item_description='An item made for testing!',hp=-20, nerves=-20,
                  action_description=['This is an item.', 'It is being used.'],
                  offensive=True, multi=True)
 sin_self_item = item(name='Item 3',item_description='An item made for testing!',hp=20, nerves=20,
@@ -129,8 +132,6 @@ player = ally(name='Unpaid Intern',
               attacks=[test_ally_attack],effects=[])
 
 battle([player, test_ally], [viyh, test_enemy], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
-
-
 
 
 
