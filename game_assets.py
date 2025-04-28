@@ -43,18 +43,22 @@ class attack:
         self.offensive = offensive
         self.multi = multi
 
+
         self.super_success = super_success
         self.success = success
         self.fail = fail
-        self.super_fail = super_fail
+        self.super_fail = super_fail   
 
 class item:
-    def __init__(self, name, item_description, hp, nerves, offensive, multi, action_description):
+    def __init__(self, name, item_description, hp, nerves, offensive, multi, ability, action_description):
         self.name = name
         self.i_desc = item_description
+        self.a_desc = action_description
+
         self.hp = hp
         self.nerves = nerves
-        self.a_desc = action_description
+        self.ability = ability
+        
         self.offensive = offensive
         self.multi = multi
 
@@ -72,23 +76,16 @@ class item:
         elif not self.offensive and self.multi:
             return f'{self.name}:\n    {self.i_desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Allies'
 
-
 # Testing Assets Start
 test_enemy_attack = attack('Test Attack 1', -20, -20, True, False, ['0'], ['1'], ['2'], ['3'])
 test_ally_attack = attack('Test Attack 2', -20, -20, True, False, ['0'], ['1'], ['2'], ['3'])
 
-sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=-20, nerves=-20,
-                 action_description=['This is an item.', 'It is being used.'],
-                 offensive=True, multi=False)
-mult_off_item = item(name='Item 2',item_description='An item made for testing!',hp=-20, nerves=-20,
-                 action_description=['This is an item.', 'It is being used.'],
-                 offensive=True, multi=True)
-sin_self_item = item(name='Item 3',item_description='An item made for testing!',hp=20, nerves=20,
-                 action_description=['This is an item.', 'It is being used.'],
-                 offensive=False, multi=False)
-mult_self_item = item(name='Item 4',item_description='An item made for testing!',hp=20, nerves=20,
-                 action_description=['This is an item.', 'It is being used.'],
-                 offensive=False, multi=True)
+sin_off_item = item(name='Item 1',item_description='An item made for testing!', ability=[], hp=-100, nerves=-20, action_description=['This is an item.', 'It is being used.'], offensive=True, multi=False)
+mult_off_item = item(name='Item 2',item_description='An item made for testing!', ability=[], hp=-100, nerves=-20, action_description=['This is an item.', 'It is being used.'], offensive=True, multi=True)
+sin_self_item = item(name='Item 3',item_description='An item made for testing!', ability=[], hp=20, nerves=20, action_description=['This is an item.', 'It is being used.'], offensive=False, multi=False)
+mult_self_item = item(name='Item 4',item_description='An item made for testing!', ability=[], hp=20, nerves=20, action_description=['This is an item.', 'It is being used.'], offensive=False, multi=True)
+
+ability_test = item(name='Item 5',item_description='An item made for testing!', ability=['confusion'], hp=20, nerves=20, action_description=['This is an item.', 'It is being used.'], offensive=False, multi=True)
 
 test_inventory = [sin_off_item, mult_off_item, sin_self_item, mult_self_item]
 
@@ -108,6 +105,4 @@ viyh = enemy(name='The Voice In Your Head',
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=10, 
               attacks=[test_ally_attack])
-
-
 

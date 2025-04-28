@@ -1,5 +1,6 @@
 from dialogue_reader import *
 from helper_funcs import inq_select
+import random
 
 def show_stats(target):
     print(f'-~-~-~-~-{target.name}-~-~-~-~-')
@@ -7,9 +8,21 @@ def show_stats(target):
     print(f'Nerves: {target.nerves}/{target.max_nerves}')
     print(f'Minimum Nerves: {target.min_nerves}')
 
-def use_item(item, allies, enemies):
+def roll_nerves(nerves):
 
-    
+    roll = random.randint(1,int(nerves))
+
+    if roll < nerves * 0.1:
+        return 1.5
+    elif roll < nerves:
+       return 1
+        
+    if roll > nerves * 1.5:
+        return 0
+    elif roll > nerves:
+        return 0.5
+
+def use_item(item, allies, enemies):
 
     while True:
         if item.offensive:
@@ -83,8 +96,6 @@ def use_item(item, allies, enemies):
                 break
     return allies, enemies
 
-
-
 def battle(allies, enemies, opening, closing, inventory):
 
     read_dialogue(opening)
@@ -139,8 +150,8 @@ def battle(allies, enemies, opening, closing, inventory):
 
                 # Check Stats
                 case 1:
-                    match inq_select('Whose stats would you like to look at?', 'Allies', 'Enemies', 'All'):
-                        # Allied Stats
+                    match inq_select('Whose stats would you like to look at?', 'Team', 'Enemies', 'All'):
+                        # Team Stats
                         case 1:
                             for ally in allies:
                                 show_stats(ally)
@@ -170,6 +181,8 @@ def battle(allies, enemies, opening, closing, inventory):
                     
                     allies, enemies = use_item(item_selected, allies, enemies)
                     inventory.remove(item_selected)
+
+                    turn += 1
 
     read_dialogue(closing)
     return victory, inventory
