@@ -1,8 +1,10 @@
-from InquirePy import inquirer
+from InquirerPy import inquirer
 import time
 
 # InquirePy menu
 def inq_select(*args):
+    if len(args) < 2:
+        raise ValueError("inq_select requires a message and at least one option.")
     items = [f"({i+1}) {args[i+1]}" for i in range(len(args)-1)]
     menu_input = inquirer.select(
         message=args[0],
@@ -11,54 +13,51 @@ def inq_select(*args):
     ).execute()
     return menu_input
 
-# Locations with 8 levels, characters, and bosses
+# 5 Locations
 levels = [
     {
-        "name": "Location 1: [Insert Location Name]",
-        "characters": ["[Insert Character 1]", "[Insert Character 2]"],
-        "boss": "[Insert Boss Name]",
+        "name": "SPAWN POINT: Your House",
+        "npc": "Cat",
+        "encounters": [],
+        "boss": "The Voice in Your Head",
+        "item": "Hopes and Determination",
+        "allies": [],
         "boss_defeated": False
     },
     {
-        "name": "Location 2: [Insert Location Name]",
-        "characters": ["[Insert Character 1]"],
-        "boss": "[Insert Boss Name]",
+        "name": "Spookyland",
+        "npc": "Carnival Skeletons",
+        "encounters": ["Very Spooky Ghouls", "Ghosts"],
+        "boss": "Mr. Skellybones",
+        "item": "Mr. Skellybones' Monocle",
+        "allies": ["Mr. Skellybones"],
         "boss_defeated": False
     },
     {
-        "name": "Location 3: [Insert Location Name]",
-        "characters": ["[Insert Character 1]"],
-        "boss": "[Insert Boss Name]",
+        "name": "Area 51",
+        "npc": "Zeep Vorp",
+        "encounters": ["Hostile Aliens"],
+        "boss": None,
+        "item": "Alien Cat",
+        "allies": ["Zeep Vorp"],
+        "boss_defeated": True  # No boss, auto mark defeated
+    },
+    {
+        "name": "North Pole",
+        "npc": "Mrs. Claus",
+        "encounters": ["Special Ops Reindeer", "Elf Team"],
+        "boss": "Santa Claus",
+        "item": "Hat of Santa Claus",
+        "allies": ["Special Ops Elf"],
         "boss_defeated": False
     },
     {
-        "name": "Location 4: [Insert Location Name]",
-        "characters": ["[Insert Character 1]"],
-        "boss": "[Insert Boss Name]",
-        "boss_defeated": False
-    },
-    {
-        "name": "Location 5: [Insert Location Name]",
-        "characters": ["[Insert Character 1]"],
-        "boss": "[Insert Boss Name]",
-        "boss_defeated": False
-    },
-    {
-        "name": "Location 6: [Insert Location Name]",
-        "characters": ["[Insert Character 1]"],
-        "boss": "[Insert Boss Name]",
-        "boss_defeated": False
-    },
-    {
-        "name": "Location 7: [Insert Location Name]",
-        "characters": ["[Insert Character 1]"],
-        "boss": "[Insert Boss Name]",
-        "boss_defeated": False
-    },
-    {
-        "name": "Location 8: [Insert Location Name]",
-        "characters": ["[Insert Character 1]"],
-        "boss": "[Insert Boss Name]",
+        "name": "White House",
+        "npc": "President and Vice President",
+        "encounters": [],
+        "boss": "Zeep Vorp (Betrayed!)",
+        "item": "Pure Patriotism and All Items",
+        "allies": ["All Allies (except Zeep Vorp)"],
         "boss_defeated": False
     }
 ]
@@ -67,9 +66,18 @@ current_level_index = 0
 
 def load_level(index):
     level = levels[index]
-    print("\n  Loading:", level["name"])
-    print(" Characters:", ", ".join(level["characters"]))
-    print(" Boss:", level["boss"], "\n")
+    print("\n==============================")
+    print(f"  Entering: {level['name']}")
+    print(f"  NPC: {level['npc']}")
+    if level["encounters"]:
+        print("  Encounters:", ", ".join(level["encounters"]))
+    else:
+        print("  No Encounters")
+    if level["boss"]:
+        print("  Boss:", level["boss"])
+    else:
+        print("  No Boss")
+    print("==============================\n")
     time.sleep(1)
 
 def multiple_location_system():
@@ -80,36 +88,39 @@ def multiple_location_system():
     while current_level_index < len(levels):
         current_level = levels[current_level_index]
 
-        # If the boss is not defeated, player can only stay and re-fight the boss
-        while not current_level["boss_defeated"]:
-            print(f"\n⚔️ You are fighting {current_level['boss']}...\n")
-            # This is where the fight logic would occur (you'll handle that separately)
-            # For now, I’ll simulate that the boss is defeated.
-            current_level["boss_defeated"] = True  # Mark as defeated after fighting
-
-        # After boss is defeated, allow player to decide: Explore or Move On
-        move_on = inq_select(
-            "Boss defeated! What would you like to do?",
-            "Explore the location",
-            "Move on to the next level"
-        )
-
-        if move_on == 1:
-            print("\n Exploring the location...\n")
-            # I will add the exploration content like talking to NPCs, picking up items, etc.
-            # For now, it's just a placeholder since I’m not sure on what you exactly want here
+        # Encounters
+        if current_level["encounters"]:
+            print("\n You face the following enemies:")
+            for encounter in current_level["encounters"]:
+                print(f" - Fighting {encounter}...")
+                time.sleep(1)
+            print("You defeated the encounters!\n")
             time.sleep(1)
-            print("\nYou explore the location and find some hidden treasures!")
-            # After exploring, the player will be asked again whether they want to move on.
-            continue
+
+        # Handle boss fights (if any)
+        if current_level["boss"] and not current_level["boss_defeated"]:
+            print(f"\n You are fighting the boss: {current_level['boss']}...\n")
+            time.sleep(2)
+            # Simulate boss defeat
+            current_level["boss_defeated"] = True
+            print(f"You have defeated {current_level['boss']}!\n")
+            time.sleep(1)
+
+        # Handle rewards (items/allies)
+        if current_level.get("item"):
+            print(f" You received an item: {current_level['item']}!")
+        if current_level.get("allies"):
+            if isinstance(current_level["allies"], list) and current_level["allies"]:
+                print(f" Allies joined you: {', '.join(current_level['allies'])}")
+        print("\nMoving to the next location...\n")
+        time.sleep(2)
+
+        current_level_index += 1
+        if current_level_index < len(levels):
+            load_level(current_level_index)
         else:
-            # Move on to the next level
-            current_level_index += 1
-            if current_level_index < len(levels):
-                load_level(current_level_index)
-            else:
-                print("\n Congratulations! You've beaten all available levels!\n")
-                break
+            print("\n Congratulations! You've beaten the entire game!\n")
+            break
 
 if __name__ == "__main__":
     multiple_location_system()
