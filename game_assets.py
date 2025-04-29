@@ -17,7 +17,6 @@ class enemy:
     def __str__(self):
         return f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
 
-
 class ally:
     def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, effects):
         self.name = name
@@ -101,16 +100,16 @@ test_ally_attack = attack('Test Attack 2', 'An attack for testing', 20, 20, True
 
 sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=-20, nerves=-20,
                  action_description=['This is an item.', 'It is being used.'],
-                 offensive=True, multi=False)
+                 offensive=True, multi=False, ability=[])
 mult_off_item = item(name='Item 2',item_description='An item made for testing!',hp=-20, nerves=-20,
                  action_description=['This is an item.', 'It is being used.'],
-                 offensive=True, multi=True)
+                 offensive=True, multi=True, ability=[])
 sin_self_item = item(name='Item 3',item_description='An item made for testing!',hp=20, nerves=20,
                  action_description=['This is an item.', 'It is being used.'],
-                 offensive=False, multi=False)
+                 offensive=False, multi=False, ability=[])
 mult_self_item = item(name='Item 4',item_description='An item made for testing!',hp=20, nerves=20,
                  action_description=['This is an item.', 'It is being used.'],
-                 offensive=False, multi=True)
+                 offensive=False, multi=True, ability=[])
 
 test_inventory = [sin_off_item, mult_off_item, sin_self_item, mult_self_item]
 

@@ -2,29 +2,37 @@ from dialogue_reader import *
 from helper_funcs import inq_select
 import random
 
-def roll_nerves(nerves):
+# Rolls random multipler based off of nerves
+def roll_nerves(nerves, attack):
 
     roll = random.randint(1,int(nerves))
 
     if roll < nerves * 0.1:
+        read_description(attack.super_success + [f'{attack.name} was super successful!'])
         return 1.5
     elif roll < nerves:
+       read_description(attack.success + [f'{attack.name} was successful!'])
        return 1
         
     if roll > nerves * 1.5:
+        read_description(attack.super_fail + [f'{attack.name} was a complete failure!'])
         return 0
     elif roll > nerves:
+        read_description(attack.fail + [f'{attack.name} was a ineffective!'])
         return 0.5
-        
+
+# Attacks target   
 def attack_them(att, target, nerves):
     dmg = att.hp
-    nerve_dmg = att.nerves
+    discomfort = att.nerves
 
-    nerve_multiplier = roll_nerves(nerves)
+    nerve_multiplier = roll_nerves(nerves, att)
 
+    # Multiply damage and nerve damage by nerve multiplier
     dmg *= nerve_multiplier
-    nerve_dmg *= nerve_multiplier
+    discomfort *= nerve_multiplier
 
+    # Apply effects if applicable
     if 1 in target.effects:
         dmg *= 1.5
     if 2 in target.effects:
@@ -33,20 +41,30 @@ def attack_them(att, target, nerves):
     dmg = round(dmg)
     target.hp -= dmg
 
-    nerve_dmg = round(nerve_dmg)
-    target.nerves -= nerve_dmg
+    discomfort = round(discomfort)
+    target.nerves -= discomfort
 
+    # Sets hp to 0 if it's below 0
+    if target.hp < 0:
+        target.hp = 0
+
+    # Sets nerves to minimum if it's below minimum
+    if target.nerves < target.min_nerves:
+        target.nerves = target.min_nerves
+
+    # Print the amount of damage done
     if dmg < 0:
-        print(f'{target.name} lost {dmg} health!')
-    elif dmg > 0:
         print(f'{target.name} gained {dmg} health!')
+    elif dmg > 0:
+        print(f'{target.name} lost {dmg} health!')
 
-    if nerve_dmg < 0:
-        print(f'{target.name} lost {nerve_dmg} nerves!')
-    elif nerve_dmg > 0:
-        print(f'{target.name} gained {nerve_dmg} nerves!')
+    # Print the amount of discomfort done
+    if discomfort < 0:
+        print(f'{target.name} gained {discomfort} nerves!')
+    elif discomfort > 0:
+        print(f'{target.name} lost {discomfort} nerves!')
 
-
+# Formats items so it can be used in UI
 def format(unformatted_list):
 
     list_info = []
@@ -55,26 +73,7 @@ def format(unformatted_list):
 
     return list_info
 
-def show_stats(target):
-    print(f'-~-~-~-~-{target.name}-~-~-~-~-')
-    print(f'HP: {target.hp}/{target.max_hp}')
-    print(f'Nerves: {target.nerves}/{target.max_nerves}')
-    print(f'Minimum Nerves: {target.min_nerves}')
-
-def roll_nerves(nerves):
-
-    roll = random.randint(1,int(nerves))
-
-    if roll < nerves * 0.1:
-        return 1.5
-    elif roll < nerves:
-       return 1
-        
-    if roll > nerves * 1.5:
-        return 0
-    elif roll > nerves:
-        return 0.5
-
+# Applies item effects
 def use_item(item, allies, enemies):
 
     while True:
@@ -149,6 +148,7 @@ def use_item(item, allies, enemies):
                 break
     return allies, enemies
 
+# Main battle function
 def battle(allies, enemies, opening, closing, inventory):
 
     read_dialogue(opening)
@@ -234,11 +234,22 @@ def battle(allies, enemies, opening, closing, inventory):
                             if attack_selected.offensive:
                                 target_info = format(enemies)
                                 target = enemies[inq_select('Which enemy would you like to attack? ', *target_info) - 1]
-
                             else:
                                 target = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
 
-                            attack_them(attack_selected, target, ally_selected.nerves)
+                            if target.hp > 0:
+                                attack_them(attack_selected, target, ally_selected.nerves)
+                            else:
+                                input('Oops! Seems like your target is already downed')
+
+                        else:
+
+                            if attack_selected.offensive:
+                                for enemy in enemies:
+                                    attack_them(enemy)
+                            else:
+                                for ally in allies:
+                                    attack_them(ally)
 
                     else: input('Oops! Seems like you selected a downed ally!')
 
@@ -257,4 +268,3 @@ def battle(allies, enemies, opening, closing, inventory):
 
     read_dialogue(closing)
     return victory, inventory
-
