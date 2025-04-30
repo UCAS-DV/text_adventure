@@ -27,7 +27,7 @@ levels = [
     {
         "name": "Spookyland",
         "npc": "Carnival Skeletons",
-        "encounters": ["Very Spooky Ghouls", "Ghosts"],
+        "encounters": ["Very Spooky Ghoul 1", 'Very Spook Ghoul 2' "Very Spooky Ghost"],
         "boss": "Mr. Skellybones",
         "item": "Mr. Skellybones' Monocle",
         "allies": ["Mr. Skellybones"],
@@ -42,10 +42,11 @@ levels = [
         "allies": ["Zeep Vorp"],
         "boss_defeated": True  # No boss, auto mark defeated
     },
+    #code
     {
         "name": "North Pole",
         "npc": "Mrs. Claus",
-        "encounters": ["Special Ops Reindeer", "Elf Team"],
+        "encounters": ["Special Ops Reindeer", "Special Ops Elf 1", 'Special Ops Elf 2'],
         "boss": "Santa Claus",
         "item": "Hat of Santa Claus",
         "allies": ["Special Ops Elf"],
