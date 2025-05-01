@@ -33,9 +33,9 @@ def attack_them(att, target, nerves):
     discomfort *= nerve_multiplier
 
     # Apply effects if applicable
-    if 1 in target.effects:
+    if 1 in target.effect:
         dmg *= 1.5
-    if 2 in target.effects:
+    if 2 in target.effect:
         dmg *= 0.75
 
     dmg = round(dmg)
@@ -183,6 +183,7 @@ def battle(allies, enemies, opening, closing, inventory):
                 ally.hp = ally.max_hp
                 ally.nerves = ally.max_nerves
 
+            victory = False
             battle_ended = True
             break
 
@@ -225,25 +226,31 @@ def battle(allies, enemies, opening, closing, inventory):
                     ally_info = format(allies)
                     ally_selected = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
 
+                    # IF selected ally is still up
                     if ally_selected.hp > 0:
                         attack_info = format(ally_selected.attacks)
                         attack_selected = ally_selected.attacks[inq_select('Which attack would you like to select? ', *attack_info) - 1]
 
+                        # IF attack does not affect multiple people
                         if not attack_selected.multi:
-
+                            
+                            # IF attack is offensive
                             if attack_selected.offensive:
                                 target_info = format(enemies)
                                 target = enemies[inq_select('Which enemy would you like to attack? ', *target_info) - 1]
                             else:
                                 target = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
-
+                            
+                            # Only attack choosen target if target is not downed
                             if target.hp > 0:
                                 attack_them(attack_selected, target, ally_selected.nerves)
                             else:
                                 input('Oops! Seems like your target is already downed')
 
+                        # IF attack does affect multiple people
                         else:
-
+                            
+                            # Attack/Affect ALL targets depending if attack if offensive
                             if attack_selected.offensive:
                                 for enemy in enemies:
                                     attack_them(enemy)
@@ -272,5 +279,5 @@ def battle(allies, enemies, opening, closing, inventory):
     
     if victory:
         read_dialogue(closing)
-        
+
     return victory, inventory

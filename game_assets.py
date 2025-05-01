@@ -98,6 +98,8 @@ class item:
 # Testing Assets Start
 test_enemy_attack = attack('sin_off', 'Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 test_ally_attack = attack('sin_off', 'Test Attack 2', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
+falcon_punch = attack('heal', 'FALCON PUNCH', 'An attack for testing', 2000, 2000, True, False, ['0'], ['1'], ['2'], ['3'],[])
+resign = attack('heal', 'resign', 'An attack for testing', 2000, 2000, False, False, ['0'], ['1'], ['2'], ['3'],[])
 
 sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=-20, nerves=-20,
                  action_description=['This is an item.', 'It is being used.'],
@@ -113,6 +115,7 @@ mult_self_item = item(name='Item 4',item_description='An item made for testing!'
                  offensive=False, multi=True, ability=[])
 
 test_inventory = [sin_off_item, mult_off_item, sin_self_item, mult_self_item]
+test_attacks = [test_ally_attack, falcon_punch, resign]
 
 test_enemy = enemy(name='Test Enemy',
                    max_hp=50, max_nerves=100, min_nerves=10,
@@ -129,7 +132,7 @@ viyh = enemy(name='The Voice In Your Head',
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=30, 
-              attacks=[test_ally_attack],effects=[])
+              attacks=test_attacks,effects=[])
 
 allies = [player]
 inventory = []
@@ -147,9 +150,8 @@ victory, inventory = battle(allies, [viyh, test_enemy], 'Dialogue\opening_cutsce
 
 if victory:
     level_up()
-
     for ally_char in allies:
         print(ally_char)
-else:
+elif victory == False:
     'YOU LOST IDIOT!!!!!!!!'
 
