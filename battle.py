@@ -5,7 +5,7 @@ import random
 # Rolls random multipler based off of nerves
 def roll_nerves(nerves, attack):
 
-    roll = random.randint(1,int(nerves))
+    roll = random.randint(1,100)
 
     if roll < nerves * 0.1:
         read_description(attack.super_success + [f'{attack.name} was super successful!'])
@@ -162,13 +162,13 @@ def battle(allies, enemies, opening, closing, inventory):
         # Checks if every ally has been knocked down
         lost = True
         for ally in allies:
-            if ally.hp >= 0:
+            if ally.hp > 0:
                 lost = False
 
         # Checks if every enemy has been knocked down
         won = True
         for enemy in enemies:
-            if enemy.hp >= 0:
+            if enemy.hp > 0:
                 won = False
 
         if lost:
@@ -269,6 +269,8 @@ def battle(allies, enemies, opening, closing, inventory):
         # Enemy Turn (Amber)
         else:
             pass
-
-    read_dialogue(closing)
+    
+    if victory:
+        read_dialogue(closing)
+        
     return victory, inventory
