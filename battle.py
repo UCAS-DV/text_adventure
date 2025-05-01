@@ -1,15 +1,80 @@
 from dialogue_reader import *
 from helper_funcs import inq_select
+import random
 
-def show_stats(target):
-    print(f'-~-~-~-~-{target.name}-~-~-~-~-')
-    print(f'HP: {target.hp}/{target.max_hp}')
-    print(f'Nerves: {target.nerves}/{target.max_nerves}')
-    print(f'Minimum Nerves: {target.min_nerves}')
+# Rolls random multipler based off of nerves
+def roll_nerves(nerves, attack):
 
+    roll = random.randint(1,int(nerves))
+
+    if roll < nerves * 0.1:
+        read_description(attack.super_success + [f'{attack.name} was super successful!'])
+        return 1.5
+    elif roll < nerves:
+       read_description(attack.success + [f'{attack.name} was successful!'])
+       return 1
+        
+    if roll > nerves * 1.5:
+        read_description(attack.super_fail + [f'{attack.name} was a complete failure!'])
+        return 0
+    elif roll > nerves:
+        read_description(attack.fail + [f'{attack.name} was a ineffective!'])
+        return 0.5
+
+# Attacks target   
+def attack_them(att, target, nerves):
+    dmg = att.hp
+    discomfort = att.nerves
+
+    nerve_multiplier = roll_nerves(nerves, att)
+
+    # Multiply damage and nerve damage by nerve multiplier
+    dmg *= nerve_multiplier
+    discomfort *= nerve_multiplier
+
+    # Apply effects if applicable
+    if 1 in target.effects:
+        dmg *= 1.5
+    if 2 in target.effects:
+        dmg *= 0.75
+
+    dmg = round(dmg)
+    target.hp -= dmg
+
+    discomfort = round(discomfort)
+    target.nerves -= discomfort
+
+    # Sets hp to 0 if it's below 0
+    if target.hp < 0:
+        target.hp = 0
+
+    # Sets nerves to minimum if it's below minimum
+    if target.nerves < target.min_nerves:
+        target.nerves = target.min_nerves
+
+    # Print the amount of damage done
+    if dmg < 0:
+        print(f'{target.name} gained {dmg} health!')
+    elif dmg > 0:
+        print(f'{target.name} lost {dmg} health!')
+
+    # Print the amount of discomfort done
+    if discomfort < 0:
+        print(f'{target.name} gained {discomfort} nerves!')
+    elif discomfort > 0:
+        print(f'{target.name} lost {discomfort} nerves!')
+
+# Formats items so it can be used in UI
+def format(unformatted_list):
+
+    list_info = []
+    for list_item in unformatted_list:
+        list_info.append(f'{list_item}')
+
+    return list_info
+
+# Applies item effects
 def use_item(item, allies, enemies):
-
-    
 
     while True:
         if item.offensive:
@@ -83,8 +148,7 @@ def use_item(item, allies, enemies):
                 break
     return allies, enemies
 
-
-
+# Main battle function
 def battle(allies, enemies, opening, closing, inventory):
 
     read_dialogue(opening)
@@ -139,11 +203,11 @@ def battle(allies, enemies, opening, closing, inventory):
 
                 # Check Stats
                 case 1:
-                    match inq_select('Whose stats would you like to look at?', 'Allies', 'Enemies', 'All'):
-                        # Allied Stats
+                    match inq_select('Whose stats would you like to look at?', 'Team', 'Enemies', 'All'):
+                        # Team Stats
                         case 1:
                             for ally in allies:
-                                show_stats(ally)
+                                print(ally)
                         # Enemies Stats
                         case 2:
                             for enemy in enemies:
@@ -151,26 +215,60 @@ def battle(allies, enemies, opening, closing, inventory):
                         # All Stats
                         case 3:
                             for ally in allies:
-                                show_stats(ally)
+                                print(ally)
                             for enemy in enemies:
-                                show_stats(enemy)
+                                print(enemy)
 
                 # Attacks
                 case 2:
-                    pass
+
+                    ally_info = format(allies)
+                    ally_selected = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
+
+                    if ally_selected.hp > 0:
+                        attack_info = format(ally_selected.attacks)
+                        attack_selected = ally_selected.attacks[inq_select('Which attack would you like to select? ', *attack_info) - 1]
+
+                        if not attack_selected.multi:
+
+                            if attack_selected.offensive:
+                                target_info = format(enemies)
+                                target = enemies[inq_select('Which enemy would you like to attack? ', *target_info) - 1]
+                            else:
+                                target = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
+
+                            if target.hp > 0:
+                                attack_them(attack_selected, target, ally_selected.nerves)
+                            else:
+                                input('Oops! Seems like your target is already downed')
+
+                        else:
+
+                            if attack_selected.offensive:
+                                for enemy in enemies:
+                                    attack_them(enemy)
+                            else:
+                                for ally in allies:
+                                    attack_them(ally)
+
+                    else: input('Oops! Seems like you selected a downed ally!')
+
                 
                 # Use Item
-                case 3: 
-                    item_info = []
-                    for item in inventory:
-                        item_info.append(f'{item}')
+                case 3:
 
+                    item_info = format(inventory)
 
                     item_selected = inventory[inq_select('Which item would you like to select? ', *item_info) - 1]
                     
                     allies, enemies = use_item(item_selected, allies, enemies)
                     inventory.remove(item_selected)
 
+                    turn += 1
+
+        # Enemy Turn (Amber)
+        else:
+            pass
+
     read_dialogue(closing)
     return victory, inventory
-
