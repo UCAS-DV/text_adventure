@@ -22,7 +22,7 @@ def roll_nerves(nerves, attack):
         return 0.5
 
 # Attacks target   
-def attack_them(att, target, nerves):
+def attack_them(att, dealer, target, nerves):
     dmg = att.hp
     discomfort = att.nerves
 
@@ -54,15 +54,15 @@ def attack_them(att, target, nerves):
 
     # Print the amount of damage done
     if dmg < 0:
-        print(f'{target.name} gained {dmg} health!')
+        print(f'{dealer.name} gave {target.name} {dmg} health!')
     elif dmg > 0:
-        print(f'{target.name} lost {dmg} health!')
+        print(f'{dealer.name} dealt {dmg} damage to {target.name}!')
 
     # Print the amount of discomfort done
     if discomfort < 0:
-        print(f'{target.name} gained {discomfort} nerves!')
+        print(f'{dealer.name} gave {target.name} {discomfort} nerves!')
     elif discomfort > 0:
-        print(f'{target.name} lost {discomfort} nerves!')
+        print(f'{dealer.name} removed {discomfort} nerves from {target.name}!')
 
 # Formats items so it can be used in UI
 def format(unformatted_list):
@@ -72,6 +72,9 @@ def format(unformatted_list):
         list_info.append(f'{list_item}')
 
     return list_info
+
+def select_random(selection_list):
+    return selection_list[random.randint(0, len(selection_list) - 1)]
 
 # Applies item effects
 def use_item(item, allies, enemies):
@@ -222,13 +225,18 @@ def battle(allies, enemies, opening, closing, inventory):
                 # Attacks
                 case 2:
 
+                    
+
                     ally_info = format(allies)
                     ally_selected = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
 
+                    # IF ally is not downed
                     if ally_selected.hp > 0:
+
                         attack_info = format(ally_selected.attacks)
                         attack_selected = ally_selected.attacks[inq_select('Which attack would you like to select? ', *attack_info) - 1]
-
+                        
+                        # IF attack is not a multi attack, ask player to select one target
                         if not attack_selected.multi:
 
                             if attack_selected.offensive:
@@ -238,20 +246,23 @@ def battle(allies, enemies, opening, closing, inventory):
                                 target = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
 
                             if target.hp > 0:
-                                attack_them(attack_selected, target, ally_selected.nerves)
+                                attack_them(attack_selected, ally_selected, target, ally_selected.nerves)
                             else:
                                 input('Oops! Seems like your target is already downed')
 
+                        # IF attack is a multi attack, loop through each member of target group and attack them
                         else:
 
                             if attack_selected.offensive:
                                 for enemy in enemies:
-                                    attack_them(enemy)
+                                    attack_them(attack_selected, ally_selected, enemy, ally_selected.nerves)
                             else:
                                 for ally in allies:
-                                    attack_them(ally)
+                                    attack_them(attack_selected, ally_selected, ally, ally_selected.nerves)
 
                     else: input('Oops! Seems like you selected a downed ally!')
+
+                    turn += 1
 
                 
                 # Use Item
@@ -268,7 +279,34 @@ def battle(allies, enemies, opening, closing, inventory):
 
         # Enemy Turn (Amber)
         else:
-            pass
+            
+
+            # Note to Amber, comment this code out when you are done with your enemy AI
+            # Randomly select enemy, attack, and target
+
+            input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
+            dealing_enemy = select_random(enemies)
+
+            input(f'{dealing_enemy.name} is taking the turn!')
+
+            attack = select_random(enemy.attacks)
+            if attack.offensive:
+                enemy_target = select_random(allies)
+            else:
+                enemy_target = select_random(enemies)
+
+            if not attack.multi:
+                attack_them(attack, dealing_enemy, enemy_target, dealing_enemy.nerves)
+            else:
+                if attack.offensive:
+                    for ally in allies:
+                        attack_them(attack, dealing_enemy, ally, dealing_enemy.nerves)
+                else:
+                    for enemy in enemies:
+                        attack_them(attack, dealing_enemy, enemy, dealing_enemy.nerves)
+
+
+            turn += 1
     
     if victory:
         read_dialogue(closing)

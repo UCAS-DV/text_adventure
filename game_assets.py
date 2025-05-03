@@ -29,7 +29,7 @@ class ally:
         self.min_nerves = min_nerves
 
         self.attacks = attacks
-        self.effect = effects
+        self.effects = effects
 
     def __str__(self):
         return f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
@@ -123,12 +123,26 @@ test_ally = ally(name='Test Ally',
               attacks=[test_ally_attack],effects=[])
 # Testing Assets End
 
+# Player Moves
+kickflip = attack('sin_off', 'Kickflip', 'Wow everyone with a radical kickflip!', 15, 0, True, False, 
+                  ['You run up and do the most rad', 'tubular', 'fresh', 'kickflip on your opponent the world has ever seen.'], 
+                  ['You run up and RADICALLY kickflip your opponent.'], 
+                  ['You run up and kickflip your opponent but it was only kinda cool.', 'Honestly, it was a 6/10 at best.'],
+                  ['You run up and try to kickflip your opponent but you trip and fall onto a nearby skateboard.', 'You end up kickfliping the skateboard,', 'followed by 7 1080 flips', 
+                   'and then a 1080 backflip off of the skateboard and onto another skateboard.', 'You end up winning the local "cool guy" competition but you dealt no damage.'],[])
+declaration = attack('sin_off', "Forget physical damage! Emotional damage is where it's at!", 0, 15, True, False, 
+                     ["Oh...", "wow...", "I get how intense this situation is but you didn't have to go that far.", "To be frank I don't even know if you can legally say that."],
+                     ['You yell some very inflamatory statements.', 'The shock of your statements makes your opponent uneasy'], 
+                     ['You yell some somewhat mean statements.', 'Honestly, your opponent is shocked at how you could come up with such mild statements'], 
+                     ["Okay, so, pro tip...", 'Calling your opponent "Stinky" is not very effective past the first grade'],[])
+
+
 viyh = enemy(name='The Voice In Your Head', 
              max_hp=50, max_nerves=100, min_nerves=10, 
              attacks=[test_enemy_attack],effects=[])
 
 player = ally(name='Unpaid Intern', 
-              max_hp=100, max_nerves=100, min_nerves=30, 
+              max_hp=100, max_nerves=100, min_nerves=25, 
               attacks=[test_ally_attack],effects=[])
 
 allies = [player]
@@ -143,7 +157,7 @@ def level_up():
         ally.nerves = ally.max_nerves
         ally.min_nerves += 5 
 
-victory, inventory = battle(allies, [viyh, test_enemy], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
+victory, inventory = battle(allies, [viyh], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
 
 if victory:
     level_up()
