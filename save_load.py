@@ -2,7 +2,7 @@ import csv
 import os
 from InquirerPy import inquirer
 
-# Inquire functionyayaa
+# Inquire function
 def inq_select(*args):
     items = [f"({i+1}) {args[i+1]}" for i in range(len(args)-1)]
     menu_input = inquirer.select(
@@ -22,7 +22,7 @@ player_data = {
     "allies": [],
     "inventory": []
 }
-#yyayaa
+
 def save_game(data):
     with open(SAVE_FILE, mode="w", newline="") as file:
         writer = csv.writer(file)
@@ -88,5 +88,6 @@ def main_menu():
 
 if __name__ == "__main__":
     main_menu()
+
 
 
