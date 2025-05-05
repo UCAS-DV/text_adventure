@@ -2,7 +2,7 @@ import csv
 import os
 from InquirerPy import inquirer
 
-# Inquire function
+# Inquire functionyayaa
 def inq_select(*args):
     items = [f"({i+1}) {args[i+1]}" for i in range(len(args)-1)]
     menu_input = inquirer.select(
