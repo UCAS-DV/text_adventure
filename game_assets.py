@@ -35,9 +35,10 @@ class ally:
         return f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
 
 class attack:
-    def __init__(self, name, description, hp, nerves, offensive, multi, super_success, success, fail, super_fail, ability):
+    def __init__(self, class_name, display_name, description, hp, nerves, offensive, multi, super_success, success, fail, super_fail, ability):
         #ADD ABILITY AFTER MULTI
-        self.name = name
+        self.class_name = class_name
+        self.name = display_name
         self.desc = description
 
         self.hp = hp
@@ -95,8 +96,8 @@ class item:
             return f'{self.name}:\n    {self.i_desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Allies'
 
 # Testing Assets Start
-test_enemy_attack = attack('Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
-test_ally_attack = attack('Test Attack 2', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
+test_enemy_attack = attack('sin_off', 'Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
+test_ally_attack = attack('sin_off', 'Test Attack 2', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 
 sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=-20, nerves=-20,
                  action_description=['This is an item.', 'It is being used.'],
@@ -127,10 +128,29 @@ viyh = enemy(name='The Voice In Your Head',
              attacks=[test_enemy_attack],effects=[])
 
 player = ally(name='Unpaid Intern', 
-              max_hp=100, max_nerves=100, min_nerves=10, 
+              max_hp=100, max_nerves=100, min_nerves=30, 
               attacks=[test_ally_attack],effects=[])
 
-battle([player, test_ally], [viyh, test_enemy], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
+allies = [player]
+enemies = [test_enemy]
+inventory = []
 
+def level_up():
+    for ally in allies:
+        ally.max_hp += 15
+        ally.hp = ally.max_hp
 
+        ally.max_nerves += 15 
+        ally.nerves = ally.max_nerves
+        ally.min_nerves += 5 
+
+#victory, inventory = battle(allies, [viyh, test_enemy], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
+
+#if victory:
+    #level_up()
+
+    #for ally_char in allies:
+       # print(ally_char)
+#else:
+    #'YOU LOST IDIOT!!!!!!!!'
 
