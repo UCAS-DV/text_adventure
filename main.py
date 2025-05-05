@@ -2,11 +2,11 @@ import inquirer
 from dialogue_reader import read_dialogue
 from battle import battle
 from game_assets import *
-from save_load import player_data
+import save_load
 
 def start_game():
     read_dialogue('Dialogue\opening_cutscene.txt')
-    battle(player_data['allies'], enemies, 'Dialogue/tutorial1.txt', 'Dialogue/test.txt', player_data['inventory'])
+    battle(save_load.player_data['allies'], enemies, 'Dialogue/tutorial1.txt', 'Dialogue/test.txt', save_load.player_data['inventory'])
 
 def main():
     game_title = "Quest For The Country!"
@@ -23,7 +23,6 @@ def main():
         menu_options = [
             " Start New Game",
             " Load Game",
-            " Save Game",
             " Settings",
             " Exit"
         ]
@@ -43,8 +42,6 @@ def main():
             start_game()
         elif answer == " Load Game":
             print("Loading game... (placeholder)")
-        elif answer == " Save Game":
-            print("Saving game... (placeholder)")
         elif answer == " Settings":  # Fixed the curly quotes here
             print("Opening settings... (placeholder)")
         elif answer == " Exit":
