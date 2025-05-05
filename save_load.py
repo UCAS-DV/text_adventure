@@ -27,12 +27,7 @@ def save_game(data):
     with open(SAVE_FILE, mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["Level", "Location", "Allies", "Inventory"])
-        writer.writerow([
-            data["level"],
-            data["location"],
-            ";".join(data["allies"]),
-            ";".join(data["inventory"])
-        ])
+        writer.writerow([data["level"], data["location"], ";".join(data["allies"]), ";".join(data["inventory"])])
     print("\n Game saved successfully!\n")
 
 def load_game():
@@ -42,15 +37,27 @@ def load_game():
 
     with open(SAVE_FILE, mode="r") as file:
         reader = csv.DictReader(file)
+        
+        # Make sure we're reading a valid row (not empty or malformed)
         for row in reader:
-            data = {
-                "level": int(row["Level"]),
-                "location": row["Location"],
-                "allies": row["Allies"].split(";") if row["Allies"] else [],
-                "inventory": row["Inventory"].split(";") if row["Inventory"] else []
-            }
-            print("\n Game loaded successfully!\n")
-            return data
+            # Check if the necessary fields are present and not empty
+            level_str = row["Level"].strip()
+            if not level_str:  # If the level is empty
+                print("\nError: Level data is missing or invalid.\n")
+                return None
+            
+            try:
+                data = {
+                    "level": int(level_str),  # Convert level safely
+                    "location": row["Location"].strip() if row["Location"] else "Unknown",
+                    "allies": row["Allies"].split(";") if row["Allies"] else [],
+                    "inventory": row["Inventory"].split(";") if row["Inventory"] else []
+                }
+                print("\n Game loaded successfully!\n")
+                return data
+            except ValueError:
+                print("\nError: Invalid value for level in the save file.\n")
+                return None  # In case of a malformed level, return None
     return None
 
 def main_menu():
