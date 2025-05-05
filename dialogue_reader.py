@@ -1,5 +1,5 @@
 
-"""
+
 # Converts choosen dialogue file to a list of strings
 def read_dialogue_file(filepath):
     with open(filepath, 'r') as dialogue_file:
@@ -40,4 +40,3 @@ def read_description(description):
         input(f'{line} (Enter to Continue)')
 
 # read_dialogue('Dialogue/opening_cutscene.txt')
-"""

@@ -19,7 +19,7 @@ def main_menu():
             " Settings",
             " Exit"
         ]
-#yayayay
+        
         questions = [
             inquirer.List(
                 "menu",

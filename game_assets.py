@@ -1,7 +1,7 @@
 from battle import battle
 
 class enemy:
-    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, effects):
+    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, abilities, healing_abilities, effects):
         self.name = name
 
         self.max_hp = max_hp
@@ -12,6 +12,9 @@ class enemy:
         self.min_nerves = min_nerves
 
         self.attacks = attacks
+        self.abilities = abilities
+        self.heals = healing_abilities
+
         self.effects = effects
 
     def __str__(self):
@@ -119,7 +122,7 @@ test_attacks = [test_ally_attack, falcon_punch, resign]
 
 test_enemy = enemy(name='Test Enemy',
                    max_hp=50, max_nerves=100, min_nerves=10,
-                   attacks=[test_enemy_attack],effects=[])
+                   attacks=[test_enemy_attack],abilities=[],healing_abilities=[],effects=[])
 
 test_ally = ally(name='Test Ally', 
               max_hp=100, max_nerves=100, min_nerves=10, 
@@ -128,14 +131,14 @@ test_ally = ally(name='Test Ally',
 
 viyh = enemy(name='The Voice In Your Head', 
              max_hp=50, max_nerves=100, min_nerves=10, 
-             attacks=[test_enemy_attack],effects=[])
+             attacks=[test_enemy_attack],abilities=[],healing_abilities=[],effects=[])
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=30, 
               attacks=test_attacks,effects=[])
 
 allies = [player]
-enemies = [test_enemy]
+enemies = [viyh]
 inventory = []
 
 def level_up():
@@ -148,18 +151,4 @@ def level_up():
         ally.min_nerves += 5 
 
 #victory, inventory = battle(allies, [viyh, test_enemy], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
-
-if victory:
-    level_up()
-    for ally_char in allies:
-        print(ally_char)
-elif victory == False:
-    'YOU LOST IDIOT!!!!!!!!'
-#if victory:
-    #level_up()
-
-    #for ally_char in allies:
-       # print(ally_char)
-#else:
-    #'YOU LOST IDIOT!!!!!!!!'
 

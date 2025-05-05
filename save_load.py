@@ -1,6 +1,7 @@
 import csv
 import os
 from InquirerPy import inquirer
+from game_assets import *
 
 # Inquire functionyayaa
 def inq_select(*args):
@@ -19,7 +20,7 @@ SAVE_FILE = "save_file.csv"
 player_data = {
     "level": None,
     "location": None,
-    "allies": [],
+    "allies": [player],
     "inventory": []
 }
 #yyayaa

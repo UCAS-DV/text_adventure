@@ -276,6 +276,7 @@ def battle(allies, enemies, opening, closing, inventory):
         # Enemy Turn (Amber)
         else:
             pass
+            
     
     if victory:
         read_dialogue(closing)
