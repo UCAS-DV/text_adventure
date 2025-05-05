@@ -1,7 +1,7 @@
 import inquirer
 
 def main_menu():
-    game_title = "[ Insert Game Title Here ]"
+    game_title = "[ Quest for the Country]"
 
     while True:
         # Display the title screen header
@@ -19,7 +19,7 @@ def main_menu():
             " Settings",
             " Exit"
         ]
-
+#yayayay
         questions = [
             inquirer.List(
                 "menu",
