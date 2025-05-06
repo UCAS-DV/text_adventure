@@ -22,7 +22,7 @@ player_data = {
     "allies": [],
     "inventory": []
 }
-#yyayaa
+
 def save_game(data):
     with open(SAVE_FILE, mode="w", newline="") as file:
         writer = csv.writer(file)
@@ -88,5 +88,6 @@ def main_menu():
 
 if __name__ == "__main__":
     main_menu()
+
 
 
