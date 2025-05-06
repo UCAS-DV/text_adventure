@@ -66,7 +66,7 @@ def test_enemy_decision_tree(enemy, attack_list, status_ability_list, healing_ab
 
         if main_choice == "attack":
             if len(attack_list) == 0:
-                #print("no_attack_available")
+                #print("no_attack_available"
                 pass
             else:
                 return random.choice(attack_list)
