@@ -1,122 +1,136 @@
-# See when the player can explore certain areas and give them the options to explore that scetion of the map they unlocked frm defeting the previous boss
+# Story progression system
 # Chicken jockey
+
+from game_assets import *
 
 # Avery, exploring
 
-import random
-
-# Class for each place in a location
-class Place:
-    def __init__(self, name):
-        self.name = name
-        self.explored = False
-        self.content = None
-
-# Class for each main location
-class Location:
-    def __init__(self, name, contents):
-        self.name = name
-        self.places = [Place(f"Place {i+1}") for i in range(5)]
-        self.contents = contents
-        self.setup_contents()
-
-    # Randomly assign content to places; boss is always last
-    def setup_contents(self):
-        keys = list(self.contents.keys())
-        boss_key = [k for k in keys if "Boss" in k][0]
-        keys.remove(boss_key)
-        random.shuffle(self.places)
-        for key in keys:
-            self.places.pop().content = (key, self.contents[key])
-        self.places[0].content = (boss_key, self.contents[boss_key])
-
-    # Explore an unvisited place
-    def explore(self):
-
-        options = [p for p in self.places if not p.explored]
-        for i, p in enumerate(options):
-            print(f"{i+1}. {p.name}")
-
-        choice = int(input("Choose a place to explore: ")) - 1
-        chosen = options[choice]
-        chosen.explored = True
-        
-        key, value = chosen.content
-        print(f"You found: {key} - {value}")
-        return key, value
-
-# Locations with content
-game_map = [
-    ("House", {
-        "NPC": "Cat (says 'meow' in a deep voice)",
-        "Item": "Hopes and Determination",
-        "Boss": "Voice In Your Head"
-    }),
-    ("Spookyland", {
-        "NPC": "Skeleton in the carnival",
-        "Encounter": "Ghouls and Ghosts",
-        "Item": "Monocle of Skellybones",
-        "Boss": "Mr. Skellybones",
-        "Ally": "Mr. Skellybones"
-    }),
-    ("Area 51", {
-        "NPC": "Zeep Vorp",
-        "Encounter": "Hostile Aliens",
-        "Item": "Alien Cat",
-        "Ally": "Zeep Vorp"
-    }),
-    ("North Pole", {
-        "NPC": "Mrs. Claus",
-        "Encounter": "Special Ops Elf and Reindeer Team",
-        "Item": "Hat of Santa Claus",
-        "Boss": "Santa Claus",
-        "Ally": "Special Ops Elf"
-    }),
-    ("White House", {
-        "NPC": "President and Vice President",
-        "Item": "Block of Patriotism",
-        "Boss": "Zeep Vorp"
-    })
+# Each main location now has unique mini-locations
+main_locations = [
+   {
+       "name": "Spookyland",
+       "mini_locations": ["Carnival Tent", "Haunted Maze", "Graveyard", "Mirror Room", "Ghost Ship"],
+       "npcs": ["Carnival Skeleton"],
+       "item": "Monocle of Skellybones",
+       "boss": "Mr. Skellybones",
+       "ally": "Mr. Skellybones"
+   },
+   {
+       "name": "Area 51",
+       "mini_locations": ["Alien Lab", "Crash Site", "Hologram Hall", "Containment Cell", "Hover Pad"],
+       "npcs": ["Zeep Vorp"],
+       "item": "Alien Cat",
+       "boss": None,
+       "ally": "Zeep Vorp"
+   },
+   {
+       "name": "North Pole",
+       "mini_locations": ["Workshop", "Sleigh Garage", "Elf Dorms", "Gift Storage", "Reindeer Field"],
+       "npcs": ["Mrs. Claus"],
+       "item": "Hat of Santa Claus",
+       "boss": "Santa Claus",
+       "ally": "Special Ops Elf"
+   },
+   {
+       "name": "White House",
+       "mini_locations": ["Oval Office", "War Room", "Press Room", "Garden", "Lincoln Bedroom"],
+       "npcs": ["President", "Vice President"],
+       "item": "Block of Patriotism",
+       "boss": "Zeep Vorp",
+       "ally": None
+   }
 ]
 
-# Track what has been gained
-obtained_items = set()
-obtained_allies = set()
-encounters_done = set()
-defeated_bosses = set()
 
-# Go through each main location
-for loc_name, contents in game_map:
-    print(f"\n--- {loc_name} ---")
-    location = Location(loc_name, contents)
-    while True:
-        key, value = location.explore()
-        if "Boss" in key:
-            print(f"Boss fight triggered: {value}")
-            defeated_bosses.add(value)
-            break
-        elif key == "Item":
-            if "Boss" in contents and contents["Boss"] in defeated_bosses:
-                obtained_items.add(value)
-                print(f"Item obtained: {value}")
-            elif "Boss" not in contents:
-                obtained_items.add(value)
-                print(f"Item obtained: {value}")
-            else:
-                print(f"You must defeat {contents['Boss']} to gain this item.")
-        elif key == "Ally":
-            if "Boss" in contents and contents["Boss"] in defeated_bosses:
-                obtained_allies.add(value)
-                print(f"Ally joined: {value}")
-            elif "Encounter" in contents and contents["Encounter"] in encounters_done:
-                obtained_allies.add(value)
-                print(f"Ally joined: {value}")
-            else:
-                print("You need to trigger the right condition to unlock this ally.")
-        elif key == "Encounter":
-            encounters_done.add(value)
-            print(f"Encounter complete: {value}")
-        elif key == "NPC":
-            print(f"NPC encountered: {value}")
+# Placeholder inventory and allies system
+inventory = []
+allies = []
 
-print("\nAll locations explored. Game progression complete.")
+
+def add_to_inventory(item):
+   print(f"Adding '{item}' to inventory...")
+   inventory.append(item)
+
+
+def encounter(boss_name):
+   print(f"\n*** Boss Battle Started: {boss_name} ***\n")
+
+
+def explore(location):
+    # Go through all main locations
+    print(f"\n== Entering {location['name']} ==")
+
+
+    explored = []
+    seen_npcs = set()
+
+
+    while len(explored) < 5:
+        print("\nMini-locations:")
+        for i, mini in enumerate(location["mini_locations"], 1):
+            status = "✓" if mini in explored else " "
+            print(f"{i}. [{status}] {mini}")
+
+
+        choice = input("Choose a place to explore (1-5): ")
+        if not choice.isdigit() or not (1 <= int(choice) <= 5):
+            print("Invalid choice.")
+            continue
+
+
+        selected = location["mini_locations"][int(choice) - 1]
+        if selected in explored:
+            print("You already explored that.")
+            continue
+
+
+        print(f"\nExploring {selected}...")
+
+
+        # NPC interaction (happens once per NPC)
+        for npc in location["npcs"]:
+            if npc not in seen_npcs:
+                print(f"You meet {npc}!")
+                if npc == "Cat":
+                    print('"Meow," says the cat in a deep voice.')
+                elif npc == "Carnival Skeleton":
+                    print('"Step right up! Step right up!" he says.')
+                elif npc == "Zeep Vorp":
+                    print('"Zorp! You’re not supposed to see this!"')
+                elif npc == "Mrs. Claus":
+                    print('"Cookies and cocoa, dear?"')
+                elif npc == "President":
+                    print('"God bless America."')
+                elif npc == "Vice President":
+                    print('"Keep it patriotic."')
+                seen_npcs.add(npc)
+
+
+        explored.append(selected)
+
+        
+
+    # Once all 5 are explored, give item
+    if location["item"]:
+        print(f"\nYou have found the item: {location['item']}!")
+        add_to_inventory(location["item"])
+
+    # Now start the boss fight if there is one
+    if location["boss"]:
+        print(f"\nYou’ve reached the final challenge in {location['name']}...")
+        input("Press Enter to confront the boss...")
+        encounter(location["boss"])
+
+
+        if location["ally"] and location["ally"] not in allies:
+            print(f"{location['ally']} has joined your team!")
+            allies.append(location["ally"])
+
+    else:
+        # If ally is gained from exploring only
+        if location["ally"] and location["ally"] not in allies:
+            print(f"You’ve found {location['ally']} while exploring!")
+            allies.append(location["ally"])
+
+
+explore(main_locations[0])
