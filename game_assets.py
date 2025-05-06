@@ -106,8 +106,8 @@ class item:
         elif not self.offensive and self.multi:
             return f'{self.name}:\n    {self.i_desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Allies'
 
-all_enemies = enemy('All enemies', 0, 0, 0, [], [])
-all_allies = enemy('All enemies', 0, 0, 0, [], [])
+all_enemies = enemy('All enemies', 0, 0, 0, [], [], [], [])
+all_allies = enemy('All enemies', 0, 0, 0, [], [], [], [])
 
 # ------------------------------------------------- Testing Assets Start ------------------------------------------------
 test_enemy_attack = attack('sin_off', 'Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
@@ -185,7 +185,7 @@ yell = attack('yell', 'Unbearable Yell', '', 10, 5, True, False,
 
 viyh = enemy(name='The Voice In Your Head', 
              max_hp=50, max_nerves=100, min_nerves=10, 
-             attacks=[pessimism, pep_talk, yell],effects=[])
+             attacks=[pessimism, yell], abilities=[], healing_abilities=[pep_talk], effects=[])
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 

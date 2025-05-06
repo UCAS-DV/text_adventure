@@ -32,12 +32,15 @@ class Location:
 
     # Explore an unvisited place
     def explore(self):
+
         options = [p for p in self.places if not p.explored]
         for i, p in enumerate(options):
             print(f"{i+1}. {p.name}")
+
         choice = int(input("Choose a place to explore: ")) - 1
         chosen = options[choice]
         chosen.explored = True
+        
         key, value = chosen.content
         print(f"You found: {key} - {value}")
         return key, value
