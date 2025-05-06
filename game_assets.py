@@ -146,6 +146,7 @@ player = ally(name='Unpaid Intern',
               attacks=[test_ally_attack],effects=[])
 
 allies = [player]
+enemies = [test_enemy]
 inventory = []
 
 def level_up():
@@ -158,12 +159,13 @@ def level_up():
         ally.min_nerves += 5 
 
 victory, inventory = battle(allies, [viyh], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
+#victory, inventory = battle(allies, [viyh, test_enemy], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
 
-if victory:
-    level_up()
+#if victory:
+    #level_up()
 
-    for ally_char in allies:
-        print(ally_char)
-else:
-    'YOU LOST IDIOT!!!!!!!!'
+    #for ally_char in allies:
+       # print(ally_char)
+#else:
+    #'YOU LOST IDIOT!!!!!!!!'
 
