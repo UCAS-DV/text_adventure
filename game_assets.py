@@ -1,5 +1,3 @@
-from battle import battle
-
 class enemy:
     def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, abilities, healing_abilities, effects):
         self.name = name
@@ -18,7 +16,12 @@ class enemy:
         self.effects = effects
 
     def __str__(self):
-        return f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
+        stats = f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
+
+        for effect in self.effects:
+            stats += f'\n{effect.capitalize()}'
+
+        return stats
 
 class ally:
     def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, effects):
@@ -32,10 +35,15 @@ class ally:
         self.min_nerves = min_nerves
 
         self.attacks = attacks
-        self.effect = effects
+        self.effects = effects
 
     def __str__(self):
-        return f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
+        stats = f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
+
+        for effect in self.effects:
+            stats += f'\n{effect.capitalize()}'
+
+        return stats
 
 class attack:
     def __init__(self, class_name, display_name, description, hp, nerves, offensive, multi, super_success, success, fail, super_fail, ability):
@@ -60,16 +68,16 @@ class attack:
     def __str__(self):
         # Affects single enemy
         if self.offensive and not self.multi:
-            return f'{self.name}:\n    {self.desc}\n    Damage: {-self.hp}\n    Nerves: {self.nerves}\n    Target: Enemy'
+            return f'{self.name}:\n    {self.desc}\n    Damage: {self.hp}\n    Nerves: {self.nerves}\n    Target: Enemy'
         # Affects multiple enemies
         elif self.offensive and self.multi:
-            return f'{self.name}:\n    {self.desc}\n    Damage: {-self.hp}\n    Nerves: {self.nerves}\n    Target: All Enemies'
+            return f'{self.name}:\n    {self.desc}\n    Damage: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Enemies'
         # Affects single ally
         elif not self.offensive and not self.multi:
-            return f'{self.name}:\n    {self.desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: Ally'
+            return f'{self.name}:\n    {self.desc}\n    HP Gained: {-self.hp}\n    Nerves: {-self.nerves}\n    Target: Ally'
         # Affects multiple allies
         elif not self.offensive and self.multi:
-            return f'{self.name}:\n    {self.desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Allies'
+            return f'{self.name}:\n    {self.desc}\n    HP Gained: {-self.hp}\n    Nerves: {-self.nerves}\n    Target: All Allies'
 
 class item:
     def __init__(self, name, item_description, hp, nerves, offensive, multi, ability, action_description):
@@ -98,7 +106,10 @@ class item:
         elif not self.offensive and self.multi:
             return f'{self.name}:\n    {self.i_desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Allies'
 
-# Testing Assets Start
+all_enemies = enemy('All enemies', 0, 0, 0, [], [])
+all_allies = enemy('All enemies', 0, 0, 0, [], [])
+
+# ------------------------------------------------- Testing Assets Start ------------------------------------------------
 test_enemy_attack = attack('sin_off', 'Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 test_ally_attack = attack('sin_off', 'Test Attack 2', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 falcon_punch = attack('heal', 'FALCON PUNCH', 'An attack for testing', 2000, 2000, True, False, ['0'], ['1'], ['2'], ['3'],[])
@@ -127,15 +138,58 @@ test_enemy = enemy(name='Test Enemy',
 test_ally = ally(name='Test Ally', 
               max_hp=100, max_nerves=100, min_nerves=10, 
               attacks=[test_ally_attack],effects=[])
-# Testing Assets End
+# ------------------------------------------------- Testing Assets End -------------------------------------------------
+
+# ------------------------------------------------- Player Moves -------------------------------------------------
+kickflip = attack('sin_off', 'Kickflip', 'Wow everyone with a radical kickflip!', 15, 0, True, False, 
+                  ['You run up and do the most rad', 'tubular', 'fresh', 'kickflip on {tname} the world has ever seen.'], 
+                  ['You run up and RADICALLY kickflip {tname}.'], 
+                  ['You run up and kickflip {tname} but it was only kinda cool.', 'Honestly, it was a 6/10 at best.'],
+                  ['You run up and try to kickflip {tname} but you trip and fall onto a nearby skateboard.', 'You end up kickfliping the skateboard,', 'followed by 7 1080 flips', 
+                   'and then a 1080 backflip off of the skateboard and onto another skateboard.', 'You end up winning the local "cool guy" competition but you dealt no damage.'],[])
+declaration = attack('sin_off', 'Uncouth Declaration', "Forget physical damage! Emotional damage is where it's at!", 0, 15, True, False, 
+                     ["Oh...", "wow...", "I get how intense this situation is but you didn't have to go that far.", "To be frank I don't even know if you can legally say that."],
+                     ['You yell some very inflamatory statements.', 'The shock of your statements makes {tname} uneasy'], 
+                     ['You yell some somewhat mean statements.', 'Honestly, {tname} is shocked at how you could come up with such mild statements'], 
+                     ["Okay, so, pro tip...", 'Calling {tname} "Stinky" is not very effective past the first grade'],[])
+pep_talk = attack('single_heal', 'Pep Talk', "Fear can't beat out the power of a good pep talk!", 0, -15, False, False, 
+                     ['You give such an incredible, rousing self pep talk that even your enemies feel a little inspired.'],
+                     ['You give an inspirational pep talk that relieves the stress of battle.'], 
+                     ['You try to give yourself a pep talk but you suck at public speaking so it proves ineffective.'], 
+                     ['...', "That was...", 'something.', "Don't beat yourself up about it,", 'just ensure that you will never have to do any sort of public speaking...', 'ever...'
+        "and you'll be fine!"],[])
+apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doctor away! Although it might be better to have a doctor in this situation...', -15, 0, False, False,
+                 ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples.', "It's rumored that signed apples are only healthy if they deem the eater worthy.", 'Fortunately, the eater was worthy!'],
+                 ["{tname} eats the apple and it's as healthy as ever!"],
+                 ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
+                 ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
+# ------------------------------------------------- Player Moves -------------------------------------------------
+
+# ------------------------------------------------- VIYH Moves -------------------------------------------------
+pessimism = attack('pessimism', 'Terrible Pessimism', '', 0, 10, True, False,
+                 ["To be frank, given how absolutely dysfunctional the country was,", "I don't even think it's worth it."],
+                 ["I'm going to be honest, I don't think we, an unpaid intern and a voice in that intern's head can save America like Madam Vice President wants us to."],
+                 ['I believe that you will make a mistake at some point in time!', 'Take that!'],
+                 ["I have so many negative things to say but what's even the point of sharing them?", 'Does it even matter?'],[])
+pep_talk = attack('single_heal', 'Pep Talk', "Fear can't beat out the power of a good pep talk!", -10, -10, False, False, 
+                      ['I give myself such an incredible, rousing self pep talk that even you feel a little inspired.', 'Wow, I should really pursue public speaking!', "You know, I think I might do so!", 'Yeah...', 'wait,', 'the only person who can hear me is you.', '...', 'Ow.'],
+                     ['I give myself a pep talk and feel inspired by my own words.'], 
+                     ["You know...", 'I am so happy that the only person who can hear me is you.'], 
+                     ['Um...', "I thought I would be better at speaking given that it's the only thing I can do.", 'Just...', 'please forget everything I just said.'],[])
+yell = attack('yell', 'Unbearable Yell', '', 10, 5, True, False,
+              ['NO, YOU DID NOT WIN THAT ONLINE ARGUMENT LAST NIGHT!', 'YOU WERE JUST FLAT OUT WRONG!'],
+              ["THE ORIGINAL MOVIE WASN'T THAT GOOD!", "YOU ARE JUST LOOKING AT IT WITH ROSE-TINTED GLASSES!"],
+              ['aaaaaaa?'],
+              ['Um...', 'uh...', "I don't have anywhere near enough energy to yell."], [])
+
 
 viyh = enemy(name='The Voice In Your Head', 
              max_hp=50, max_nerves=100, min_nerves=10, 
-             attacks=[test_enemy_attack],abilities=[],healing_abilities=[],effects=[])
+             attacks=[pessimism, pep_talk, yell],effects=[])
 
 player = ally(name='Unpaid Intern', 
-              max_hp=100, max_nerves=100, min_nerves=30, 
-              attacks=test_attacks,effects=[])
+              max_hp=100, max_nerves=100, min_nerves=25, 
+              attacks=[kickflip, declaration, pep_talk, apple],effects=[])
 
 allies = [player]
 enemies = [viyh]
@@ -150,5 +204,11 @@ def level_up():
         ally.nerves = ally.max_nerves
         ally.min_nerves += 5 
 
-#victory, inventory = battle(allies, [viyh, test_enemy], 'Dialogue\opening_cutscene.txt', 'Dialogue/tutorial1.txt', test_inventory)
+#if victory:
+    #level_up()
+
+    #for ally_char in allies:
+       # print(ally_char)
+#else:
+    #'YOU LOST IDIOT!!!!!!!!'
 
