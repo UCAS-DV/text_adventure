@@ -106,7 +106,7 @@ class item:
 all_enemies = enemy('All enemies', 0, 0, 0, [], [])
 all_allies = enemy('All enemies', 0, 0, 0, [], [])
 
-# ------------------------------------------------- Testing Assets Start -------------------------------------------------
+# ------------------------------------------------- Testing Assets Start ------------------------------------------------
 test_enemy_attack = attack('sin_off', 'Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 test_ally_attack = attack('sin_off', 'Test Attack 2', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 
