@@ -1,7 +1,7 @@
-# Story progression system
-# Chicken jockey
-
-# Avery, exploring
+"""Story progression system
+Chicken jockey
+Dont murder me darius!!!!
+Avery, exploring"""
 
 # Each main location now has unique mini-locations
 main_locations = [
@@ -12,6 +12,7 @@ main_locations = [
        "item": "Hopes and Determination",
        "boss": "Voice In Your Head",
        "ally": None
+       "encounter": None
    },
    {
        "name": "Spookyland",
@@ -20,6 +21,7 @@ main_locations = [
        "item": "Monocle of Skellybones",
        "boss": "Mr. Skellybones",
        "ally": "Mr. Skellybones"
+       "encounter": "Ghouls and Ghosts"
    },
    {
        "name": "Area 51",
@@ -28,6 +30,7 @@ main_locations = [
        "item": "Alien Cat",
        "boss": None,
        "ally": "Zeep Vorp"
+       "encounter": "Hostile Aliens"
    },
    {
        "name": "North Pole",
@@ -36,6 +39,7 @@ main_locations = [
        "item": "Hat of Santa Claus",
        "boss": "Santa Claus",
        "ally": "Special Ops Elf"
+       "encounter": "Special Ops Elf and Reindeer Team"
    },
    {
        "name": "White House",
@@ -44,6 +48,7 @@ main_locations = [
        "item": "Block of Patriotism",
        "boss": "Zeep Vorp",
        "ally": None
+       "encounter": None
    }
 ]
 
@@ -114,6 +119,9 @@ for location in main_locations:
 
        explored.append(selected)
 
+    # Fighting the Encounters (happens once per Encounter)
+    for encounter in location ["encounter"]
+   
 
    # Once all 5 are explored, give item
    if location["item"]:
