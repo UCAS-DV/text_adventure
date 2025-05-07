@@ -42,7 +42,7 @@ levels = [
         "allies": ["Zeep Vorp"],
         "boss_defeated": True  # No boss, auto mark defeated
     },
-    #code
+ 
     {
         "name": "North Pole",
         "npc": "Mrs. Claus",

@@ -19,7 +19,6 @@ def main_menu():
             " Settings",
             " Exit"
         ]
-#yayayay
         questions = [
             inquirer.List(
                 "menu",
@@ -37,7 +36,7 @@ def main_menu():
             print("Loading game... (placeholder)")
         elif answer == " Save Game":
             print("Saving game... (placeholder)")
-        elif answer == " Settings":  # Fixed the curly quotes here
+        elif answer == " Settings":  
             print("Opening settings... (placeholder)")
         elif answer == " Exit":
             print("Exiting game. Goodbye!")

@@ -17,7 +17,6 @@ SAVE_FILE = "save_file.csv"
 
 # Empty player data (waiting to be loaded)
 player_data = {
-    "level": None,
     "location": None,
     "allies": [],
     "inventory": []
