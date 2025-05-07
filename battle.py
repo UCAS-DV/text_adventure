@@ -327,9 +327,6 @@ def battle(allies, enemies, opening, closing, inventory):
         else:
             
 
-            # Note to Amber, comment this code out when you are done with your enemy AI
-            # Randomly select enemy, attack, and target
-
             input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
             dealing_enemy = select_random(enemies)
 
@@ -352,6 +349,7 @@ def battle(allies, enemies, opening, closing, inventory):
                         attack_them(attack, dealing_enemy, enemy, dealing_enemy.nerves)
 
             turn += 1
+            
     
     if victory:
         read_dialogue(closing)
