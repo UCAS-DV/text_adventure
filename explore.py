@@ -1,3 +1,13 @@
+
+"""Story progression system
+Chicken jockey
+Dont murder me darius!!!!
+Avery, exploring"""
+
+# Each main location now has unique mini-locations
+main_locations = [
+
+
 # Story progression system
 # Chicken jockey
 
@@ -14,8 +24,9 @@ main_locations = [
        "mini_locations": ["Carnival Tent", "Haunted Maze", "Graveyard", "Mirror Room", "Ghost Ship"],
        "npcs": ["Carnival Skeleton"],
        "item": "Monocle of Skellybones",
+       "ally": "Mr. Skellybones",
+       "encounter": "Ghouls and Ghosts",
        "boss": skellybones_fight,
-       "ally": "Mr. Skellybones"
    },
    {
        "name": "Area 51",
@@ -23,7 +34,8 @@ main_locations = [
        "npcs": ["Zeep Vorp"],
        "item": "Alien Cat",
        "boss": None,
-       "ally": "Zeep Vorp"
+       "ally": "Zeep Vorp",
+       "encounter": "Hostile Aliens",
    },
    {
        "name": "North Pole",
@@ -31,7 +43,8 @@ main_locations = [
        "npcs": ["Mrs. Claus"],
        "item": "Hat of Santa Claus",
        "boss": "Santa Claus",
-       "ally": "Special Ops Elf"
+       "ally": "Special Ops Elf",
+       "encounter": "Special Ops Elf and Reindeer Team",
    },
    {
        "name": "White House",
@@ -39,7 +52,8 @@ main_locations = [
        "npcs": ["President", "Vice President"],
        "item": "Block of Patriotism",
        "boss": "Zeep Vorp",
-       "ally": None
+       "ally": None,
+       "encounter": None,
    }
 ]
 
@@ -48,15 +62,12 @@ main_locations = [
 inventory = []
 allies = []
 
-
 def add_to_inventory(item):
    print(f"Adding '{item}' to inventory...")
    inventory.append(item)
 
-
 def local_encounter(encounter):
    battle(player_data['allies'], encounter.enemies, encounter.opening, encounter.closing, player_data['inventory'])
-
 
 def explore(location):
     # Go through all main locations
@@ -108,6 +119,11 @@ def explore(location):
                 seen_npcs.add(npc)
 
 
+  # Fighting the Encounters (happens once per Encounter)
+       if location["encounter"]:
+        print(f"\nYou’ve run into the encounter {location['name']}...")
+       input("Press Enter to fight the encounter...")
+       start_encounter_battle(location["encounter"])
         explored.append(selected)
 
     # Once all 5 are explored, give item
