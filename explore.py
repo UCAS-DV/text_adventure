@@ -5,23 +5,15 @@ Avery, exploring"""
 
 # Each main location now has unique mini-locations
 main_locations = [
-   {
-       "name": "House",
-       "mini_locations": ["Living Room", "Kitchen", "Backyard", "Bathroom", "Basement"],
-       "npcs": ["Cat"],
-       "item": "Hopes and Determination",
-       "boss": "Voice In Your Head",
-       "ally": None
-       "encounter": None
-   },
+
    {
        "name": "Spookyland",
        "mini_locations": ["Carnival Tent", "Haunted Maze", "Graveyard", "Mirror Room", "Ghost Ship"],
        "npcs": ["Skeleton in the carnival"],
        "item": "Monocle of Skellybones",
        "boss": "Mr. Skellybones",
-       "ally": "Mr. Skellybones"
-       "encounter": "Ghouls and Ghosts"
+       "ally": "Mr. Skellybones",
+       "encounter": "Ghouls and Ghosts",
    },
    {
        "name": "Area 51",
@@ -29,8 +21,8 @@ main_locations = [
        "npcs": ["Zeep Vorp"],
        "item": "Alien Cat",
        "boss": None,
-       "ally": "Zeep Vorp"
-       "encounter": "Hostile Aliens"
+       "ally": "Zeep Vorp",
+       "encounter": "Hostile Aliens",
    },
    {
        "name": "North Pole",
@@ -38,8 +30,8 @@ main_locations = [
        "npcs": ["Mrs. Claus"],
        "item": "Hat of Santa Claus",
        "boss": "Santa Claus",
-       "ally": "Special Ops Elf"
-       "encounter": "Special Ops Elf and Reindeer Team"
+       "ally": "Special Ops Elf",
+       "encounter": "Special Ops Elf and Reindeer Team",
    },
    {
        "name": "White House",
@@ -47,8 +39,8 @@ main_locations = [
        "npcs": ["President", "Vice President"],
        "item": "Block of Patriotism",
        "boss": "Zeep Vorp",
-       "ally": None
-       "encounter": None
+       "ally": None,
+       "encounter": None,
    }
 ]
 
@@ -65,6 +57,9 @@ def add_to_inventory(item):
 
 def start_boss_battle(boss_name):
    print(f"\n*** Boss Battle Started: {boss_name} ***\n")
+
+def start_encounter_battle(encounter_name):
+   print(f"\n*** Encounter Battle Started: {encounter_name} ***\n")
 
 
 # Go through all main locations
@@ -120,13 +115,19 @@ for location in main_locations:
        explored.append(selected)
 
     # Fighting the Encounters (happens once per Encounter)
-    for encounter in location ["encounter"]
+
+
    
 
    # Once all 5 are explored, give item
    if location["item"]:
        print(f"\nYou have found the item: {location['item']}!")
        add_to_inventory(location["item"])
+
+       if location["encounter"]:
+        print(f"\nYou’ve run into the encounter {location['name']}...")
+       input("Press Enter to fight the encounter...")
+       start_encounter_battle(location["encounter"])
 
 
    # Now start the boss fight if there is one
