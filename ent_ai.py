@@ -1,7 +1,7 @@
 import game_assets
 import random
 
-def test_enemy_decision_tree(enemy, attack_list, status_ability_list, healing_ability_list):
+def enemy_decision_tree(enemy, attack_list, status_ability_list, healing_ability_list):
     #print(enemy)
     #print("enemy")
     #print("\n\n")
@@ -59,7 +59,7 @@ def test_enemy_decision_tree(enemy, attack_list, status_ability_list, healing_ab
         decision_list.extend(["heal"] * 3)
     if len(damaged_allies) > 0:
         decision_list.extend(["heal"] * 2)
-    for i in range(3):
+    while True:
         main_choice = random.choice(decision_list)
         #print(decision_list)
         #print(main_choice)

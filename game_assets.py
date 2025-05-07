@@ -1,5 +1,5 @@
 class enemy:
-    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, effects):
+    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, abilities, healing_abilities, effects):
         self.name = name
 
         self.max_hp = max_hp
@@ -10,6 +10,9 @@ class enemy:
         self.min_nerves = min_nerves
 
         self.attacks = attacks
+        self.abilities = abilities
+        self.heals = healing_abilities
+
         self.effects = effects
 
     def __str__(self):
@@ -103,12 +106,21 @@ class item:
         elif not self.offensive and self.multi:
             return f'{self.name}:\n    {self.i_desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Allies'
 
-all_enemies = enemy('All enemies', 0, 0, 0, [], [])
-all_allies = enemy('All enemies', 0, 0, 0, [], [])
+class encounter:
+    def __init__(self, enemies, opening, closing):
+        self.enemies = enemies
+        self.opening = opening
+        self.closing = closing
+        
+
+all_enemies = enemy('All enemies', 0, 0, 0, [], [], [], [])
+all_allies = enemy('All enemies', 0, 0, 0, [], [], [], [])
 
 # ------------------------------------------------- Testing Assets Start ------------------------------------------------
 test_enemy_attack = attack('sin_off', 'Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 test_ally_attack = attack('sin_off', 'Test Attack 2', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
+falcon_punch = attack('heal', 'FALCON PUNCH', 'An attack for testing', 2000, 2000, True, False, ['0'], ['1'], ['2'], ['3'],[])
+resign = attack('heal', 'resign', 'An attack for testing', 2000, 2000, False, False, ['0'], ['1'], ['2'], ['3'],[])
 
 sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=-20, nerves=-20,
                  action_description=['This is an item.', 'It is being used.'],
@@ -124,10 +136,11 @@ mult_self_item = item(name='Item 4',item_description='An item made for testing!'
                  offensive=False, multi=True, ability=[])
 
 test_inventory = [sin_off_item, mult_off_item, sin_self_item, mult_self_item]
+test_attacks = [test_ally_attack, falcon_punch, resign]
 
 test_enemy = enemy(name='Test Enemy',
                    max_hp=50, max_nerves=100, min_nerves=10,
-                   attacks=[test_enemy_attack],effects=[])
+                   attacks=[test_enemy_attack],abilities=[],healing_abilities=[],effects=[])
 
 test_ally = ally(name='Test Ally', 
               max_hp=100, max_nerves=100, min_nerves=10, 
@@ -157,7 +170,8 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
                  ["{tname} eats the apple and it's as healthy as ever!"],
                  ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
                  ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
-# ------------------------------------------------- Player Moves -------------------------------------------------
+
+# ------------------------------------------------- Player Moves End -------------------------------------------------
 
 # ------------------------------------------------- VIYH Moves -------------------------------------------------
 pessimism = attack('pessimism', 'Terrible Pessimism', '', 0, 10, True, False,
@@ -175,11 +189,28 @@ yell = attack('yell', 'Unbearable Yell', '', 10, 5, True, False,
               ["THE ORIGINAL MOVIE WASN'T THAT GOOD!", "YOU ARE JUST LOOKING AT IT WITH ROSE-TINTED GLASSES!"],
               ['aaaaaaa?'],
               ['Um...', 'uh...', "I don't have anywhere near enough energy to yell."], [])
+# ------------------------------------------------- VIYH Moves End -------------------------------------------------
+
+# ------------------------------------------------- Skellybones Moves -------------------------------------------------
+bone_blow_enemy = attack('bone_blow', 'Funny Bone Blow', '', 20, 10, True, False,
+                   ["With what you think is a deadpan expression", "(you can't really tell because he's just a faceless skeleton)", 
+                    "He lightly taps your funny bone.", "You look at him confused but suddenly... what feels like a jolt of lightening traverses through your arm and-",
+                    '...', '...', 'You good?', 'It seems like your brain was too focused on writhing in very unfunny pain to remember to conjure my existence.', "Uh, don't do that again.",
+                    "It's kind of a buzzkill."],
+                    ['He hits your funny bone in a very unfunny way'],
+                    ['He tries to hit your funny bone in a very unfunny way but he only lightly taps it'],
+                    ['He tries to hit your funny bone but he trips and hits his own funny bone.', 'He lays on the ground immobilized as you look down at him with pity.',
+                    '"THIS IS NOT FUNNY RAAAAAAH"', 'Eventually he gets his footing and the battle continues.'], [])
 
 
 viyh = enemy(name='The Voice In Your Head', 
              max_hp=50, max_nerves=100, min_nerves=10, 
-             attacks=[pessimism, pep_talk, yell],effects=[])
+             attacks=[pessimism, yell], abilities=[], healing_abilities=[pep_talk], effects=[])
+
+skellybones_boss = enemy('Mr. Skellybones', 70, 100, 10,
+                    [bone_blow_enemy], [], [], [])
+
+skellybones_fight = encounter([skellybones_boss], 'Dialogue\opening_cutscene.txt', 'Dialogue/test.txt')
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 

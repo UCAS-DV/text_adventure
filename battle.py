@@ -2,6 +2,7 @@ from dialogue_reader import *
 from helper_funcs import inq_select
 import game_assets
 import random
+from ent_ai import enemy_decision_tree
 
 # Rolls random multipler based off of nerves
 def roll_nerves(nerves, attack, target):
@@ -221,6 +222,7 @@ def battle(allies, enemies, opening, closing, inventory):
                 ally.hp = ally.max_hp
                 ally.nerves = ally.max_nerves
 
+            victory = False
             battle_ended = True
             break
 
@@ -277,13 +279,15 @@ def battle(allies, enemies, opening, closing, inventory):
 
                         # IF attack is not a multi attack, ask player to select one target
                         if not attack_selected.multi:
-
+                            
+                            # IF attack is offensive
                             if attack_selected.offensive:
                                 target_info = format(enemies)
                                 target = enemies[inq_select('Which enemy would you like to attack? ', *target_info) - 1]
                             else:
                                 target = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
-
+                            
+                            # Only attack choosen target if target is not downed
                             if target.hp > 0:
                                 attack_them(attack_selected, ally_selected, target, ally_selected.nerves)
                             else:
@@ -291,7 +295,8 @@ def battle(allies, enemies, opening, closing, inventory):
 
                         # IF attack is a multi attack, loop through each member of target group and attack them
                         else:
-
+                            
+                            # Attack/Affect ALL targets depending if attack if offensive
                             if attack_selected.offensive:
                                 for enemy in enemies:
                                     attack_them(attack_selected, ally_selected, enemy, ally_selected.nerves)
@@ -323,15 +328,13 @@ def battle(allies, enemies, opening, closing, inventory):
         else:
             
 
-            # Note to Amber, comment this code out when you are done with your enemy AI
-            # Randomly select enemy, attack, and target
-
             input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
             dealing_enemy = select_random(enemies)
 
             input(f'{dealing_enemy.name} is taking the turn!')
 
-            attack = select_random(enemy.attacks)
+            attack = enemy_decision_tree(dealing_enemy, dealing_enemy.attacks, dealing_enemy.abilities, dealing_enemy.heals)
+
             if attack.offensive:
                 enemy_target = select_random(allies)
             else:
@@ -348,8 +351,9 @@ def battle(allies, enemies, opening, closing, inventory):
                         attack_them(attack, dealing_enemy, enemy, dealing_enemy.nerves)
 
             turn += 1
+
     
     if victory:
         read_dialogue(closing)
-        
+
     return victory, inventory
