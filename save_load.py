@@ -21,8 +21,7 @@ player_data = {
     "allies": [],
     "inventory": []
 }
-#yayayaya
-#ayayayayay
+
 def save_game(data):
     with open(SAVE_FILE, mode="w", newline="") as file:
         writer = csv.writer(file)
