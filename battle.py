@@ -2,6 +2,7 @@ from dialogue_reader import *
 from helper_funcs import inq_select
 import game_assets
 import random
+from ent_ai import enemy_decision_tree
 
 # Rolls random multipler based off of nerves
 def roll_nerves(nerves, attack, target):
@@ -332,7 +333,8 @@ def battle(allies, enemies, opening, closing, inventory):
 
             input(f'{dealing_enemy.name} is taking the turn!')
 
-            attack = select_random(enemy.attacks)
+            attack = enemy_decision_tree(dealing_enemy, dealing_enemy.attacks, dealing_enemy.abilities, dealing_enemy.heals)
+
             if attack.offensive:
                 enemy_target = select_random(allies)
             else:
@@ -349,7 +351,7 @@ def battle(allies, enemies, opening, closing, inventory):
                         attack_them(attack, dealing_enemy, enemy, dealing_enemy.nerves)
 
             turn += 1
-            
+
     
     if victory:
         read_dialogue(closing)

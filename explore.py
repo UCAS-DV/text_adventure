@@ -2,6 +2,8 @@
 # Chicken jockey
 
 from game_assets import *
+from battle import battle
+from save_load import player_data
 
 # Avery, exploring
 
@@ -12,7 +14,7 @@ main_locations = [
        "mini_locations": ["Carnival Tent", "Haunted Maze", "Graveyard", "Mirror Room", "Ghost Ship"],
        "npcs": ["Carnival Skeleton"],
        "item": "Monocle of Skellybones",
-       "boss": "Mr. Skellybones",
+       "boss": skellybones_fight,
        "ally": "Mr. Skellybones"
    },
    {
@@ -52,8 +54,8 @@ def add_to_inventory(item):
    inventory.append(item)
 
 
-def encounter(boss_name):
-   print(f"\n*** Boss Battle Started: {boss_name} ***\n")
+def local_encounter(encounter):
+   battle(player_data['allies'], encounter.enemies, encounter.opening, encounter.closing, player_data['inventory'])
 
 
 def explore(location):
@@ -108,8 +110,6 @@ def explore(location):
 
         explored.append(selected)
 
-        
-
     # Once all 5 are explored, give item
     if location["item"]:
         print(f"\nYou have found the item: {location['item']}!")
@@ -119,7 +119,7 @@ def explore(location):
     if location["boss"]:
         print(f"\nYou’ve reached the final challenge in {location['name']}...")
         input("Press Enter to confront the boss...")
-        encounter(location["boss"])
+        local_encounter(location["boss"])
 
 
         if location["ally"] and location["ally"] not in allies:

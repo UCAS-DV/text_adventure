@@ -106,6 +106,13 @@ class item:
         elif not self.offensive and self.multi:
             return f'{self.name}:\n    {self.i_desc}\n    HP Gained: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Allies'
 
+class encounter:
+    def __init__(self, enemies, opening, closing):
+        self.enemies = enemies
+        self.opening = opening
+        self.closing = closing
+        
+
 all_enemies = enemy('All enemies', 0, 0, 0, [], [], [], [])
 all_allies = enemy('All enemies', 0, 0, 0, [], [], [], [])
 
@@ -163,7 +170,8 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
                  ["{tname} eats the apple and it's as healthy as ever!"],
                  ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
                  ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
-# ------------------------------------------------- Player Moves -------------------------------------------------
+
+# ------------------------------------------------- Player Moves End -------------------------------------------------
 
 # ------------------------------------------------- VIYH Moves -------------------------------------------------
 pessimism = attack('pessimism', 'Terrible Pessimism', '', 0, 10, True, False,
@@ -181,11 +189,28 @@ yell = attack('yell', 'Unbearable Yell', '', 10, 5, True, False,
               ["THE ORIGINAL MOVIE WASN'T THAT GOOD!", "YOU ARE JUST LOOKING AT IT WITH ROSE-TINTED GLASSES!"],
               ['aaaaaaa?'],
               ['Um...', 'uh...', "I don't have anywhere near enough energy to yell."], [])
+# ------------------------------------------------- VIYH Moves End -------------------------------------------------
+
+# ------------------------------------------------- Skellybones Moves -------------------------------------------------
+bone_blow_enemy = attack('bone_blow', 'Funny Bone Blow', '', 20, 10, True, False,
+                   ["With what you think is a deadpan expression", "(you can't really tell because he's just a faceless skeleton)", 
+                    "He lightly taps your funny bone.", "You look at him confused but suddenly... what feels like a jolt of lightening traverses through your arm and-",
+                    '...', '...', 'You good?', 'It seems like your brain was too focused on writhing in very unfunny pain to remember to conjure my existence.', "Uh, don't do that again.",
+                    "It's kind of a buzzkill."],
+                    ['He hits your funny bone in a very unfunny way'],
+                    ['He tries to hit your funny bone in a very unfunny way but he only lightly taps it'],
+                    ['He tries to hit your funny bone but he trips and hits his own funny bone.', 'He lays on the ground immobilized as you look down at him with pity.',
+                    '"THIS IS NOT FUNNY RAAAAAAH"', 'Eventually he gets his footing and the battle continues.'], [])
 
 
 viyh = enemy(name='The Voice In Your Head', 
              max_hp=50, max_nerves=100, min_nerves=10, 
              attacks=[pessimism, yell], abilities=[], healing_abilities=[pep_talk], effects=[])
+
+skellybones_boss = enemy('Mr. Skellybones', 70, 100, 10,
+                    [bone_blow_enemy], [], [], [])
+
+skellybones_fight = encounter([skellybones_boss], 'Dialogue\opening_cutscene.txt', 'Dialogue/test.txt')
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 
