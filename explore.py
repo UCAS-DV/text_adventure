@@ -2,7 +2,7 @@
 # Chicken jockey
 
 # Avery, exploring
-
+# Merge this code together
 # Each main location now has unique mini-locations
 main_locations = [
    {
