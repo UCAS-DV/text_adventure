@@ -114,16 +114,13 @@ for location in main_locations:
 
        explored.append(selected)
 
-    # Fighting the Encounters (happens once per Encounter)
-
-
-   
 
    # Once all 5 are explored, give item
    if location["item"]:
        print(f"\nYou have found the item: {location['item']}!")
        add_to_inventory(location["item"])
 
+  # Fighting the Encounters (happens once per Encounter)
        if location["encounter"]:
         print(f"\nYou’ve run into the encounter {location['name']}...")
        input("Press Enter to fight the encounter...")
