@@ -1,41 +1,45 @@
 from dialogue_reader import *
 from helper_funcs import inq_select
+import game_assets
 import random
 
 # Rolls random multipler based off of nerves
-def roll_nerves(nerves, attack):
+def roll_nerves(nerves, attack, target):
 
     roll = random.randint(1,100)
 
     if roll < nerves * 0.1:
-        read_description(attack.super_success + [f'{attack.name} was super successful!'])
+        read_description(attack.super_success + [f'{attack.name} was super successful!'], target)
         return 1.5
     elif roll < nerves:
-       read_description(attack.success + [f'{attack.name} was successful!'])
+       read_description(attack.success + [f'{attack.name} was successful!'], target)
        return 1
         
     if roll > nerves * 1.5:
-        read_description(attack.super_fail + [f'{attack.name} was a complete failure!'])
+        read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
         return 0
     elif roll > nerves:
-        read_description(attack.fail + [f'{attack.name} was a ineffective!'])
+        read_description(attack.fail + [f'{attack.name} was a ineffective!'], target)
         return 0.5
 
 # Attacks target   
-def attack_them(att, target, nerves):
+def attack_them(att, dealer, target, nerves):
+
+    input(f'{dealer.name} uses {att.name}!')
+
     dmg = att.hp
     discomfort = att.nerves
 
-    nerve_multiplier = roll_nerves(nerves, att)
+    nerve_multiplier = roll_nerves(nerves, att, target)
 
     # Multiply damage and nerve damage by nerve multiplier
     dmg *= nerve_multiplier
     discomfort *= nerve_multiplier
 
     # Apply effects if applicable
-    if 1 in target.effects:
+    if 'blinded' in target.effects:
         dmg *= 1.5
-    if 2 in target.effects:
+    if 'shielded' in target.effects:
         dmg *= 0.75
 
     dmg = round(dmg)
@@ -47,22 +51,26 @@ def attack_them(att, target, nerves):
     # Sets hp to 0 if it's below 0
     if target.hp < 0:
         target.hp = 0
+    elif target.hp > target.max_hp:
+        target.hp = target.max_hp
 
     # Sets nerves to minimum if it's below minimum
     if target.nerves < target.min_nerves:
         target.nerves = target.min_nerves
+    elif target.nerves > target.max_nerves:
+        target.nerves = target.max_nerves
 
     # Print the amount of damage done
     if dmg < 0:
-        print(f'{target.name} gained {dmg} health!')
+        print(f'{dealer.name} gave {target.name} {-dmg} health!')
     elif dmg > 0:
-        print(f'{target.name} lost {dmg} health!')
+        print(f'{dealer.name} dealt {dmg} damage to {target.name}!')
 
     # Print the amount of discomfort done
     if discomfort < 0:
-        print(f'{target.name} gained {discomfort} nerves!')
+        print(f'{dealer.name} gave {target.name} {-discomfort} nerves!')
     elif discomfort > 0:
-        print(f'{target.name} lost {discomfort} nerves!')
+        print(f'{dealer.name} removed {discomfort} nerves from {target.name}!')
 
 # Formats items so it can be used in UI
 def format(unformatted_list):
@@ -71,17 +79,37 @@ def format(unformatted_list):
     for list_item in unformatted_list:
         list_info.append(f'{list_item}')
 
+    list_info.append('Back')
+
     return list_info
+
+def choose(prompt, selection_list):
+    list_info = format(selection_list)
+
+    try:
+        selection = selection_list[inq_select(prompt, *list_info) - 1]
+        return selection
+    except:
+        return 'Back'
+    
+
+# Selects random member from list
+def select_random(selection_list):
+    return selection_list[random.randint(0, len(selection_list) - 1)]
 
 # Applies item effects
 def use_item(item, allies, enemies):
+
+    input(f'Unpaid Intern uses {item.name}!')
 
     while True:
         if item.offensive:
             # IF item affects multiple enemies
             if item.multi:
 
-                read_description(item.a_desc)
+                target = game_assets.all_enemies
+
+                read_description(item.a_desc, target)
 
                 # Applies effects to all enemies
                 for enemy in enemies:  
@@ -94,14 +122,18 @@ def use_item(item, allies, enemies):
             else:
                 
                 # Print out all enemy info and have user select enemy
-                enemy_info = []
-                for enemy in enemies:
-                    enemy_info.append(f'{enemy}')
-                enemy_selected = enemies[inq_select('Which item would you like to select? ', *enemy_info) - 1]
+                enemy_info = format(enemies)
+
+                enemy_selected = choose('Which enemy would you like to use your item on? ', enemies)
+
+                if enemy_selected == 'Back':
+                    break
+
+                target=enemy_selected
 
                 enemies.remove(enemy_selected)
 
-                read_description(item.a_desc)
+                read_description(item.a_desc, target)
 
                 # Apply Effects
                 enemy_selected.hp += item.hp
@@ -109,18 +141,22 @@ def use_item(item, allies, enemies):
 
                 enemies.append(enemy_selected)
 
+                target = enemy_selected
+
                 input(f'{enemy_selected.name} lost {-item.hp} health.\n{enemy_selected.name} lost {-item.nerves} nerves.')
                 break
         else:
             # IF item affects multiple allies
             if item.multi:
-
-                read_description(item.a_desc)
-
+                
                 # Applies effects to all allies
                 for ally in allies:  
                     ally.hp += item.hp
                     ally.nerves += item.nerves
+
+                target = game_assets.all_allies
+
+                read_description(item.a_desc, target)
 
                 input(f'All allies gained {item.hp} health.\nAll enemies gained {item.nerves} nerves.')
 
@@ -128,20 +164,22 @@ def use_item(item, allies, enemies):
             else:
                 
                 # Print out all enemy info and have user select enemy
-                ally_info = []
-                for ally in allies:
-                    ally_info.append(f'{ally}')
-                ally_selected = allies[inq_select('Which item would you like to select? ', *ally_info) - 1]
+                ally_info = format(allies)
+                ally_selected = choose('Which ally would you like to select? ', allies)
 
+                if ally_selected == 'Back':
+                    break
+
+                target = ally_selected
                 allies.remove(ally_selected)
-
-                read_description(item.a_desc)
 
                 # Apply Effects
                 ally_selected.hp += item.hp
                 ally_selected.nerves += item.nerves
 
                 allies.append(ally_selected)   
+
+                read_description(item.a_desc, target)
 
                 input(f'{ally_selected.name} gained {item.hp} health.\n{ally_selected.name} gained {item.nerves} nerves.')
 
@@ -223,12 +261,21 @@ def battle(allies, enemies, opening, closing, inventory):
                 case 2:
 
                     ally_info = format(allies)
-                    ally_selected = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
+                    ally_selected = choose('Which ally would you like to select? ', allies)
 
+                    if ally_selected == 'Back':
+                        continue
+
+                    # IF ally is not downed
                     if ally_selected.hp > 0:
-                        attack_info = format(ally_selected.attacks)
-                        attack_selected = ally_selected.attacks[inq_select('Which attack would you like to select? ', *attack_info) - 1]
 
+                        attack_info = format(ally_selected.attacks)
+                        attack_selected = choose('Which attack would you like to select? ', ally_selected.attacks)
+                        
+                        if attack_selected == 'Back':
+                            continue
+
+                        # IF attack is not a multi attack, ask player to select one target
                         if not attack_selected.multi:
 
                             if attack_selected.offensive:
@@ -238,20 +285,23 @@ def battle(allies, enemies, opening, closing, inventory):
                                 target = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
 
                             if target.hp > 0:
-                                attack_them(attack_selected, target, ally_selected.nerves)
+                                attack_them(attack_selected, ally_selected, target, ally_selected.nerves)
                             else:
                                 input('Oops! Seems like your target is already downed')
 
+                        # IF attack is a multi attack, loop through each member of target group and attack them
                         else:
 
                             if attack_selected.offensive:
                                 for enemy in enemies:
-                                    attack_them(enemy)
+                                    attack_them(attack_selected, ally_selected, enemy, ally_selected.nerves)
                             else:
                                 for ally in allies:
-                                    attack_them(ally)
+                                    attack_them(attack_selected, ally_selected, ally, ally_selected.nerves)
 
                     else: input('Oops! Seems like you selected a downed ally!')
+
+                    turn += 1
 
                 
                 # Use Item
@@ -259,7 +309,10 @@ def battle(allies, enemies, opening, closing, inventory):
 
                     item_info = format(inventory)
 
-                    item_selected = inventory[inq_select('Which item would you like to select? ', *item_info) - 1]
+                    item_selected = choose('Which item would you like to select? ', inventory)
+
+                    if item_selected == 'Back':
+                        continue
                     
                     allies, enemies = use_item(item_selected, allies, enemies)
                     inventory.remove(item_selected)
@@ -268,7 +321,33 @@ def battle(allies, enemies, opening, closing, inventory):
 
         # Enemy Turn (Amber)
         else:
-            pass
+            
+
+            # Note to Amber, comment this code out when you are done with your enemy AI
+            # Randomly select enemy, attack, and target
+
+            input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
+            dealing_enemy = select_random(enemies)
+
+            input(f'{dealing_enemy.name} is taking the turn!')
+
+            attack = select_random(enemy.attacks)
+            if attack.offensive:
+                enemy_target = select_random(allies)
+            else:
+                enemy_target = select_random(enemies)
+
+            if not attack.multi:
+                attack_them(attack, dealing_enemy, enemy_target, dealing_enemy.nerves)
+            else:
+                if attack.offensive:
+                    for ally in allies:
+                        attack_them(attack, dealing_enemy, ally, dealing_enemy.nerves)
+                else:
+                    for enemy in enemies:
+                        attack_them(attack, dealing_enemy, enemy, dealing_enemy.nerves)
+
+            turn += 1
     
     if victory:
         read_dialogue(closing)
