@@ -1,7 +1,6 @@
-
 from InquirerPy import inquirer
 
-def inq_select(*args): # *args allows for indefinite parameters, stored in a list, named args 
+def inq_select(*args): # *args allows for indefinite parameters, stored in a list, named arg
 
 
     items = [f"({i+1}) {args[i+1]}" for i in range(len(args)-1)]   #adds items to a list named items 
