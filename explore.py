@@ -1,16 +1,3 @@
-
-"""Story progression system
-Chicken jockey
-Dont murder me darius!!!!
-Avery, exploring"""
-
-# Each main location now has unique mini-locations
-main_locations = [
-
-
-# Story progression system
-# Chicken jockey
-
 from game_assets import *
 from battle import battle
 from save_load import player_data
@@ -24,9 +11,9 @@ main_locations = [
        "mini_locations": ["Carnival Tent", "Haunted Maze", "Graveyard", "Mirror Room", "Ghost Ship"],
        "npcs": ["Carnival Skeleton"],
        "item": "Monocle of Skellybones",
-       "ally": "Mr. Skellybones",
-       "encounter": "Ghouls and Ghosts",
        "boss": skellybones_fight,
+       "ally": "Mr. Skellybones",
+       "encounter": skellybones_fight,
    },
    {
        "name": "Area 51",
@@ -119,34 +106,35 @@ def explore(location):
                 seen_npcs.add(npc)
 
 
-  # Fighting the Encounters (happens once per Encounter)
-       if location["encounter"]:
-        print(f"\nYou’ve run into the encounter {location['name']}...")
-       input("Press Enter to fight the encounter...")
-       start_encounter_battle(location["encounter"])
+        # Fighting the Encounters (happens once per Encounter)
+        if location["encounter"]:
+            print(f"\nYou’ve run into the encounter {location['name']}...")
+            input("Press Enter to fight the encounter...")
+            local_encounter(location["encounter"])
+                
         explored.append(selected)
 
-    # Once all 5 are explored, give item
-    if location["item"]:
-        print(f"\nYou have found the item: {location['item']}!")
-        add_to_inventory(location["item"])
+        # Once all 5 are explored, give item
+        if location["item"]:
+            print(f"\nYou have found the item: {location['item']}!")
+            add_to_inventory(location["item"])
 
-    # Now start the boss fight if there is one
-    if location["boss"]:
-        print(f"\nYou’ve reached the final challenge in {location['name']}...")
-        input("Press Enter to confront the boss...")
-        local_encounter(location["boss"])
+        # Now start the boss fight if there is one
+        if location["boss"]:
+            print(f"\nYou’ve reached the final challenge in {location['name']}...")
+            input("Press Enter to confront the boss...")
+            local_encounter(location["boss"])
 
 
-        if location["ally"] and location["ally"] not in allies:
-            print(f"{location['ally']} has joined your team!")
-            allies.append(location["ally"])
+            if location["ally"] and location["ally"] not in allies:
+                print(f"{location['ally']} has joined your team!")
+                allies.append(location["ally"])
 
-    else:
-        # If ally is gained from exploring only
-        if location["ally"] and location["ally"] not in allies:
-            print(f"You’ve found {location['ally']} while exploring!")
-            allies.append(location["ally"])
+        else:
+            # If ally is gained from exploring only
+            if location["ally"] and location["ally"] not in allies:
+                print(f"You’ve found {location['ally']} while exploring!")
+                allies.append(location["ally"])
 
 
 explore(main_locations[0])
