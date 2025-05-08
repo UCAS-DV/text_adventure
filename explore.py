@@ -1,6 +1,7 @@
 from game_assets import *
 from battle import battle
 from save_load import player_data
+from dialogue_reader import *
 
 # Avery, exploring
 
@@ -9,6 +10,7 @@ main_locations = [
    {
        "name": "Spookyland",
        "mini_locations": ["Carnival Tent", "Haunted Maze", "Graveyard", "Mirror Room", "Ghost Ship"],
+       'mini_local_desc': [['This is a carnival tent'], ['This is a haunted maze'], ['This is a graveyard'], ['This is a mirror room'], ['This is a ghost ship']],
        "npcs": ["Carnival Skeleton"],
        "item": "Monocle of Skellybones",
        "boss": skellybones_fight,
@@ -85,6 +87,7 @@ def explore(location):
 
 
         print(f"\nExploring {selected}...")
+        read_description(location['mini_local_desc'][int(choice) - 1], all_allies)
 
 
         # NPC interaction (happens once per NPC)

@@ -1,5 +1,3 @@
-
-
 # Converts choosen dialogue file to a list of strings
 def read_dialogue_file(filepath):
     with open(filepath, 'r') as dialogue_file:
