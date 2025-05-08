@@ -1,8 +1,6 @@
-# Story progression system
-# Chicken jockey
-
 from game_assets import *
-from dialogue_reader import read_description
+from battle import battle
+from save_load import player_data
 
 # Avery, exploring
 
@@ -14,8 +12,9 @@ main_locations = [
        'mini_local_desc': [['This is a carnival tent'], ['This is a haunted maze'], ['This is a graveyard'], ['This is a mirror room'], ['This is a ghost ship']],
        "npcs": ["Carnival Skeleton"],
        "item": "Monocle of Skellybones",
-       "boss": "Mr. Skellybones",
-       "ally": "Mr. Skellybones"
+       "boss": skellybones_fight,
+       "ally": "Mr. Skellybones",
+       "encounter": skellybones_fight,
    },
    {
        "name": "Area 51",
@@ -23,7 +22,8 @@ main_locations = [
        "npcs": ["Zeep Vorp"],
        "item": "Alien Cat",
        "boss": None,
-       "ally": "Zeep Vorp"
+       "ally": "Zeep Vorp",
+       "encounter": "Hostile Aliens",
    },
    {
        "name": "North Pole",
@@ -31,7 +31,8 @@ main_locations = [
        "npcs": ["Mrs. Claus"],
        "item": "Hat of Santa Claus",
        "boss": "Santa Claus",
-       "ally": "Special Ops Elf"
+       "ally": "Special Ops Elf",
+       "encounter": "Special Ops Elf and Reindeer Team",
    },
    {
        "name": "White House",
@@ -39,7 +40,8 @@ main_locations = [
        "npcs": ["President", "Vice President"],
        "item": "Block of Patriotism",
        "boss": "Zeep Vorp",
-       "ally": None
+       "ally": None,
+       "encounter": None,
    }
 ]
 
@@ -48,15 +50,12 @@ main_locations = [
 inventory = []
 allies = []
 
-
 def add_to_inventory(item):
    print(f"Adding '{item}' to inventory...")
    inventory.append(item)
 
-
-def encounter(boss_name):
-   print(f"\n*** Boss Battle Started: {boss_name} ***\n")
-
+def local_encounter(encounter):
+   battle(player_data['allies'], encounter.enemies, encounter.opening, encounter.closing, player_data['inventory'])
 
 def explore(location):
     # Go through all main locations
@@ -109,31 +108,35 @@ def explore(location):
                 seen_npcs.add(npc)
 
 
+        # Fighting the Encounters (happens once per Encounter)
+        if location["encounter"]:
+            print(f"\nYou’ve run into the encounter {location['name']}...")
+            input("Press Enter to fight the encounter...")
+            local_encounter(location["encounter"])
+                
         explored.append(selected)
 
-        
+        # Once all 5 are explored, give item
+        if location["item"]:
+            print(f"\nYou have found the item: {location['item']}!")
+            add_to_inventory(location["item"])
 
-    # Once all 5 are explored, give item
-    if location["item"]:
-        print(f"\nYou have found the item: {location['item']}!")
-        add_to_inventory(location["item"])
-
-    # Now start the boss fight if there is one
-    if location["boss"]:
-        print(f"\nYou’ve reached the final challenge in {location['name']}...")
-        input("Press Enter to confront the boss...")
-        encounter(location["boss"])
+        # Now start the boss fight if there is one
+        if location["boss"]:
+            print(f"\nYou’ve reached the final challenge in {location['name']}...")
+            input("Press Enter to confront the boss...")
+            local_encounter(location["boss"])
 
 
-        if location["ally"] and location["ally"] not in allies:
-            print(f"{location['ally']} has joined your team!")
-            allies.append(location["ally"])
+            if location["ally"] and location["ally"] not in allies:
+                print(f"{location['ally']} has joined your team!")
+                allies.append(location["ally"])
 
-    else:
-        # If ally is gained from exploring only
-        if location["ally"] and location["ally"] not in allies:
-            print(f"You’ve found {location['ally']} while exploring!")
-            allies.append(location["ally"])
+        else:
+            # If ally is gained from exploring only
+            if location["ally"] and location["ally"] not in allies:
+                print(f"You’ve found {location['ally']} while exploring!")
+                allies.append(location["ally"])
 
 
 explore(main_locations[0])
