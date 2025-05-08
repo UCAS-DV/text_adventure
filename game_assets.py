@@ -21,7 +21,7 @@ class enemy:
         return stats
 
 class ally:
-    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, effects):
+    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, effects, heals):
         self.name = name
 
         self.max_hp = max_hp
@@ -33,6 +33,7 @@ class ally:
 
         self.attacks = attacks
         self.effects = effects
+        self.heals = heals
 
     def __str__(self):
         stats = f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
@@ -131,7 +132,7 @@ test_enemy = enemy(name='Test Enemy',
 
 test_ally = ally(name='Test Ally', 
               max_hp=100, max_nerves=100, min_nerves=10, 
-              attacks=[test_ally_attack],effects=[])
+              attacks=[test_ally_attack],effects=[],heals=[])
 # ------------------------------------------------- Testing Assets End -------------------------------------------------
 
 # ------------------------------------------------- Player Moves -------------------------------------------------
@@ -157,6 +158,8 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
                  ["{tname} eats the apple and it's as healthy as ever!"],
                  ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
                  ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
+
+
 # ------------------------------------------------- Player Moves -------------------------------------------------
 
 # ------------------------------------------------- VIYH Moves -------------------------------------------------
@@ -183,7 +186,7 @@ viyh = enemy(name='The Voice In Your Head',
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 
-              attacks=[kickflip, declaration, pep_talk, apple],effects=[])
+              attacks=[kickflip, declaration],effects=[],heals=[pep_talk, apple])
 
 allies = [player]
 enemies = [viyh]
