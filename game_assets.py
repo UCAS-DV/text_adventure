@@ -202,6 +202,30 @@ bone_blow_enemy = attack('bone_blow', 'Funny Bone Blow', '', 20, 10, True, False
                     ['He tries to hit your funny bone but he trips and hits his own funny bone.', 'He lays on the ground immobilized as you look down at him with pity.',
                     '"THIS IS NOT FUNNY RAAAAAAH"', 'Eventually he gets his footing and the battle continues.'], [])
 
+# ------------------------------------------------- Santa Claus Fight -------------------------------------------------
+
+blast = attack('blast', 'Christmas MegaBlast', '', 15, 0, True, True, 
+               ['"Hohoho!"', '"I did not want to go this far but I will if I must."', '"I CALL UPON EVERY GREAT POWERS BEFORE I,"',
+                '"FROM FATHER CHRISTMAS TO KRIS KRINGLE,"', '"I HARNESS THEE FOR A..."', '"CHRISTMAS"', '"ULTRA"', '"BLAST!"', "For a moment, all you can see is red, green, and white.",
+                'Once the blast is over, you notice a several meter wide whole blasted through the wall behind you with a trail spanning to the horizon.', 'How did you even survive that?',
+                'Do you have plot armor or something?'],
+                ['Santa harnesses his Christmas Spirit and does his iconic and famous Christmas MegaBlast,', 
+                'Completely blinding you in its brilliance.', 'Oh, classic Santa!'],
+                ['Santa attempts to harness his Christmas Spirit but it seems that the stress of preparing for Christmas has gotten to him.', 'His spirit is considerably weaker.'],
+                ['"Hohoho!"', '"I wanted to go this far as much as you but you leave me no choice"', '"CHRISTMAS"', '"SUPER"', '"BLA-"', 'His hat falls off his head, cancelling his attack',
+                '"Oh! Pardon me!"'], [])
+intimidation = attack('intimidation', 'Intimidation', '', 0, 15, True, True,
+                      ['Santa walks up to you and places a hand on your shoulder.', '"220 N 330 W, Amber Avenue."', 'He walks up to Zeep Vorp next', '"114.234.123.65"', 'Finally he approaches Mr. Skellybones.', '"(555), 245-5555"', '"Am I correct?"'],
+                      ['Santa pulls out his naughty list and he writes a few names in it.', 'You and your team stress out, worried that he put your names on the list.'],
+                      ["Santa begins to charge up a Christmas MegaBlast and you panic for a little bit, until you realize he's been charging it for longer than usual.", 
+                        'So you shrug, walk up, and knock his hat off his head.'],
+                      ['"Why you have tested me patience for too long!"', '"I am going to say a horrible thing!"', '"You will not even believe what I am about to say!"',
+                       'You stress out, worried that Santa is going to destroy his precious, pure image. You brace for the worst.', '"YOU ARE SUBPAR IN SOME OF YOUR HOBBIES!"', 
+                       '"do not worry though, practice makes perfect"', '"BUT YOU WILL HAVE TO PRACTICE A LOT!"', 'Santa smirks, proud of his own audacity.'], [])
+
+
+santa = enemy('Santa Claus', 150, 130, 10, [blast, intimidation], [], [], [])
+agent_elf = enemy('Special Agent Pepper', 100, 100, 25, )
 
 viyh = enemy(name='The Voice In Your Head', 
              max_hp=50, max_nerves=100, min_nerves=10, 
