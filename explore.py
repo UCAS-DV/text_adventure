@@ -1,6 +1,7 @@
 from game_assets import *
 from battle import battle
 from save_load import player_data
+from dialogue_reader import *
 
 # Avery, exploring
 
