@@ -190,7 +190,7 @@ viyh = enemy(name='The Voice In Your Head',
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 
-              attacks=[kickflip, declaration],effects=[],abilities=[shield_up],heals=[pep_talk, apple])
+              attacks=[kickflip, declaration],effects=[],abilities=[],heals=[pep_talk, apple])
 
 allies = [player]
 enemies = [viyh]

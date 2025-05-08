@@ -270,7 +270,6 @@ def battle(allies, enemies, opening, closing, inventory):
                     if ally_selected.hp > 0:
 
                         combined_attacks = ally_selected.attacks + ally_selected.abilities + ally_selected.heals
-                        attack_info = format(combined_attacks)
                         attack_selected = choose('Which attack would you like to select? ', combined_attacks)
 
                         
