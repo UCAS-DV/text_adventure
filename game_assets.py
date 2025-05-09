@@ -171,14 +171,18 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
                  ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
                  ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
 
+player = ally(name='Unpaid Intern', 
+              max_hp=100, max_nerves=100, min_nerves=25, 
+              attacks=[kickflip, declaration, pep_talk, apple],effects=[])
+
 # ------------------------------------------------- VIYH Moves -------------------------------------------------
 pessimism = attack('pessimism', 'Terrible Pessimism', '', 0, 10, True, False,
                  ["To be frank, given how absolutely dysfunctional the country was,", "I don't even think it's worth it."],
                  ["I'm going to be honest, I don't think we, an unpaid intern and a voice in that intern's head can save America like Madam Vice President wants us to."],
                  ['I believe that you will make a mistake at some point in time!', 'Take that!'],
                  ["I have so many negative things to say but what's even the point of sharing them?", 'Does it even matter?'],[])
-pep_talk = attack('single_heal', 'Pep Talk', "Fear can't beat out the power of a good pep talk!", -10, -10, False, False, 
-                      ['I give myself such an incredible, rousing self pep talk that even you feel a little inspired.', 'Wow, I should really pursue public speaking!', "You know, I think I might do so!", 'Yeah...', 'wait,', 'the only person who can hear me is you.', '...', 'Ow.'],
+pep_talk_boss = attack('single_heal', 'Pep Talk', "Fear can't beat out the power of a good pep talk!", -10, -10, False, False, 
+                      ['You give myself such an incredible, rousing self pep talk that even you feel a little inspired.', 'Wow, I should really pursue public speaking!', "You know, I think I might do so!", 'Yeah...', 'wait,', 'the only person who can hear me is you.', '...', 'Ow.'],
                      ['I give myself a pep talk and feel inspired by my own words.'], 
                      ["You know...", 'I am so happy that the only person who can hear me is you.'], 
                      ['Um...', "I thought I would be better at speaking given that it's the only thing I can do.", 'Just...', 'please forget everything I just said.'],[])
@@ -190,13 +194,10 @@ yell = attack('yell', 'Unbearable Yell', '', 10, 5, True, False,
 
 viyh = enemy(name='The Voice In Your Head', 
              max_hp=50, max_nerves=100, min_nerves=10, 
-             attacks=[pessimism, yell], abilities=[], healing_abilities=[pep_talk], effects=[])
-viyh = enemy(name='The Voice In Your Head', 
-             max_hp=50, max_nerves=100, min_nerves=10, 
-             attacks=[pessimism, yell], abilities=[], healing_abilities=[pep_talk], effects=[])
+             attacks=[pessimism, yell], abilities=[], healing_abilities=[pep_talk_boss], effects=[])
 
 # ------------------------------------------------- Skellybones (Boss) -------------------------------------------------
-bone_blow_enemy = attack('bone_blow', 'Funny Bone Blow', '', 20, 10, True, False,
+bone_blow_boss = attack('bone_blow', 'Funny Bone Blow', '', 20, 10, True, False,
                    ["With what you think is a deadpan expression", "(you can't really tell because he's just a faceless skeleton)", 
                     "He lightly taps your funny bone.", "You look at him confused but suddenly... what feels like a jolt of lightening traverses through your arm and-",
                     '...', '...', 'You good?', 'It seems like your brain was too focused on writhing in very unfunny pain to remember to conjure my existence.', "Uh, don't do that again.",
@@ -221,7 +222,7 @@ truth_enemy = attack('truth', 'Disturbing Truth', '', 0, 20, True, False,
                      'He feels a little embarressed.'], [])
 
 skellybones_boss = enemy('Mr. Skellybones', 70, 100, 10,
-                    [bone_blow_enemy, truth_enemy], [], [got_milk_enemy], [])
+                    [bone_blow_boss, truth_enemy], [], [got_milk_enemy], [])
 
 skellybones_fight = encounter([skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue\skellybones_outro.txt')
 
@@ -232,7 +233,7 @@ moral_support = attack('moral_support', 'Moral Support', '', -20, -10, False, Fa
                        ['"Hooray for {tname}?" says the ghost', '"And um..."', '"Well...', '"A for effort?"'],
                        ['"OH COME ON!" says the ghost', '"THEY WERE RIGHT THERE!"', '"YOU-"', '"YOU-"', '"IMBECILES!"', 'Everyone looks at the ghost shocked.', 'You shake your head in disapproval', '"Oh..."', '"Uh..."', '"Hee hee?"'], [])
 
-scare = attack('scare', 'Scare', '', 15, 15, True, False,
+scare = attack('scare', 'Scare', '', 0, 15, True, False,
                ["You blink and the zombie's gone!", "Well that's awfully convienent.", "I'm sure nothing could go wrong!", 'You turn around to see the zombie right next to you.', 'It whispers in your ear, ', '"Your body replaces your cells every 7 to 10 years."',
                 'AAAAAAAAAAAAA!', 'PHILOSOPHICAL DILLEMA!'],
                 ['"Boo!"', 'Eek!'],
@@ -240,9 +241,16 @@ scare = attack('scare', 'Scare', '', 15, 15, True, False,
                 ["You blink and the zombie's gone!", "Well that's awfully convienent.", "Although I'm sure it's going to pop up and scare us.", "So be prepared!", '...', '...', '...', "It's been 15 minutes, what's the deal?",
                  "You see the zombie walk back.", '"Sorry, I went to go make sure I left my door locked before leaving."', '"I did!"', 'You shrug and continue the battle.'], [])
 
+trick = attack('nudge', 'Trick', '', 10, 0, True, False,
+               ['The zombie charges at you and you promptly run away.', 'You keep running until you realize that something is off.', 'You look down to find that you have just ran off a cliff.', 'You raise up a sign saying "Help" and fall all of the way down.',
+                'Eventually you make it back up to the carnival.'],
+               ['"Brains... trick or treat!"', 'You notice a shadow forming under you.', 'You look up to see a piano falling from the sky.', "It seems like we've been tricked...", 'The piano falls and crushes you.'],
+               ['"Brains... trick or treat!"', ''],
+               ['"Brains... trick or treat!"', 'You shake your head in disapproval, rejecting the zombie.', 'The zombie walks away defeated.', '"Rejected me just like Jessica..." the zombie says under its breath.'], [])
+
 ghost = enemy('Very Spooky Ghost', 30, 100, 30, [], [], [moral_support], [])
-zombie_one = enemy('Very Spooky Zombie', 60, 100, 10, [scare], [], [], [])
-zombie_two = enemy('Very Spooky Zombie', 60, 100, 10, [scare], [], [], [])
+zombie_one = enemy('Very Spooky Zombie 1', 40, 100, 10, [trick, scare], [], [], [])
+zombie_two = enemy('Very Spooky Zombie 2', 40, 100, 10, [trick, scare], [], [], [])
 
 spooky_monsters_fight = encounter([zombie_one, zombie_two, ghost], 'Dialogue\skellybones_intro.txt', 'Dialogue\skellybones_outro.txt')
 
@@ -259,7 +267,7 @@ blast = attack('blast', 'Christmas MegaBlast', '', 15, 0, True, True,
                 ['"Hohoho!"', '"I wanted to go this far as much as you but you leave me no choice"', '"CHRISTMAS"', '"SUPER"', '"BLA-"', 'His hat falls off his head, cancelling his attack',
                 '"Oh! Pardon me!"'], [])
 intimidation = attack('intimidation', 'Intimidation', '', 0, 15, True, True,
-                      ['Santa walks up to you and places a hand on your shoulder.', '"220 N 330 W, Amber Avenue."', 'He walks up to Zeep Vorp next', '"114.234.123.65"', 'Finally he approaches Mr. Skellybones.', '"(555), 245-5555"', '"Am I correct?"'],
+                      ['Santa walks up to you and places a hand on your shoulder.', '"220 N 330 W, Amber Avenue."', 'He walks up to Zeep Vorp next', '"114.234.123.65"', 'Finally he approaches Mr. Skellybones.', '"(555) 245-5555"', '"Am I correct?"'],
                       ['Santa pulls out his naughty list and he writes a few names in it.', 'You and your team stress out, worried that he put your names on the list.'],
                       ["Santa begins to charge up a Christmas MegaBlast and you panic for a little bit, until you realize he's been charging it for longer than usual.", 
                         'So you shrug, walk up, and knock his hat off his head.'],
@@ -267,22 +275,8 @@ intimidation = attack('intimidation', 'Intimidation', '', 0, 15, True, True,
                        'You stress out, worried that Santa is going to destroy his precious, pure image. You brace for the worst.', '"YOU ARE SUBPAR IN SOME OF YOUR HOBBIES!"', 
                        '"do not worry though, practice makes perfect"', '"BUT YOU WILL HAVE TO PRACTICE A LOT!"', 'Santa smirks, proud of his own audacity.'], [])
 
-
-
 santa = enemy('Santa Claus', 150, 130, 10, [blast, intimidation], [], [], [])
-agent_elf = enemy('Special Agent Pepper', 100, 100, 25, )
-
-
-
-
-
-
-
-
-
-player = ally(name='Unpaid Intern', 
-              max_hp=100, max_nerves=100, min_nerves=25, 
-              attacks=[kickflip, declaration, pep_talk, apple],effects=[])
+agent_elf = enemy('Special Agent Pepper', 100, 100, 25, [], [], [], [])
 
 allies = [player]
 enemies = [viyh]

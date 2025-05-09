@@ -9,8 +9,18 @@ from dialogue_reader import *
 main_locations = [
    {
        "name": "Spookyland",
-       "mini_locations": ["Carnival Tent", "Haunted Maze", "Graveyard", "Mirror Room", "Ghost Ship"],
-       'mini_local_desc': [['This is a carnival tent'], ['This is a haunted maze'], ['This is a graveyard'], ['This is a mirror room'], ['This is a ghost ship']],
+       "mini_locations": ["High Density Housing", 
+                          "Pumpkin Patch", 
+                          "Abandoned Carnival", 
+                          "Mirror Room",
+                          "Ghost Ship"],
+       'mini_local_desc': [['Following your map, you go to the high density housing.', 'Looking around, you see rows upon rows of graves.', 'Huh, did we wrong turn somewhere.', 'Oh... this is spookyland.'],
+                            ['You enter the 87th Annual Spookyland Pumpkin Patch.', 'Given that this is Spookyland, all of the pumpkins are alive!', '"Hey! Human!" says one of the pumpkin.', '"I can make you rich and famous!"',
+                             '"Just you wait! I will be the greatest pumpkin the world has ever seen!"', '"I am going solve homelessness and poverty."', '"I am gonna be the greatest philanthropist."', 
+                             'As you listen to the pumpkin, a skeleton with carving tools picks it up and takes it away.', '"Just you wait!" says the pumpkin.', 'You never see it again.'],
+                            ['You find an abandoned carnival.', "It's barron, empty, and indeed, very spooky.", "You wander around trying to find something or someone.", 'There you find a single skeleton'],
+                            ['This is a mirror room'],
+                            ['This is a ghost ship']],
        "npcs": ["Carnival Skeleton"],
        "item": "Monocle of Skellybones",
        "boss": skellybones_fight,
@@ -24,8 +34,7 @@ main_locations = [
        "item": "Alien Cat",
        "boss": None,
        "ally": "Zeep Vorp",
-       "encounter": "Hostile Aliens",
-       'exit': 'Dialogue/area51_outro.txt'
+       "encounter": None,
    },
    {
        "name": "North Pole",
@@ -66,9 +75,9 @@ def explore(location):
 
     explored = []
     seen_npcs = set()
+    victory = False
 
-
-    while len(explored) < 5:
+    while not victory:
         print("\nMini-locations:")
         for i, mini in enumerate(location["mini_locations"], 1):
             status = "✓" if mini in explored else " "
@@ -91,7 +100,7 @@ def explore(location):
         if location['mini_local_desc']:
             read_description(location['mini_local_desc'][int(choice) - 1], all_allies)
 
-        if len(explored) > 2:
+        if len(explored) > 1:
             # NPC interaction (happens once per NPC)
             for npc in location["npcs"]:
                 if npc not in seen_npcs:
@@ -111,9 +120,8 @@ def explore(location):
         if len(explored) > 2:
             # Fighting the Encounters (happens once per Encounter)
             if location["encounter"]:
-                print(f"\nYou’ve run into the encounter {location['name']}...")
-                input("Press Enter to fight the encounter...")
-                local_encounter(location["encounter"])
+                input("Enter anything to fight the encounter...")
+                victory = local_encounter(location["encounter"])
                 
         explored.append(selected)
 

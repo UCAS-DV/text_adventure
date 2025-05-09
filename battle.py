@@ -294,6 +294,7 @@ def battle(allies, enemies, opening, closing, inventory):
                                 attack_them(attack_selected, ally_selected, target, ally_selected.nerves)
                             else:
                                 input('Oops! Seems like your target is already downed')
+                                continue
 
                         # IF attack is a multi attack, loop through each member of target group and attack them
                         else:
@@ -306,7 +307,9 @@ def battle(allies, enemies, opening, closing, inventory):
                                 for ally in allies:
                                     attack_them(attack_selected, ally_selected, ally, ally_selected.nerves)
 
-                    else: input('Oops! Seems like you selected a downed ally!')
+                    else: 
+                        input('Oops! Seems like you selected a downed ally!')
+                        continue
 
                     turn += 1
 
