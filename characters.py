@@ -1,2 +1,0 @@
-# load charaters storys (avery)
-

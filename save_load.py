@@ -26,7 +26,7 @@ def save_game(data):
     with open(SAVE_FILE, mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["Level", "Location", "Allies", "Inventory"])
-        writer.writerow([data["level"], data["location"], ";".join(data["allies"]), ";".join(data["inventory"])])
+        writer.writerow([data["location"], ";".join(data["allies"]), ";".join(data["inventory"])])
     print("\n Game saved successfully!\n")
 
 def load_game():
@@ -77,7 +77,6 @@ def main_menu():
                 player_data.update(loaded_data)
         elif choice == 3:
             print("\n Current Player Data:")
-            print(f"Level: {player_data['level']}")
             print(f"Location: {player_data['location']}")
             print(f"Allies: {player_data['allies']}")
             print(f"Inventory: {player_data['inventory']}\n")
