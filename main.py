@@ -9,7 +9,6 @@ def start_game():
     read_dialogue('Dialogue\opening_cutscene.txt')
     battle(save_load.player_data['allies'], enemies, 'Dialogue/tutorial1.txt', 'Dialogue/test.txt', save_load.player_data['inventory'])
     explore(main_locations[0])
-    explore(main_locations[1])
 
 def main():
     game_title = "Quest For The Country!"

@@ -171,8 +171,6 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
                  ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
                  ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
 
-# ------------------------------------------------- Player Moves End -------------------------------------------------
-
 # ------------------------------------------------- VIYH Moves -------------------------------------------------
 pessimism = attack('pessimism', 'Terrible Pessimism', '', 0, 10, True, False,
                  ["To be frank, given how absolutely dysfunctional the country was,", "I don't even think it's worth it."],
@@ -193,7 +191,9 @@ yell = attack('yell', 'Unbearable Yell', '', 10, 5, True, False,
 viyh = enemy(name='The Voice In Your Head', 
              max_hp=50, max_nerves=100, min_nerves=10, 
              attacks=[pessimism, yell], abilities=[], healing_abilities=[pep_talk], effects=[])
-# ------------------------------------------------- VIYH End -------------------------------------------------
+viyh = enemy(name='The Voice In Your Head', 
+             max_hp=50, max_nerves=100, min_nerves=10, 
+             attacks=[pessimism, yell], abilities=[], healing_abilities=[pep_talk], effects=[])
 
 # ------------------------------------------------- Skellybones (Boss) -------------------------------------------------
 bone_blow_enemy = attack('bone_blow', 'Funny Bone Blow', '', 20, 10, True, False,
@@ -225,11 +225,7 @@ skellybones_boss = enemy('Mr. Skellybones', 70, 100, 10,
 
 skellybones_fight = encounter([skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue\skellybones_outro.txt')
 
-
-# ------------------------------------------------- Skellybones (Boss) End -------------------------------------------------
-
 # ------------------------------------------------- Very Spooky Monsters -------------------------------------------------
-
 moral_support = attack('moral_support', 'Moral Support', '', -20, -10, False, False,
                        ['The ghost flies to the {tname}.', "The ghost reaches into itself and pulls out a bag of G&Gs and hands it to the {tname}.", '"I hope you know that you deserve this after all of your hard work!"', '{tname} smiles gently and eats the G&Gs.', "They taste absolutely horrendous but it's the thought that counts!"],
                        ['"Hooray for {tname}!" says the ghost', '"We all love {tname}! Heehee!"', 'The {tname} feels revitalized and motivated.'],
@@ -249,6 +245,40 @@ zombie_one = enemy('Very Spooky Zombie', 60, 100, 10, [scare], [], [], [])
 zombie_two = enemy('Very Spooky Zombie', 60, 100, 10, [scare], [], [], [])
 
 spooky_monsters_fight = encounter([zombie_one, zombie_two, ghost], 'Dialogue\skellybones_intro.txt', 'Dialogue\skellybones_outro.txt')
+
+# ------------------------------------------------- Santa Claus Fight -------------------------------------------------
+
+blast = attack('blast', 'Christmas MegaBlast', '', 15, 0, True, True, 
+               ['"Hohoho!"', '"I did not want to go this far but I will if I must."', '"I CALL UPON EVERY GREAT POWERS BEFORE I,"',
+                '"FROM FATHER CHRISTMAS TO KRIS KRINGLE,"', '"I HARNESS THEE FOR A..."', '"CHRISTMAS"', '"ULTRA"', '"BLAST!"', "For a moment, all you can see is red, green, and white.",
+                'Once the blast is over, you notice a several meter wide whole blasted through the wall behind you with a trail spanning to the horizon.', 'How did you even survive that?',
+                'Do you have plot armor or something?'],
+                ['Santa harnesses his Christmas Spirit and does his iconic and famous Christmas MegaBlast,', 
+                'Completely blinding you in its brilliance.', 'Oh, classic Santa!'],
+                ['Santa attempts to harness his Christmas Spirit but it seems that the stress of preparing for Christmas has gotten to him.', 'His spirit is considerably weaker.'],
+                ['"Hohoho!"', '"I wanted to go this far as much as you but you leave me no choice"', '"CHRISTMAS"', '"SUPER"', '"BLA-"', 'His hat falls off his head, cancelling his attack',
+                '"Oh! Pardon me!"'], [])
+intimidation = attack('intimidation', 'Intimidation', '', 0, 15, True, True,
+                      ['Santa walks up to you and places a hand on your shoulder.', '"220 N 330 W, Amber Avenue."', 'He walks up to Zeep Vorp next', '"114.234.123.65"', 'Finally he approaches Mr. Skellybones.', '"(555), 245-5555"', '"Am I correct?"'],
+                      ['Santa pulls out his naughty list and he writes a few names in it.', 'You and your team stress out, worried that he put your names on the list.'],
+                      ["Santa begins to charge up a Christmas MegaBlast and you panic for a little bit, until you realize he's been charging it for longer than usual.", 
+                        'So you shrug, walk up, and knock his hat off his head.'],
+                      ['"Why you have tested me patience for too long!"', '"I am going to say a horrible thing!"', '"You will not even believe what I am about to say!"',
+                       'You stress out, worried that Santa is going to destroy his precious, pure image. You brace for the worst.', '"YOU ARE SUBPAR IN SOME OF YOUR HOBBIES!"', 
+                       '"do not worry though, practice makes perfect"', '"BUT YOU WILL HAVE TO PRACTICE A LOT!"', 'Santa smirks, proud of his own audacity.'], [])
+
+
+
+santa = enemy('Santa Claus', 150, 130, 10, [blast, intimidation], [], [], [])
+agent_elf = enemy('Special Agent Pepper', 100, 100, 25, )
+
+
+
+
+
+
+
+
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 
