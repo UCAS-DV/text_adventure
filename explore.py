@@ -14,8 +14,8 @@ main_locations = [
        "npcs": ["Carnival Skeleton"],
        "item": "Monocle of Skellybones",
        "boss": skellybones_fight,
-       "ally": "Mr. Skellybones",
-       "encounter": skellybones_fight,
+       "ally": skellybones_ally,
+       "encounter": spooky_monsters_fight,
    },
    {
        "name": "Area 51",
@@ -25,6 +25,7 @@ main_locations = [
        "boss": None,
        "ally": "Zeep Vorp",
        "encounter": "Hostile Aliens",
+       'exit': 'Dialogue/area51_outro.txt'
    },
    {
        "name": "North Pole",
@@ -56,7 +57,7 @@ def add_to_inventory(item):
    inventory.append(item)
 
 def local_encounter(encounter):
-   battle(player_data['allies'], encounter.enemies, encounter.opening, encounter.closing, player_data['inventory'])
+   return battle(player_data['allies'], encounter.enemies, encounter.opening, encounter.closing, player_data['inventory'])
 
 def explore(location):
     # Go through all main locations
@@ -87,57 +88,60 @@ def explore(location):
 
 
         print(f"\nExploring {selected}...")
-        read_description(location['mini_local_desc'][int(choice) - 1], all_allies)
+        if location['mini_local_desc']:
+            read_description(location['mini_local_desc'][int(choice) - 1], all_allies)
 
+        if len(explored) > 2:
+            # NPC interaction (happens once per NPC)
+            for npc in location["npcs"]:
+                if npc not in seen_npcs:
+                    print(f"You meet {npc}!")
+                    if npc == "Carnival Skeleton":
+                        print('"Step right up! Step right up!" he says.')
+                    elif npc == "Zeep Vorp":
+                        print('"Zorp! You’re not supposed to see this!"')
+                    elif npc == "Mrs. Claus":
+                        print('"Cookies and cocoa, dear?"')
+                    elif npc == "President":
+                        print('"God bless America."')
+                    elif npc == "Vice President":
+                        print('"Keep it patriotic."')
+                    seen_npcs.add(npc)
 
-        # NPC interaction (happens once per NPC)
-        for npc in location["npcs"]:
-            if npc not in seen_npcs:
-                print(f"You meet {npc}!")
-                if npc == "Cat":
-                    print('"Meow," says the cat in a deep voice.')
-                elif npc == "Carnival Skeleton":
-                    print('"Step right up! Step right up!" he says.')
-                elif npc == "Zeep Vorp":
-                    print('"Zorp! You’re not supposed to see this!"')
-                elif npc == "Mrs. Claus":
-                    print('"Cookies and cocoa, dear?"')
-                elif npc == "President":
-                    print('"God bless America."')
-                elif npc == "Vice President":
-                    print('"Keep it patriotic."')
-                seen_npcs.add(npc)
-
-
-        # Fighting the Encounters (happens once per Encounter)
-        if location["encounter"]:
-            print(f"\nYou’ve run into the encounter {location['name']}...")
-            input("Press Enter to fight the encounter...")
-            local_encounter(location["encounter"])
+        if len(explored) > 2:
+            # Fighting the Encounters (happens once per Encounter)
+            if location["encounter"]:
+                print(f"\nYou’ve run into the encounter {location['name']}...")
+                input("Press Enter to fight the encounter...")
+                local_encounter(location["encounter"])
                 
         explored.append(selected)
 
-        # Once all 5 are explored, give item
-        if location["item"]:
-            print(f"\nYou have found the item: {location['item']}!")
-            add_to_inventory(location["item"])
+    # Once all 5 are explored, give item
+    if location["item"]:
+        print(f"\nYou have found the item: {location['item']}!")
+        add_to_inventory(location["item"])
 
-        # Now start the boss fight if there is one
-        if location["boss"]:
+    # Now start the boss fight if there is one
+    if location["boss"]:
+        print(f"\nYou’ve reached the final challenge in {location['name']}...")
+        input("Press Enter to confront the boss...")
+        local_encounter(location["boss"])
+
+        if location['boss'] != None:
             print(f"\nYou’ve reached the final challenge in {location['name']}...")
             input("Press Enter to confront the boss...")
             local_encounter(location["boss"])
 
+        if location["ally"] and location["ally"] not in allies:
+            print(f"{location['ally']} has joined your team!")
+            player_data['allies'].append(location["ally"])
 
-            if location["ally"] and location["ally"] not in allies:
-                print(f"{location['ally']} has joined your team!")
-                allies.append(location["ally"])
-
-        else:
-            # If ally is gained from exploring only
-            if location["ally"] and location["ally"] not in allies:
-                print(f"You’ve found {location['ally']} while exploring!")
-                allies.append(location["ally"])
+    else:
+        # If ally is gained from exploring only
+        if location["ally"] and location["ally"] not in allies:
+            print(f"You’ve found {location['ally']} while exploring!")
+            allies.append(location["ally"])
 
 
-explore(main_locations[0])
+# explore(main_locations[0])
