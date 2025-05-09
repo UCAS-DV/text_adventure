@@ -14,7 +14,7 @@ main_locations = [
        "npcs": ["Carnival Skeleton"],
        "item": "Monocle of Skellybones",
        "boss": skellybones_fight,
-       "ally": "Mr. Skellybones",
+       "ally": skellybones_ally,
        "encounter": spooky_monsters_fight,
    },
    {
@@ -135,7 +135,7 @@ def explore(location):
 
         if location["ally"] and location["ally"] not in allies:
             print(f"{location['ally']} has joined your team!")
-            allies.append(location["ally"])
+            player_data['allies'].append(location["ally"])
 
     else:
         # If ally is gained from exploring only
@@ -144,4 +144,4 @@ def explore(location):
             allies.append(location["ally"])
 
 
-explore(main_locations[0])
+# explore(main_locations[0])
