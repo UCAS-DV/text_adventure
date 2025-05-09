@@ -15,7 +15,7 @@ main_locations = [
        "item": "Monocle of Skellybones",
        "boss": skellybones_fight,
        "ally": "Mr. Skellybones",
-       "encounter": skellybones_fight,
+       "encounter": spooky_monsters_fight,
    },
    {
        "name": "Area 51",
@@ -25,6 +25,7 @@ main_locations = [
        "boss": None,
        "ally": "Zeep Vorp",
        "encounter": "Hostile Aliens",
+       'exit': 'Dialogue/area51_outro.txt'
    },
    {
        "name": "North Pole",
@@ -124,10 +125,11 @@ def explore(location):
 
         # Now start the boss fight if there is one
         if location["boss"]:
-            print(f"\nYou’ve reached the final challenge in {location['name']}...")
-            input("Press Enter to confront the boss...")
-            local_encounter(location["boss"])
 
+            if location['boss'] != None:
+                print(f"\nYou’ve reached the final challenge in {location['name']}...")
+                input("Press Enter to confront the boss...")
+                local_encounter(location["boss"])
 
             if location["ally"] and location["ally"] not in allies:
                 print(f"{location['ally']} has joined your team!")
@@ -135,6 +137,9 @@ def explore(location):
 
         else:
             # If ally is gained from exploring only
+
+            read_dialogue['exit']
+
             if location["ally"] and location["ally"] not in allies:
                 print(f"You’ve found {location['ally']} while exploring!")
                 allies.append(location["ally"])

@@ -189,9 +189,13 @@ yell = attack('yell', 'Unbearable Yell', '', 10, 5, True, False,
               ["THE ORIGINAL MOVIE WASN'T THAT GOOD!", "YOU ARE JUST LOOKING AT IT WITH ROSE-TINTED GLASSES!"],
               ['aaaaaaa?'],
               ['Um...', 'uh...', "I don't have anywhere near enough energy to yell."], [])
-# ------------------------------------------------- VIYH Moves End -------------------------------------------------
 
-# ------------------------------------------------- Skellybones Moves -------------------------------------------------
+viyh = enemy(name='The Voice In Your Head', 
+             max_hp=50, max_nerves=100, min_nerves=10, 
+             attacks=[pessimism, yell], abilities=[], healing_abilities=[pep_talk], effects=[])
+# ------------------------------------------------- VIYH End -------------------------------------------------
+
+# ------------------------------------------------- Skellybones (Boss) -------------------------------------------------
 bone_blow_enemy = attack('bone_blow', 'Funny Bone Blow', '', 20, 10, True, False,
                    ["With what you think is a deadpan expression", "(you can't really tell because he's just a faceless skeleton)", 
                     "He lightly taps your funny bone.", "You look at him confused but suddenly... what feels like a jolt of lightening traverses through your arm and-",
@@ -201,16 +205,50 @@ bone_blow_enemy = attack('bone_blow', 'Funny Bone Blow', '', 20, 10, True, False
                     ['He tries to hit your funny bone in a very unfunny way but he only lightly taps it'],
                     ['He tries to hit your funny bone but he trips and hits his own funny bone.', 'He lays on the ground immobilized as you look down at him with pity.',
                     '"THIS IS NOT FUNNY RAAAAAAH"', 'Eventually he gets his footing and the battle continues.'], [])
-
-
-viyh = enemy(name='The Voice In Your Head', 
-             max_hp=50, max_nerves=100, min_nerves=10, 
-             attacks=[pessimism, yell], abilities=[], healing_abilities=[pep_talk], effects=[])
+got_milk_enemy = attack('single_heal', 'Got Milk?', '', -20, 0, False, False,
+                        ['He reaches behinda grave and grabs a jug of Clarkplace(TM) milk.', '"Raaaah. Only Clarkplace Milk(TM) makes feel this good."', 
+                        '"You can find Clarkplace Milk(TM) at your local PriceCo(TM) for only $4.29"', 'He tilts his skull in what you think is a wink and drinks the whole cartoon.', 
+                        'He looks significantly more health y.'],
+                        ['He reaches behind a grave and grabs a jug of Awesome Price(TM) milk.', 'He drinks it and looks revitalized.'],
+                        ['He reaches behind a grave and grabs a jug of expired Awesome Price(TM) milk.', "He drinks it and seems disgusted," "you can't really tell because he's just a skeleton."],
+                        ['He reaches behind a grave and grabs an empty jug of Clarkplace(TM) milk.', 'He looks at the jug with despair.', '"Raaaah. Why did you have to leave me too dear Clarkplace(TM) Milk"',
+                        'You reconcile him as he despairs', '"Raaaah. Thank you"', "Now that he's feeling better, you hug and then continue the fight"], [])
+truth_enemy = attack('truth', 'Disturbing Truth', '', 0, 20, True, False,
+                     ['He walks up to you and whispers to you...', '"Raaaah."', '[My lawyer has advised me to remove the following dialogue]'],
+                     ['"Raaaah. 2017 was 8 years ago."', 'You feel disturbed.'],
+                     ['"Raaaah. Some people are poor."', 'You feel a little bummed out.'],
+                     ['Mr. Skellybones tries to disturb you but it ended up being such a blatant truth that you feel nothing.', 'You look at him with a deadpan expression.', 
+                     'He feels a little embarressed.'], [])
 
 skellybones_boss = enemy('Mr. Skellybones', 70, 100, 10,
-                    [bone_blow_enemy], [], [], [])
+                    [bone_blow_enemy, truth_enemy], [], [got_milk_enemy], [])
 
-skellybones_fight = encounter([skellybones_boss], 'Dialogue\opening_cutscene.txt', 'Dialogue/test.txt')
+skellybones_fight = encounter([skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue\skellybones_outro.txt')
+
+
+# ------------------------------------------------- Skellybones (Boss) End -------------------------------------------------
+
+# ------------------------------------------------- Very Spooky Monsters -------------------------------------------------
+
+moral_support = attack('moral_support', 'Moral Support', '', -20, -10, False, False,
+                       ['The ghost flies to the {tname}.', "The ghost reaches into itself and pulls out a bag of G&Gs and hands it to the {tname}.", '"I hope you know that you deserve this after all of your hard work!"', '{tname} smiles gently and eats the G&Gs.', "They taste absolutely horrendous but it's the thought that counts!"],
+                       ['"Hooray for {tname}!" says the ghost', '"We all love {tname}! Heehee!"', 'The {tname} feels revitalized and motivated.'],
+                       ['"Hooray for {tname}?" says the ghost', '"And um..."', '"Well...', '"A for effort?"'],
+                       ['"OH COME ON!" says the ghost', '"THEY WERE RIGHT THERE!"', '"YOU-"', '"YOU-"', '"IMBECILES!"', 'Everyone looks at the ghost shocked.', 'You shake your head in disapproval', '"Oh..."', '"Uh..."', '"Hee hee?"'], [])
+
+scare = attack('scare', 'Scare', '', 15, 15, True, False,
+               ["You blink and the zombie's gone!", "Well that's awfully convienent.", "I'm sure nothing could go wrong!", 'You turn around to see the zombie right next to you.', 'It whispers in your ear, ', '"Your body replaces your cells every 7 to 10 years."',
+                'AAAAAAAAAAAAA!', 'PHILOSOPHICAL DILLEMA!'],
+                ['"Boo!"', 'Eek!'],
+                ['"Boo?"', 'Eek?'],
+                ["You blink and the zombie's gone!", "Well that's awfully convienent.", "Although I'm sure it's going to pop up and scare us.", "So be prepared!", '...', '...', '...', "It's been 15 minutes, what's the deal?",
+                 "You see the zombie walk back.", '"Sorry, I went to go make sure I left my door locked before leaving."', '"I did!"', 'You shrug and continue the battle.'], [])
+
+ghost = enemy('Very Spooky Ghost', 30, 100, 30, [], [], [moral_support], [])
+zombie_one = enemy('Very Spooky Zombie', 60, 100, 10, [scare], [], [], [])
+zombie_two = enemy('Very Spooky Zombie', 60, 100, 10, [scare], [], [], [])
+
+spooky_monsters_fight = encounter([zombie_one, zombie_two, ghost], 'Dialogue\skellybones_intro.txt', 'Dialogue\skellybones_outro.txt')
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 

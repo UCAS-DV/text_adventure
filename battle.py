@@ -3,6 +3,7 @@ from helper_funcs import inq_select
 import game_assets
 import random
 from ent_ai import enemy_decision_tree
+import os
 
 # Rolls random multipler based off of nerves
 def roll_nerves(nerves, attack, target):
@@ -239,6 +240,7 @@ def battle(allies, enemies, opening, closing, inventory):
         
         # IF player's turn
         if turn % 2 == 0:
+
             match inq_select('Which action would you like to perform?', 'Check Stats', 'Attack', 'Use Item'):
 
                 # Check Stats
@@ -329,7 +331,11 @@ def battle(allies, enemies, opening, closing, inventory):
             
 
             input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
-            dealing_enemy = select_random(enemies)
+            while True:
+                dealing_enemy = select_random(enemies)
+
+                if dealing_enemy.hp > 0:
+                    break
 
             input(f'{dealing_enemy.name} is taking the turn!')
 
@@ -338,7 +344,11 @@ def battle(allies, enemies, opening, closing, inventory):
             if attack.offensive:
                 enemy_target = select_random(allies)
             else:
-                enemy_target = select_random(enemies)
+                while True:
+                    enemy_target = select_random(enemies)
+
+                    if enemy_target.hp < enemy_target.max_hp:
+                        break
 
             if not attack.multi:
                 attack_them(attack, dealing_enemy, enemy_target, dealing_enemy.nerves)
