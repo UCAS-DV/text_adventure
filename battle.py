@@ -35,7 +35,7 @@ def attack_them(att, dealer, target, nerves):
     nerve_multiplier = roll_nerves(nerves, att, target)
 
     # Multiply damage and nerve damage by nerve multiplier
-    dmg *= nerve_multiplier
+    dmg = dmg * nerve_multiplier
     discomfort *= nerve_multiplier
 
     # Apply effects if applicable
@@ -279,22 +279,34 @@ def battle(allies, enemies, opening, closing, inventory):
                         if attack_selected == 'Back':
                             continue
 
+                        target = None
+
                         # IF attack is not a multi attack, ask player to select one target
                         if not attack_selected.multi:
                             
                             # IF attack is offensive
                             if attack_selected.offensive:
                                 target_info = format(enemies)
-                                target = enemies[inq_select('Which enemy would you like to attack? ', *target_info) - 1]
+                                
+                                try:
+                                    target = enemies[inq_select('Which enemy would you like to attack? ', *target_info) - 1]
+                                except:
+                                    pass
                             else:
-                                target = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
+
+                                try:
+                                    target = allies[inq_select('Which ally would you like to select? ', *ally_info) - 1]
+                                except:
+                                    pass
                             
                             # Only attack choosen target if target is not downed
-                            if target.hp > 0:
-                                attack_them(attack_selected, ally_selected, target, ally_selected.nerves)
-                            else:
-                                input('Oops! Seems like your target is already downed')
-                                continue
+                            try:
+                                if target.hp > 0:
+                                    attack_them(attack_selected, ally_selected, target, ally_selected.nerves)
+                                else:
+                                    input('Oops! Seems like your target is already downed')
+                            except:
+                                pass
 
                         # IF attack is a multi attack, loop through each member of target group and attack them
                         else:
@@ -311,7 +323,8 @@ def battle(allies, enemies, opening, closing, inventory):
                         input('Oops! Seems like you selected a downed ally!')
                         continue
 
-                    turn += 1
+                    if target != None:
+                        turn += 1
 
                 
                 # Use Item
@@ -329,29 +342,40 @@ def battle(allies, enemies, opening, closing, inventory):
 
                     turn += 1
 
+            if turn % 2 != 0:
+                input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
+
+                while True:
+                    dealing_enemy = select_random(enemies)
+
+                    if dealing_enemy.hp > 0:
+                        break
+                    
+                    all_enemies_down = True
+
+                    for enemy in enemies:
+                        if enemy.hp > 0:
+                            all_enemies_down = False
+
+                    if all_enemies_down:
+                        break
+
+
+                input(f'{dealing_enemy.name} is taking the turn!')
+
         # Enemy Turn (Amber)
         else:
             
-
-            input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
-            while True:
-                dealing_enemy = select_random(enemies)
-
-                if dealing_enemy.hp > 0:
-                    break
-
-            input(f'{dealing_enemy.name} is taking the turn!')
-
+            
             attack = enemy_decision_tree(dealing_enemy, dealing_enemy.attacks, dealing_enemy.abilities, dealing_enemy.heals)
-
+            
             if attack.offensive:
                 enemy_target = select_random(allies)
             else:
-                while True:
-                    enemy_target = select_random(enemies)
+                enemy_target = select_random(enemies)
 
-                    if enemy_target.hp < enemy_target.max_hp:
-                        break
+                if enemy_target.hp == enemy_target.max_hp:
+                    continue
 
             if not attack.multi:
                 attack_them(attack, dealing_enemy, enemy_target, dealing_enemy.nerves)

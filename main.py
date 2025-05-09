@@ -5,10 +5,9 @@ from game_assets import *
 import save_load
 from explore import *
 
-def start_game():
-    read_dialogue('Dialogue\opening_cutscene.txt')
-    battle(save_load.player_data['allies'], enemies, 'Dialogue/tutorial1.txt', 'Dialogue/test.txt', save_load.player_data['inventory'])
-    explore(main_locations[0])
+def start_game_boss_rush():
+    # battle(save_load.player_data['allies'], enemies, 'Dialogue/tutorial1.txt', 'Dialogue/test.txt', save_load.player_data['inventory'])
+    battle(save_load.player_data['allies'], [skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue/skellybones_outro.txt', save_load.player_data['inventory'])
 
 def main():
     game_title = "Quest For The Country!"
@@ -41,7 +40,7 @@ def main():
 
         # Handle choices replace the placeholder text with actual game startup logic 
         if answer == " Start New Game":
-            start_game()
+            start_game_boss_rush()
         elif answer == " Load Game":
             print("Loading game... (placeholder)")
         elif answer == " Settings":  # Fixed the curly quotes here
