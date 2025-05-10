@@ -319,7 +319,9 @@ def battle(allies, enemies, opening, closing, inventory):
                                 for ally in allies:
                                     attack_them(attack_selected, ally_selected, ally, ally_selected.nerves)
 
-                    else: input('Oops! Seems like you selected a downed ally!')
+                    else: 
+                        input('Oops! Seems like you selected a downed ally!')
+                        continue
 
                     if target != None:
                         turn += 1

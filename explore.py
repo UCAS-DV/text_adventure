@@ -1,6 +1,7 @@
 from game_assets import *
 from battle import battle
 from save_load import player_data
+from save_load import save_game
 from dialogue_reader import *
 
 # Avery, exploring
@@ -9,13 +10,24 @@ from dialogue_reader import *
 main_locations = [
    {
        "name": "Spookyland",
-       "mini_locations": ["Carnival Tent", "Haunted Maze", "Graveyard", "Mirror Room", "Ghost Ship"],
-       'mini_local_desc': [['This is a carnival tent'], ['This is a haunted maze'], ['This is a graveyard'], ['This is a mirror room'], ['This is a ghost ship']],
-       "npcs": ["Carnival Skeleton"],
-       "item": "Monocle of Skellybones",
-       "boss": skellybones_fight,
+       "mini_locations": ["Strength Tester", 
+                          "Pumpkin Patch", 
+                          "Ring Toss", 
+                          "Haunted House",
+                          "Entrance"],
+       'mini_local_desc': [[''],
+                            ['You enter the 87th Annual Spookyland Pumpkin Patch of the carnival!', 'Given that this is Spookyland, all of the pumpkins are alive!', '"Hey! Human!" says one of the pumpkin.', '"I can make you rich and famous!"',
+                             '"Just you wait! I will be the greatest pumpkin the world has ever seen!"', '"I am going solve homelessness and poverty."', '"I am gonna be the greatest philanthropist."', 
+                             'As you listen to the pumpkin, a skeleton with carving tools picks it up and takes it away.', '"Just you wait!" says the pumpkin.', 'You never see it again.'],
+                            ['You find a ring toss game without an operator.', "There's a sign reading:", '"To the no one who is playing this game. Just take a prize. I really do not care."', 'You shrug and take a prize.'],
+                            [''],
+                            []],
+       "intro": 'Dialogue\spookyland_entrance.txt',
+       "npc": {'dialogue': "Dialogue\carnival_skeleton.txt", 'position': '1'},
+       "item": {'item': sin_off_item, 'position': '3'},
+       "boss": {'boss_encounter': skellybones_fight, 'position': '5'},
        "ally": skellybones_ally,
-       "encounter": spooky_monsters_fight,
+       "encounter": {'fight': spooky_monsters_fight, 'position': '4'},
    },
    {
        "name": "Area 51",
@@ -24,8 +36,7 @@ main_locations = [
        "item": "Alien Cat",
        "boss": None,
        "ally": "Zeep Vorp",
-       "encounter": "Hostile Aliens",
-       'exit': 'Dialogue/area51_outro.txt'
+       "encounter": None,
    },
    {
        "name": "North Pole",
@@ -53,22 +64,27 @@ inventory = []
 allies = []
 
 def add_to_inventory(item):
-   print(f"Adding '{item}' to inventory...")
-   inventory.append(item)
+   player_data['inventory'].append(item)
 
 def local_encounter(encounter):
    return battle(player_data['allies'], encounter.enemies, encounter.opening, encounter.closing, player_data['inventory'])
 
-def explore(location):
+def explore(location, index):
     # Go through all main locations
+
+    player_data['location'] = index 
+    save_game(player_data)
+
     print(f"\n== Entering {location['name']} ==")
 
+    read_dialogue(location['intro'])
 
     explored = []
     seen_npcs = set()
+    victory = False
+    boss_victory = False
 
-
-    while len(explored) < 5:
+    while not boss_victory:
         print("\nMini-locations:")
         for i, mini in enumerate(location["mini_locations"], 1):
             status = "✓" if mini in explored else " "
@@ -80,61 +96,39 @@ def explore(location):
             print("Invalid choice.")
             continue
 
-
         selected = location["mini_locations"][int(choice) - 1]
-        if selected in explored:
-            print("You already explored that.")
-            continue
 
-
+        # Read place description
         print(f"\nExploring {selected}...")
-        if location['mini_local_desc']:
+
+        # IF not at an npc, encounter, or boss fight, read place description
+        if choice != location['npc']['position'] or choice != location['encounter']['position'] or choice != location['boss']['position']:
             read_description(location['mini_local_desc'][int(choice) - 1], all_allies)
 
-        if len(explored) > 2:
-            # NPC interaction (happens once per NPC)
-            for npc in location["npcs"]:
-                if npc not in seen_npcs:
-                    print(f"You meet {npc}!")
-                    if npc == "Carnival Skeleton":
-                        print('"Step right up! Step right up!" he says.')
-                    elif npc == "Zeep Vorp":
-                        print('"Zorp! You’re not supposed to see this!"')
-                    elif npc == "Mrs. Claus":
-                        print('"Cookies and cocoa, dear?"')
-                    elif npc == "President":
-                        print('"God bless America."')
-                    elif npc == "Vice President":
-                        print('"Keep it patriotic."')
-                    seen_npcs.add(npc)
+        # IF at NPC location, read NPC dialogue
+        if choice == location['npc']['position']:
+            read_dialogue(location['npc']['dialogue'])
 
-        if len(explored) > 2:
-            # Fighting the Encounters (happens once per Encounter)
-            if location["encounter"]:
-                print(f"\nYou’ve run into the encounter {location['name']}...")
-                input("Press Enter to fight the encounter...")
-                local_encounter(location["encounter"])
+        # IF at encounter location, enter encounter
+        if location['encounter'] != None:
+            if choice == location['encounter']['position'] and victory == False:
+                victory = local_encounter(location["encounter"]['fight'])
                 
         explored.append(selected)
 
-    # Once all 5 are explored, give item
-    if location["item"]:
-        print(f"\nYou have found the item: {location['item']}!")
-        add_to_inventory(location["item"])
+        # IF at item location, get item
+        if choice == location["item"]['position']:
+            print(f"\nYou have found the item: {location['item']['item'].name}!")
+            add_to_inventory(location["item"]['item'])
 
-    # Now start the boss fight if there is one
-    if location["boss"]:
-        print(f"\nYou’ve reached the final challenge in {location['name']}...")
-        input("Press Enter to confront the boss...")
-        local_encounter(location["boss"])
-
+        # Now start the boss fight if there is one
         if location['boss'] != None:
-            print(f"\nYou’ve reached the final challenge in {location['name']}...")
-            input("Press Enter to confront the boss...")
-            local_encounter(location["boss"])
+            if choice == location["boss"]['position']:
+                boss_victory = local_encounter(location["boss"]['boss_encounter'])
 
+    if location['ally'] != None:
         if location["ally"] and location["ally"] not in allies:
-            print(f"{location['ally']} has joined your team!")
+            print(f"{location['ally'].name} has joined your team!")
             player_data['allies'].append(location["ally"])
 
     else:
@@ -142,6 +136,8 @@ def explore(location):
         if location["ally"] and location["ally"] not in allies:
             print(f"You’ve found {location['ally']} while exploring!")
             allies.append(location["ally"])
+
+        
 
 
 # explore(main_locations[0])
