@@ -173,7 +173,7 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 
-              attacks=[kickflip, declaration, pep_talk, apple],effects=[])
+              attacks=[kickflip, declaration, pep_talk, apple, falcon_punch, resign],effects=[])
 
 # ------------------------------------------------- VIYH Moves -------------------------------------------------
 pessimism = attack('pessimism', 'Terrible Pessimism', '', 0, 10, True, False,
@@ -275,10 +275,10 @@ trick = attack('nudge', 'Trick', '', 10, 0, True, False,
                ['"Brains... trick or treat!"', 'You shake your head in disapproval, rejecting the zombie.', 'The zombie walks away defeated.', '"Rejected me just like Jessica..." the zombie says under its breath.'], [])
 
 ghost = enemy('Very Spooky Ghost', 30, 100, 30, [], [], [moral_support], [])
-zombie_one = enemy('Very Spooky Zombie 1', 40, 100, 10, [trick, scare], [], [], [])
-zombie_two = enemy('Very Spooky Zombie 2', 40, 100, 10, [trick, scare], [], [], [])
+zombie_one = enemy('David', 40, 100, 10, [trick, scare], [], [], [])
+zombie_two = enemy('Very Spooky Zombie', 40, 100, 10, [trick, scare], [], [], [])
 
-spooky_monsters_fight = encounter([zombie_one, zombie_two, ghost], 'Dialogue\skellybones_intro.txt', 'Dialogue\skellybones_outro.txt')
+spooky_monsters_fight = encounter([zombie_one, zombie_two, ghost], 'Dialogue\encounter_1_intro.txt', 'Dialogue\encounter_1_outro.txt')
 
 # ------------------------------------------------- Santa Claus Fight -------------------------------------------------
 

@@ -1,4 +1,4 @@
-import inquirer
+from InquirerPy import inquirer
 from dialogue_reader import read_dialogue
 from battle import battle
 from game_assets import *
@@ -7,7 +7,8 @@ from explore import *
 
 def start_game_boss_rush():
     # battle(save_load.player_data['allies'], enemies, 'Dialogue/tutorial1.txt', 'Dialogue/test.txt', save_load.player_data['inventory'])
-    battle(save_load.player_data['allies'], [skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue/skellybones_outro.txt', save_load.player_data['inventory'])
+    explore(main_locations[0])
+    #battle(save_load.player_data['allies'], [skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue/skellybones_outro.txt', save_load.player_data['inventory'])
 
 def main():
     game_title = "Quest For The Country!"
@@ -51,5 +52,5 @@ def main():
 
         input("\nPress Enter to return to the main menu...")
 
-main()
+start_game_boss_rush()
 
