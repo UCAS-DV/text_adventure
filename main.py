@@ -7,8 +7,9 @@ from explore import *
 
 def start_game_boss_rush():
     # battle(save_load.player_data['allies'], enemies, 'Dialogue/tutorial1.txt', 'Dialogue/test.txt', save_load.player_data['inventory'])
-    explore(main_locations[0])
-    #battle(save_load.player_data['allies'], [skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue/skellybones_outro.txt', save_load.player_data['inventory'])
+    explore(main_locations[0], 0)
+    # battle(save_load.player_data['allies'], [skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue/skellybones_outro.txt', save_load.player_data['inventory'])
+    #battle([player, skellybones_ally, zeep_vorp_ally], santa_fight.enemies, santa_fight.opening, santa_fight.closing, [sin_off_item, sin_self_item])
 
 def main():
     game_title = "Quest For The Country!"

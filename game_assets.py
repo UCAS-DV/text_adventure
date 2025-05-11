@@ -227,14 +227,14 @@ skellybones_boss = enemy('Mr. Skellybones', 70, 100, 10,
 skellybones_fight = encounter([skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue\skellybones_outro.txt')
 
 # ------------------------------------------------- Skellybones (Ally) -------------------------------------------------
-bone_blow_ally = attack('bone_blow', 'Funny Bone Blow', '', 20, 10, True, False,
+bone_blow_ally = attack('bone_blow', 'Funny Bone Blow', '"HEY! This is no laughing matter!', 20, 10, True, False,
                    ["With what you think is a deadpan expression", "(you can't really tell because he's just a faceless skeleton)", 
                     "He lightly taps {tname}'s funny bone.", "You look at him confused but suddenly {tname} shuts down completely.", "It's like someone turned {tname} off and on again"],
                     ["He hits {tname}'s funny bone in a very unfunny way."],
                     ["He tries to hit {tname}'s funny bone in a very unfunny way but he only lightly taps it"],
                     ["He tries to hit {tname}'s funny bone but he trips and hits his own funny bone.", 'He lays on the ground immobilized as you look down at him with pity.',
                     '"THIS IS NOT FUNNY RAAAAAAH"', 'Eventually he gets his footing and the battle continues.'], [])
-got_milk_ally = attack('single_heal', 'Got Milk?', '', -20, 0, False, False,
+got_milk_ally = attack('single_heal', 'Got Milk?', 'Milk makes your bones stronger!', -20, 0, False, False,
                         ['He reaches behinda grave and grabs a jug of Clarkplace(TM) milk.', '"Raaaah. Only Clarkplace Milk(TM) makes feel this good."', 
                         '"You can find Clarkplace Milk(TM) at your local PriceCo(TM) for only $4.29"', 'He tilts his skull in what you think is a wink and drinks the whole cartoon.', 
                         'He looks significantly more health y.'],
@@ -242,11 +242,11 @@ got_milk_ally = attack('single_heal', 'Got Milk?', '', -20, 0, False, False,
                         ['He reaches behind a grave and grabs a jug of expired Awesome Price(TM) milk.', "He drinks it and seems disgusted," "you can't really tell because he's just a skeleton."],
                         ['He reaches behind a grave and grabs an empty jug of Clarkplace(TM) milk.', 'He looks at the jug with despair.', '"Raaaah. Why did you have to leave me too dear Clarkplace(TM) Milk"',
                         'You reconcile him as he despairs', '"Raaaah. Thank you"', "Now that he's feeling better, you hug and then continue the fight"], [])
-truth_ally = attack('truth', 'Disturbing Truth', '', 0, 20, True, False,
-                     ['He walks up to {tname} and whispers to {tname}...', '"Raaaah."', '[My lawyer has advised me to remove the following dialogue]', 'You and {tname} are very disturbed'],
-                     ['"Raaaah. 2017 was 8 years ago."', '{tname} feels disturbed.'],
-                     ['"Raaaah. Some people are poor."', '{tname} feels a little bummed out.'],
-                     ['Mr. Skellybones tries to disturb {tname} but it ended up being such a blatant truth that you feel nothing.', '{tname} looks at him with a deadpan expression.', 
+truth_ally = attack('truth', 'Disturbing Truth', "Freak your opponents out with something mildly shocking!", 0, 20, True, True,
+                     ['Mr. Skellybones stands and declares...', '"Raaaah."', '[My lawyer has advised me to remove the following dialogue]', 'You and your enemies are very disturbed'],
+                     ['"Raaaah. 2017 was 8 years ago."', 'Everyone feels disturbed.'],
+                     ['"Raaaah. Some people are poor."', 'Your enemies feels a little bummed out.'],
+                     ['Mr. Skellybones tries to disturb your enemies but it ended up being such a blatant truth that they feel nothing.', 'Everyone looks at him with a deadpan expression.', 
                      'He feels a little embarressed.'], [])
 
 skellybones_ally = ally('Mr. Skellybones', 70, 100, 10,
@@ -280,8 +280,22 @@ zombie_two = enemy('Very Spooky Zombie', 40, 100, 10, [trick, scare], [], [], []
 
 spooky_monsters_fight = encounter([zombie_one, zombie_two, ghost], 'Dialogue\encounter_1_intro.txt', 'Dialogue\encounter_1_outro.txt')
 
-# ------------------------------------------------- Santa Claus Fight -------------------------------------------------
+# ------------------------------------------------- Zeep Vorp (Ally) -------------------------------------------------
 
+charge_ally = attack('charge', 'Proton Charge', 'Harness the power of the electromagnatism with a proton charge!', 15, 0, True, True,
+                     ['It seems like Zeep Vorp remembered to set his proton charges to "Illegal everywhere except Texas" instead of "Mild Inconvience."'],
+                     ['Zeep Vorp throws several proton charges at the enemies.'],
+                     ['Zeep Vorp throws several proton charges at the enemies,', 'but he forgot to turn them on.', '"Vorleep zam zoop?"', 'Since he was so polite, everyone let Zeep Vorp turn on the proton charges.', '"Verleem!"', 'BOOM'],
+                     ['Zeep Vorp tries to throw several proton charges but it seems like he forgot them at home.', '"Vap zeem! Jimlip?"', 'Everyone lets Zeep Vorp go back home to get them.'], [])
+heal_field = attack('field', 'Heal Field', 'Heal up in this totally not FDA-approved heal field!', -10, -10, False, True,
+                    ['It seems like Zeep Vorp in his clumsiness, accidentally super charged the heal field.', "He doesn't know how it happened but hey", 'if it works, it works.'],
+                    ['Zeep Vorp places down a heal field.', 'Everyone feels a little bit better now, mentally and physically.'],
+                    ['Zeep Vorp places down a heal field which works for a bit,', 'but he trips on it,', 'turning it off.'],
+                    ['Zeep Vorp places down a heal field but he forgets the password on how to turn it on.'], [])
+
+zeep_vorp_ally = ally("Zeep Vorp", 80, 100, 10, [charge_ally, heal_field], [])
+
+# ------------------------------------------------- Santa Claus Fight -------------------------------------------------
 blast = attack('blast', 'Christmas MegaBlast', '', 15, 0, True, True, 
                ['"Hohoho!"', '"I did not want to go this far but I will if I must."', '"I CALL UPON EVERY GREAT POWERS BEFORE I,"',
                 '"FROM FATHER CHRISTMAS TO KRIS KRINGLE,"', '"I HARNESS THEE FOR A..."', '"CHRISTMAS"', '"ULTRA"', '"BLAST!"', "For a moment, all you can see is red, green, and white.",
@@ -297,12 +311,20 @@ intimidation = attack('intimidation', 'Intimidation', '', 0, 15, True, True,
                       ['Santa pulls out his naughty list and he writes a few names in it.', 'You and your team stress out, worried that he put your names on the list.'],
                       ["Santa begins to charge up a Christmas MegaBlast and you panic for a little bit, until you realize he's been charging it for longer than usual.", 
                         'So you shrug, walk up, and knock his hat off his head.'],
-                      ['"Why you have tested me patience for too long!"', '"I am going to say a horrible thing!"', '"You will not even believe what I am about to say!"',
+                      ['"Why you have tested me patience for too long."', '"I am going to say a horrible thing."', '"You will not even believe what I am about to say."',
                        'You stress out, worried that Santa is going to destroy his precious, pure image. You brace for the worst.', '"YOU ARE SUBPAR IN SOME OF YOUR HOBBIES!"', 
                        '"do not worry though, practice makes perfect"', '"BUT YOU WILL HAVE TO PRACTICE A LOT!"', 'Santa smirks, proud of his own audacity.'], [])
+beam = attack('beam', 'Peppermint Beam', '', 25, 0, True, False,
+              ['The elf stands back and gets ready for something.', 'She closes her eyes and starts yelling for some reason?.', 'Suddenly, she starts glowing the hat on her head turns from a dark green to a bright white.'
+               '"SUPER"', '"PEPPER-"', '"MINT"', '"BEEEEEEEEEEEEAAAAAAAAAAAAAAMMMMMMMMMMM!"', 'The light from the beam is blinding.', "It's thin as paper but the damage is incredible."],
+              ['The elf makes a finger gun and points it at {tname}.','"PEPPERMINT"', '"BEAM!', "The laser blasts out of her hand and burns with the heat of a thousand suns.", "It's extremely precise and Worst of all,", 'it tastes like peppermint.', 'Gross...'],
+              ['"PEPPERMINT"', '""BLAST!"', 'Nothing happens.', '"Wait..."', '"That is not right."', '"Peppermint beam?"', "The beam fires out of her hands at {tname}, but because of the embarrasment of her initial blast, it's less powerful."],
+              ['PEPPERMINT', 'BEAM!', 'At the speed of light, it fires out of her hand.', 'She smirks arrogantly, proud of her actions.', 'She completely missed.', 'Haha,', 'loser.'], [])
 
-santa = enemy('Santa Claus', 150, 130, 10, [blast, intimidation], [], [], [])
-agent_elf = enemy('Special Agent Pepper', 100, 100, 25, [], [], [], [])
+santa = enemy('Santa Claus', 120, 130, 10, [blast, intimidation], [], [], [])
+agent_elf = enemy('Special Agent Elf', 80, 100, 25, [beam], [], [], [])
+
+santa_fight = encounter([santa, agent_elf], 'Dialogue/north_pole/santa_intro.txt', 'Dialogue\skellybones_outro.txt')
 
 allies = [player]
 enemies = [viyh]
