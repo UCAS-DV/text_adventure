@@ -1,7 +1,7 @@
 import game_assets
 import random
 
-def enemy_decision_tree(enemy, attack_list, status_ability_list, healing_ability_list):
+def enemy_decision_tree(enemy, enemies, allies, attack_list, status_ability_list, healing_ability_list):
     #print(enemy)
     #print("enemy")
     #print("\n\n")
@@ -15,8 +15,8 @@ def enemy_decision_tree(enemy, attack_list, status_ability_list, healing_ability
     #print("healing ability list")
     #print("\n\n")
 
-    enemy_team = game_assets.enemies
-    player_team = game_assets.allies
+    enemy_team = enemies
+    player_team = allies
 
     decision_list = ["attack", "ability", "heal"]
     #print ("created initial ability list")

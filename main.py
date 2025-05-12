@@ -1,15 +1,15 @@
-import inquirer
+from InquirerPy import inquirer
 from dialogue_reader import read_dialogue
 from battle import battle
 from game_assets import *
 import save_load
 from explore import *
 
-def start_game():
-    read_dialogue('Dialogue\opening_cutscene.txt')
-    battle(save_load.player_data['allies'], enemies, 'Dialogue/tutorial1.txt', 'Dialogue/test.txt', save_load.player_data['inventory'])
-    explore(main_locations[0])
-    explore(main_locations[1])
+def start_game_boss_rush():
+    # battle(save_load.player_data['allies'], enemies, 'Dialogue/tutorial1.txt', 'Dialogue/test.txt', save_load.player_data['inventory'])
+    explore(main_locations[2], 2)
+    # battle(save_load.player_data['allies'], [skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue/skellybones_outro.txt', save_load.player_data['inventory'])
+    #battle([player, skellybones_ally, zeep_vorp_ally], santa_fight.enemies, santa_fight.opening, santa_fight.closing, [sin_off_item, sin_self_item])
 
 def main():
     game_title = "Quest For The Country!"
@@ -42,7 +42,7 @@ def main():
 
         # Handle choices replace the placeholder text with actual game startup logic 
         if answer == " Start New Game":
-            start_game()
+            start_game_boss_rush()
         elif answer == " Load Game":
             print("Loading game... (placeholder)")
         elif answer == " Settings":  # Fixed the curly quotes here
@@ -53,5 +53,5 @@ def main():
 
         input("\nPress Enter to return to the main menu...")
 
-main()
+start_game_boss_rush()
 

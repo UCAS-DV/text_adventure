@@ -19,7 +19,7 @@ SAVE_FILE = "save_file.csv"
 # Empty player data (waiting to be loaded)
 player_data = {
     "location": None,
-    "allies": [player],
+    "allies": [player, skellybones_ally, zeep_vorp_ally],
     "inventory": []
 }
 
@@ -28,7 +28,6 @@ def save_game(data):
         writer = csv.writer(file)
         writer.writerow(["Level", "Location", "Allies", "Inventory"])
         writer.writerow([
-            data["level"],
             data["location"],
             ";".join(data["allies"]),
             ";".join(data["inventory"])
