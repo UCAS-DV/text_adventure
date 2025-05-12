@@ -19,7 +19,7 @@ SAVE_FILE = "save_file.csv"
 # Empty player data (waiting to be loaded)
 player_data = {
     "location": None,
-    "allies": [player, skellybones_ally],
+    "allies": [player, skellybones_ally, zeep_vorp_ally],
     "inventory": []
 }
 

@@ -22,7 +22,7 @@ main_locations = [
                              'As you listen to the pumpkin, a skeleton with carving tools picks it up and takes it away.', '"Just you wait!" says the pumpkin.', "I don't think we're gonna see it again..."],
                             ['You find a ring toss game without an operator.', "There's a sign reading:", '"To the no one who is playing this game. Just take a prize. I really do not care."', 'You shrug and take a prize.'],
                             [''],
-                            []],
+                            ['']],
        "intro": 'Dialogue\spookyland_entrance.txt',
        "npc": {'dialogue': "Dialogue\carnival_skeleton.txt", 'position': 1},
        "item": {'item': sin_off_item, 'position': 3},
@@ -41,14 +41,21 @@ main_locations = [
    },
    {
        "name": "North Pole",
-       "mini_locations": ["Parade", "Sleigh Garage", "Elf Dorms", "Gift Storage", "Reindeer Field"],
-       'mini_local_desc': [],
+       "mini_locations": ["Parade", "Sleigh Garage", "Elf Dorms", "Gift Storage", "Reindeer Lounge"],
+       'mini_local_desc': [[''],
+                           ['After ascending some flights of stairs,', 'you find the sleigh garage.', 'About a dozen sleighs in varying conditions are lined up to (very jolly) garage doors.', 'You accidentally press a button to open one of the doors.', 
+                            'The door is about 17 stories up, and leads to no where but the sky.', 'You continue to look around and you actually find a present in one of the sleighs labled,', '"Jackson Spook, Spookyland, 2017."', "Since it's dated about 8 years ago, you shrug and take it."],
+                           [''],
+                           [''],
+                           ['You wander back down to the main floor and find a backdoor.', 'You open the door to find three reindeers playing a card game in a poorly lit room.', 'Two of them have artificial red noses but one of them has a genuine red nose,', 'Rudolph.',
+                            'You take out a page of the constitution and a pen to try to get an autograph but get stopped by Mr. Skellybones.', '"Raaaah, honored one, I trust your judgement but are you sure you would like to deface the constitution for a simple autograph."', 
+                            "He is right. You're about to deface the constitution, the most sacred document in all of the EMUSA, for an autograph.", 'Are you sure?', '...', 'You walk away with an autograph from Rudolph, the Red-Nosed Reindeer.']],
        'intro': 'Dialogue/north_pole/north_pole_intro.txt',
-       "npcs": {'dialogue': 'Dialogue/north_pole/mrs_claus.txt', 'position': 4},
+       "npc": {'dialogue': 'Dialogue/north_pole/mrs_claus.txt', 'position': 4},
        "item": {'item': sin_self_item, 'position': 2},
        "boss": {'boss_encounter': santa_fight, 'position': 1},
-       "ally": "Special Ops Elf",
-       "encounter": "Special Ops Elf and Reindeer Team",
+       "ally": zeep_vorp_ally,
+       "encounter": {'fight': spec_ops_fight, 'position': 3},
    },
    {
        "name": "White House",
@@ -93,7 +100,20 @@ def explore(location, index):
 
             selected = location["mini_locations"][int(choice) - 1]
         else:
-            pass
+            options = location['mini_locations'] + 'Exit'
+            
+            choice = inq_select('Which place would you like to go?', options)
+
+            try:
+                selected = location["mini_locations"][int(choice) - 1]
+            except:
+                choice = inq_select('Are you sure?', 'No', 'Yes')
+
+                if choice == 1:
+                    continue
+                else:
+                    left = True
+                    break
 
         # Read place description
         print(f"\nExploring {selected}...")
@@ -125,15 +145,15 @@ def explore(location, index):
                 boss_victory, player_data['inventory'] = local_encounter(location["boss"]['boss_encounter'])
 
     if location['ally'] != None:
-        if location["ally"] and location["ally"] not in allies:
+        if location["ally"] and location["ally"] not in player_data['allies']:
             print(f"{location['ally'].name} has joined your team!")
             player_data['allies'].append(location["ally"])
 
     else:
         # If ally is gained from exploring only
-        if location["ally"] and location["ally"] not in allies:
+        if location["ally"] and location["ally"] not in player_data['allies']:
             print(f"You’ve found {location['ally']} while exploring!")
-            allies.append(location["ally"])
+            player_data['allies'].append(location["ally"])
 
         
 
