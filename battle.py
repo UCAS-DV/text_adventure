@@ -25,54 +25,55 @@ def roll_nerves(nerves, attack, target):
         return 0.5
 
 # Attacks target   
-def attack_them(att, dealer, target, nerves):
+def attack_them(att, dealer, targets, nerves):
 
     input(f'{dealer.name} uses {att.name}!')
 
     dmg = att.hp
     discomfort = att.nerves
 
-    nerve_multiplier = roll_nerves(nerves, att, target)
+    nerve_multiplier = roll_nerves(nerves, att, targets[0])
 
     # Multiply damage and nerve damage by nerve multiplier
     dmg = dmg * nerve_multiplier
     discomfort *= nerve_multiplier
 
-    # Apply effects if applicable
-    if 'blinded' in target.effects:
-        dmg *= 1.5
-    if 'shielded' in target.effects:
-        dmg *= 0.75
+    for target in targets:
+        # Apply effects if applicable
+        if 'blinded' in target.effects:
+            dmg *= 1.5
+        if 'shielded' in target.effects:
+            dmg *= 0.75
 
-    dmg = round(dmg)
-    target.hp -= dmg
+        dmg = round(dmg)
+        target.hp -= dmg
 
-    discomfort = round(discomfort)
-    target.nerves -= discomfort
+        discomfort = round(discomfort)
+        target.nerves -= discomfort
 
-    # Sets hp to 0 if it's below 0
-    if target.hp < 0:
-        target.hp = 0
-    elif target.hp > target.max_hp:
-        target.hp = target.max_hp
+        # Sets hp to 0 if it's below 0
+        if target.hp < 0:
+            target.hp = 0
+        elif target.hp > target.max_hp:
+            target.hp = target.max_hp
 
-    # Sets nerves to minimum if it's below minimum
-    if target.nerves < target.min_nerves:
-        target.nerves = target.min_nerves
-    elif target.nerves > target.max_nerves:
-        target.nerves = target.max_nerves
+        # Sets nerves to minimum if it's below minimum
+        if target.nerves < target.min_nerves:
+            target.nerves = target.min_nerves
+        elif target.nerves > target.max_nerves:
+            target.nerves = target.max_nerves
 
-    # Print the amount of damage done
-    if dmg < 0:
-        print(f'{dealer.name} gave {target.name} {-dmg} health!')
-    elif dmg > 0:
-        print(f'{dealer.name} dealt {dmg} damage to {target.name}!')
+        # Print the amount of damage done
+        if dmg < 0:
+            print(f'{dealer.name} gave {target.name} {-dmg} health!')
+        elif dmg > 0:
+            print(f'{dealer.name} dealt {dmg} damage to {target.name}!')
 
-    # Print the amount of discomfort done
-    if discomfort < 0:
-        print(f'{dealer.name} gave {target.name} {-discomfort} nerves!')
-    elif discomfort > 0:
-        print(f'{dealer.name} removed {discomfort} nerves from {target.name}!')
+        # Print the amount of discomfort done
+        if discomfort < 0:
+            print(f'{dealer.name} gave {target.name} {-discomfort} nerves!')
+        elif discomfort > 0:
+            print(f'{dealer.name} removed {discomfort} nerves from {target.name}!')
 
 # Formats items so it can be used in UI
 def format(unformatted_list):
@@ -288,6 +289,7 @@ def battle(allies, enemies, opening, closing, inventory):
                             if attack_selected.offensive:
                                 target_info = format(enemies)
                                 
+                                
                                 try:
                                     target = enemies[inq_select('Which enemy would you like to attack? ', *target_info) - 1]
                                 except:
@@ -302,23 +304,21 @@ def battle(allies, enemies, opening, closing, inventory):
                             # Only attack choosen target if target is not downed
                             try:
                                 if target.hp > 0:
-                                    attack_them(attack_selected, ally_selected, target, ally_selected.nerves)
+                                    attack_them(attack_selected, ally_selected, [target], ally_selected.nerves)
                                 else:
                                     input('Oops! Seems like your target is already downed')
                             except:
                                 pass
 
-                        # IF attack is a multi attack, loop through each member of target group and attack them
+                        # IF attack is a multi attack
                         else:
                             
                             # Attack/Affect ALL targets depending if attack if offensive
                             if attack_selected.offensive:
-                                for enemy in enemies:
-                                    attack_them(attack_selected, ally_selected, enemy, ally_selected.nerves)
+                                attack_them(attack_selected, ally_selected, enemies, ally_selected.nerves)
                                 turn += 1
                             else:
-                                for ally in allies:
-                                    attack_them(attack_selected, ally_selected, ally, ally_selected.nerves)
+                                attack_them(attack_selected, ally_selected, allies, ally_selected.nerves)
                                 turn += 1
 
                     else: 
@@ -326,7 +326,8 @@ def battle(allies, enemies, opening, closing, inventory):
                         continue
 
                     if target != None:
-                        turn += 1
+                        if target.hp > 0:
+                            turn += 1
 
                 
                 # Use Item
@@ -343,51 +344,52 @@ def battle(allies, enemies, opening, closing, inventory):
                     inventory.remove(item_selected)
 
                     turn += 1
-
-            if turn % 2 != 0:
-                input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
-
-                while True:
-                    dealing_enemy = select_random(enemies)
-
-                    if dealing_enemy.hp > 0:
-                        break
-                    
-                    all_enemies_down = True
-
-                    for enemy in enemies:
-                        if enemy.hp > 0:
-                            all_enemies_down = False
-
-                    if all_enemies_down:
-                        break
-
-
-                input(f'{dealing_enemy.name} is taking the turn!')
+                
 
         # Enemy Turn (Amber)
         else:
             
             
-            attack = enemy_decision_tree(dealing_enemy, dealing_enemy.attacks, dealing_enemy.abilities, dealing_enemy.heals)
+            input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
+
+            while True:
+                dealing_enemy = select_random(enemies)
+
+                if dealing_enemy.hp > 0:
+                    break
+                    
+                all_enemies_down = True
+
+                for enemy in enemies:
+                    if enemy.hp > 0:
+                        all_enemies_down = False
+
+                if all_enemies_down:
+                    break
+
+
+            input(f'{dealing_enemy.name} is taking the turn!')
+
+            attack = enemy_decision_tree(dealing_enemy, enemies, allies, dealing_enemy.attacks, dealing_enemy.abilities, dealing_enemy.heals)
             
             if attack.offensive:
                 enemy_target = select_random(allies)
+
+                if enemy_target.hp <= 0:
+                    continue
             else:
                 enemy_target = select_random(enemies)
 
-                if enemy_target.hp == enemy_target.max_hp:
+                if enemy_target.hp == enemy_target.max_hp or enemy_target.hp <= 0:
                     continue
 
             if not attack.multi:
-                attack_them(attack, dealing_enemy, enemy_target, dealing_enemy.nerves)
+                attack_them(attack, dealing_enemy, [enemy_target], dealing_enemy.nerves)
             else:
                 if attack.offensive:
-                    for ally in allies:
-                        attack_them(attack, dealing_enemy, ally, dealing_enemy.nerves)
+                    attack_them(attack, dealing_enemy, allies, dealing_enemy.nerves)
                 else:
-                    for enemy in enemies:
-                        attack_them(attack, dealing_enemy, enemy, dealing_enemy.nerves)
+                    attack_them(attack, dealing_enemy, enemies, dealing_enemy.nerves)
 
             turn += 1
 

@@ -296,7 +296,7 @@ heal_field = attack('field', 'Heal Field', 'Heal up in this totally not FDA-appr
 zeep_vorp_ally = ally("Zeep Vorp", 80, 100, 10, [charge_ally, heal_field], [])
 
 # ------------------------------------------------- Santa Claus Fight -------------------------------------------------
-blast = attack('blast', 'Christmas MegaBlast', '', 15, 0, True, True, 
+blast = attack('blast', 'Christmas MegaBlast', '', 20, 0, True, True, 
                ['"Hohoho!"', '"I did not want to go this far but I will if I must."', '"I CALL UPON EVERY GREAT POWERS BEFORE I,"',
                 '"FROM FATHER CHRISTMAS TO KRIS KRINGLE,"', '"I HARNESS THEE FOR A..."', '"CHRISTMAS"', '"ULTRA"', '"BLAST!"', "For a moment, all you can see is red, green, and white.",
                 'Once the blast is over, you notice a several meter wide whole blasted through the wall behind you with a trail spanning to the horizon.', 'How did you even survive that?',
@@ -314,30 +314,47 @@ intimidation = attack('intimidation', 'Intimidation', '', 0, 15, True, True,
                       ['"Why you have tested me patience for too long."', '"I am going to say a horrible thing."', '"You will not even believe what I am about to say."',
                        'You stress out, worried that Santa is going to destroy his precious, pure image. You brace for the worst.', '"YOU ARE SUBPAR IN SOME OF YOUR HOBBIES!"', 
                        '"do not worry though, practice makes perfect"', '"BUT YOU WILL HAVE TO PRACTICE A LOT!"', 'Santa smirks, proud of his own audacity.'], [])
-beam = attack('beam', 'Peppermint Beam', '', 25, 0, True, False,
+beam_enemy = attack('beam', 'Peppermint Beam', '', 30, 0, True, False,
               ['The elf stands back and gets ready for something.', 'She closes her eyes and starts yelling for some reason?.', 'Suddenly, she starts glowing the hat on her head turns from a dark green to a bright white.'
                '"SUPER"', '"PEPPER-"', '"MINT"', '"BEEEEEEEEEEEEAAAAAAAAAAAAAAMMMMMMMMMMM!"', 'The light from the beam is blinding.', "It's thin as paper but the damage is incredible."],
               ['The elf makes a finger gun and points it at {tname}.','"PEPPERMINT"', '"BEAM!', "The laser blasts out of her hand and burns with the heat of a thousand suns.", "It's extremely precise and Worst of all,", 'it tastes like peppermint.', 'Gross...'],
               ['"PEPPERMINT"', '""BLAST!"', 'Nothing happens.', '"Wait..."', '"That is not right."', '"Peppermint beam?"', "The beam fires out of her hands at {tname}, but because of the embarrasment of her initial blast, it's less powerful."],
               ['PEPPERMINT', 'BEAM!', 'At the speed of light, it fires out of her hand.', 'She smirks arrogantly, proud of her actions.', 'She completely missed.', 'Haha,', 'loser.'], [])
+present_pepper = attack('present', 'Present', '', 0, 20, True, False,
+                       ['Using her elf skills,', 'the elf quickly builds a teddy bear?', 'Huh, everyone looks at it adoringly.', 'But then, {tname} looks in its cold,', 'dead,', 'apathetic', 'eyes,', 'and is very disturbed by it.'],
+                       ['Using her elf skills,', 'the elf quickly builds a water gun and fires it at {tname}.', "Now they're cold, wet, and not very happy."],
+                       ['Using her elf skills,', 'the elf quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control abd is only a little panicked to see how much happened while he was in a trance.'],
+                       ['Using her elf skills,', 'the elf quickly builds a sticky hand and flings it at {tname}.'], [])
 
 santa = enemy('Santa Claus', 120, 130, 10, [blast, intimidation], [], [], [])
-agent_elf = enemy('Special Agent Elf', 80, 100, 25, [beam], [], [], [])
+agent_elf = enemy('Special Agent Elf', 80, 100, 25, [beam_enemy, present_pepper], [], [], [])
 
 santa_fight = encounter([santa, agent_elf], 'Dialogue/north_pole/santa_intro.txt', 'Dialogue\skellybones_outro.txt')
 
-allies = [player]
-enemies = [viyh]
-inventory = []
+# ------------------------------------------------- Spec. Ops. Elves -------------------------------------------------
+present_enemy = attack('present', 'Present', '', 0, 20, True, False,
+                       ['Using their elf skills,', 'the elf quickly sews some Christmas socks and gives it to {tname}.', 'The crippling disappointment meant devastates them.'],
+                       ['Using their elf skills,', "the elf quickly builds spring toy that's slightly bent to {tname}.", 'The disappointment stings.'],
+                       ['Using their elf skills,', "the elf quicklu sews a nice jacket.", 'They make it a slightly off color so it looks ugly.', 'They give it to {tname}.', "It looks a little off but hey, it's the thought that counts.", 'Although the thought was actively malicious...'],
+                       ['Using their elf skills,', 'the elf quickly makes some chocolate.', 'They make it dark choclate expecting {tname} to dislike it,', 'but since {tname} is a good person,', 'they enjoy it!',], [])
+shine = attack('shine', 'Shine', '', 15, 0, True, True,
+               ["Using their cybernetic implant they got after Rudolph's fabled night,", 'the reindeer shines their nose at max brightness, completely blinding everyone.'],
+               ["Using their cybernetic implant they got after Rudolph's fabled night,", 'the reindeer shines their nose, partially blinding everyone.'],
+               ["Using their cybernetic implant they got after Rudolph's fabled night,", 'the reindeer shines their nose, but the battery is dying.', "It shines brightly for just a split second but it doesn't do a lot of damage."],
+               ["Using their cybernetic implant they got after Rudolph's fabled night,", 'the reindeer shines their nose, but it seems like the battery is dead.', 'It finds a pair of AA batteries just to find out that the implant needs AAA batterires.', 'It searches around the factory and eventually finds the batteries it needs.'],
+               ['blindness'])
+snowball = attack('snowball', 'Snow Ball', '', 25, 10, True, False,
+                  ['The elf makes a perfectly spherical snowball using magically summoned snow.', 'It tosses it with perfect precision.'],
+                  ['The elf makes a decently spherical snowball using magically summoned snow.', 'It tosses it with masterful precision.'],
+                  ['The elf makes a kind of spherical snowball using magically summoned snow', 'It tosses it but it barely hits you.'],
+                  ['Like a complete IDIOT,', 'the elf makes a poorly formed snowball and COMPLETELY misses like a LOSER!'], [])
 
-def level_up():
-    for ally in allies:
-        ally.max_hp += 15
-        ally.hp = ally.max_hp
+elf_one = enemy('Spec. Ops. Elf 1', 30, 100, 30, [present_enemy, snowball], [], [], [])
+elf_two = enemy('Spec. Ops. Elf 2', 30, 100, 30, [present_enemy, snowball], [], [], [])
+reindeer = enemy('Spec. Ops. Reindeer', 60, 100, 10, [], [shine], [], [])
 
-        ally.max_nerves += 15 
-        ally.nerves = ally.max_nerves
-        ally.min_nerves += 5 
+spec_ops_fight = encounter([elf_one, elf_two, reindeer], 'Dialogue/north_pole/spec_ops_intro.txt', 'Dialogue/north_pole/spec_ops_outro.txt')
+
 
 #if victory:
     #level_up()
