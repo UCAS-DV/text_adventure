@@ -54,7 +54,7 @@ main_locations = [
        "npc": {'dialogue': 'Dialogue/north_pole/mrs_claus.txt', 'position': 4},
        "item": {'item': sin_self_item, 'position': 2},
        "boss": {'boss_encounter': santa_fight, 'position': 1},
-       "ally": zeep_vorp_ally,
+       "ally": pepper,
        "encounter": {'fight': spec_ops_fight, 'position': 3},
    },
    {
@@ -100,9 +100,9 @@ def explore(location, index):
 
             selected = location["mini_locations"][int(choice) - 1]
         else:
-            options = location['mini_locations'] + 'Exit'
+            options = [*location['mini_locations'], 'Exit']
             
-            choice = inq_select('Which place would you like to go?', options)
+            choice = inq_select('Which place would you like to go?', *options)
 
             try:
                 selected = location["mini_locations"][int(choice) - 1]
@@ -114,35 +114,38 @@ def explore(location, index):
                 else:
                     left = True
                     break
+        
+        try:
+            # Read place description
+            print(f"\nExploring {selected}...")
 
-        # Read place description
-        print(f"\nExploring {selected}...")
+            # IF not at an npc, encounter, or boss fight, read place description
+            if choice != location['npc']['position'] or choice != location['encounter']['position'] or choice != location['boss']['position']:
+                read_description(location['mini_local_desc'][int(choice) - 1], all_allies)
 
-        # IF not at an npc, encounter, or boss fight, read place description
-        if choice != location['npc']['position'] or choice != location['encounter']['position'] or choice != location['boss']['position']:
-            read_description(location['mini_local_desc'][int(choice) - 1], all_allies)
+            # IF at NPC location, read NPC dialogue
+            if choice == location['npc']['position']:
+                read_dialogue(location['npc']['dialogue'])
 
-        # IF at NPC location, read NPC dialogue
-        if choice == location['npc']['position']:
-            read_dialogue(location['npc']['dialogue'])
+            # IF at encounter location, enter encounter
+            if location['encounter'] != None:
+                if choice == location['encounter']['position'] and victory == False:
+                    victory, player_data['inventory'] = local_encounter(location["encounter"]['fight'])
+                    
+            explored.append(selected)
 
-        # IF at encounter location, enter encounter
-        if location['encounter'] != None:
-            if choice == location['encounter']['position'] and victory == False:
-                victory, player_data['inventory'] = local_encounter(location["encounter"]['fight'])
-                
-        explored.append(selected)
+            # IF at item location, get item
+            if choice == location["item"]['position'] and not found_item:
+                print(f"\nYou have found the item: {location['item']['item'].name}!")
+                add_to_inventory(location["item"]['item'])
+                found_item = True
 
-        # IF at item location, get item
-        if choice == location["item"]['position'] and not found_item:
-            print(f"\nYou have found the item: {location['item']['item'].name}!")
-            add_to_inventory(location["item"]['item'])
-            found_item = True
-
-        # Now start the boss fight if there is one
-        if location['boss'] != None:
-            if choice == location["boss"]['position']:
-                boss_victory, player_data['inventory'] = local_encounter(location["boss"]['boss_encounter'])
+            # Now start the boss fight if there is one
+            if location['boss'] != None:
+                if choice == location["boss"]['position']:
+                    boss_victory, player_data['inventory'] = local_encounter(location["boss"]['boss_encounter'])
+        except:
+            break
 
     if location['ally'] != None:
         if location["ally"] and location["ally"] not in player_data['allies']:
