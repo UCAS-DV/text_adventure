@@ -70,7 +70,6 @@ def main_menu():
                 player_data.update(loaded_data)
         elif choice == 3:
             print("\n Current Player Data:")
-            print(f"Level: {player_data['level']}")
             print(f"Location: {player_data['location']}")
             print(f"Allies: {player_data['allies']}")
             print(f"Inventory: {player_data['inventory']}\n")

@@ -6,7 +6,7 @@ from dialogue_reader import *
 from helper_funcs import inq_select
 
 # Avery, exploring
-
+# Merge this code together
 # Each main location now has unique mini-locations
 main_locations = [
    {
