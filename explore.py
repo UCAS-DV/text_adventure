@@ -1,13 +1,3 @@
-
-"""Story progression system
-Chicken jockey
-Dont murder me darius!!!!
-Avery, exploring"""
-
-# Each main location now has unique mini-locations
-main_locations = [
-
-
 # Story progression system
 # Chicken jockey
 
@@ -26,7 +16,7 @@ main_locations = [
        "item": "Monocle of Skellybones",
        "ally": "Mr. Skellybones",
        "encounter": "Ghouls and Ghosts",
-       "boss": skellybones_fight,
+       "boss": "skellybones_fight",
    },
    {
        "name": "Area 51",
