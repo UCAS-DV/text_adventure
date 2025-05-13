@@ -145,8 +145,19 @@ test_enemy = enemy(name='Test Enemy',
 test_ally = ally(name='Test Ally', 
               max_hp=100, max_nerves=100, min_nerves=10, 
               attacks=[test_ally_attack],effects=[])
-# ------------------------------------------------- Testing Assets End -------------------------------------------------
 
+# ------------------------------------------------- Items -------------------------------------------------
+present_item = item(name='Present',item_description='Tragically, Jackson Spook never got his present in 2017. So sad.',hp=5, nerves=50,
+                 action_description=['You pull out the present you got from earlier.', 'You open it to see a gaming console packed with a horror game.', 'You open it and hook it up to a nearby TV.',
+                                     'The horror game is kinda mediocre but your gameplay is so horrendous that it stresses everyone out.', 'Seriously, I have never seen someone suck at a video game so much.',
+                                     'Like, if life was a video game,', "you wouldn't have gotten past 3.", "Thank goodness that this is all real and life isn't a video game."],
+                 offensive=True, multi=True, ability=[])
+spookyland_item = item('Bagged Goldfish', "There's something off about this goldfish...", 50, 5, True, True, [],
+                       ['For some reason you decide to use your goldfish you got from the carnival.', "You untie the bag, allowing the goldfish to see air.", 'The goldfish turns to your enemies and tells such a horrifying,',
+                        'disturbing,', 'absolutely petrifying truth that no one can recover from.', 'The truth is so terrible that they actually suffer a heart attack for a brief moment as their heart stops from the shock.'])
+patriotism = item('Block of Patriotism', 'A block of pure, unfiltered patriotism.', -50, -50, False, True, [], 
+                  ['Harnessing the power of our forefathers,', 'of our great EMUSA,', 'you feel a sudden bout of patriotism flow through your veins.', '"Raaaaah, may the EMUSA last centuries longer!" says Mr. Skellybones',
+                   '"Yeah! May the EMUSA shine brighter than the brightest stars!"', '"I have not felt this proud of anything before!"', '"Not even the glorious North Pole" says Pepper.', 'You nod proudly.', 'We have a country to save,', 'and nothing is stopping us.'])
 # ------------------------------------------------- Player Moves -------------------------------------------------
 kickflip = attack('sin_off', 'Kickflip', 'Wow everyone with a radical kickflip!', 15, 0, True, False, 
                   ['You run up and do the most rad', 'tubular', 'fresh', 'kickflip on {tname} the world has ever seen.'], 
@@ -344,7 +355,6 @@ agent_elf = enemy('Special Agent Elf', 80, 100, 25, [beam_enemy, present_pepper]
 santa_fight = encounter([santa, agent_elf], 'Dialogue/north_pole/santa_intro.txt', 'Dialogue\skellybones_outro.txt')
 
 # ------------------------------------------------- Pepper -------------------------------------------------
-
 beam_ally = attack('beam', 'Peppermint Beam', '', 30, 0, True, False,
               ['Pepper stands back and gets ready for something.', 'She closes her eyes and starts yelling for some reason?.', 'Suddenly, she starts glowing the hat on her head turns from a dark green to a bright white.'
                '"SUPER"', '"PEPPER-"', '"MINT"', '"BEEEEEEEEEEEEAAAAAAAAAAAAAAMMMMMMMMMMM!"', 'The light from the beam is blinding.', "It's thin as paper but the damage is incredible."],
@@ -354,7 +364,7 @@ beam_ally = attack('beam', 'Peppermint Beam', '', 30, 0, True, False,
 present_ally = attack('present', 'Present', '', 0, 20, True, False,
                        ['Using her elf skills,', 'Pepper quickly builds a teddy bear?', 'Huh, everyone looks at it adoringly.', 'But then, {tname} looks in its cold,', 'dead,', 'apathetic', 'eyes,', 'and is very disturbed by it.'],
                        ['Using her elf skills,', 'Pepper quickly builds a water gun and fires it at {tname}.', "Now they're cold, wet, and not very happy."],
-                       ['Using her elf skills,', 'Pepper quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control and is only a little panicked to see how much happened while he was in a trance.'],
+                       ['Using her elf skills,', 'Pepper quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control abd is only a little panicked to see how much happened while he was in a trance.'],
                        ['Using her elf skills,', 'Pepper quickly builds a sticky hand and flings it at {tname}.'], [])
 
 pepper = ally('Pepper', 80, 100, 25, [beam_ally, present_ally], [])
@@ -383,9 +393,32 @@ reindeer = enemy('Spec. Ops. Reindeer', 60, 100, 10, [], [shine], [], [])
 
 spec_ops_fight = encounter([elf_one, elf_two, reindeer], 'Dialogue/north_pole/spec_ops_intro.txt', 'Dialogue/north_pole/spec_ops_outro.txt')
 
+# ------------------------------------------------- Zeep Vorp (Boss) -------------------------------------------------
+super_charge = attack('charge', 'Super Proton Charge', 'Harness the power of the electromagnatism with a proton charge!', 15, 0, True, True,
+                     ['It seems like Zeep Vorp remembered to set his proton charges to "Illegal everywhere except Texas" instead of "Mild Inconvience."'],
+                     ['Zeep Vorp fires several super-proton charges at you and your team.'],
+                     ['Zeep Vorp fires several super-proton charges but you and your team narrowly dodge out of the way.'],
+                     ['Zeep Vorp tries to fire a bunch of super-proton charges at you but his mech jams.'], [])
+replication = attack('replication', 'Replication', '', -20, -10, False, False,
+                     ['Zeep somehow created a better, more evolved version of himself who kicked him out of the mech, fixed the mech, and took charge himself.'],
+                     ['In what I can only describe as a crime against biology,', 'Zeep duplicates himself several times to tend to him and fix his ship as he pilots it.'],
+                     ["Zeep duplicates himself several times to tend to him and fix his ship, but apparently it's hard to repair a flying mech's external wounds, as it is flying,",
+                     'So nothing really gets done.', "They were able to stick a princess-branded bandages on it so I'm sure it's fine."],
+                     ['In what I can only describe as an attempted crime against biology,', 'Zeep duplicates himself several times to tend to his own wounds and fix his ship as he pilots it...',
+                     'but he forgot to duplicate his conscious so the clones just run off on their own endeavors.', "I hope they're okay, wherever they went."], [])
+hologram = attack('hologram', 'Hologram', '', 0, 20, True, False,
+                  ["Zeep Vorp activates a hologram showing {tname}'s greatest fear.", 'Even Mr. Skellybones is shocked at how scary Zeep Vorp can be.'],
+                  ['Zeep Vorp activates several holograms of himself to confuses {tname}.'],
+                  ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but he trips and can only activate one because he broke the other 43.'],
+                  ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but it seems like he ran out of his free trial.', 'He spends a couple minutes trying to pay for Hologram+ and eventually he figures it out.', 'Sigh...', 'classic Zeep Vorp.'], [])
+
+zeep_vorp_enemy = enemy('Zeep Vorp', 150, 100, 30, [super_charge], [hologram], [replication])
+
+zeep_vorp_fight = encounter(zeep_vorp_enemy, 'Dialogue\white_house\zeep_vorp_intro.txt', 'Dialogue\white_house\zeep_vorp_outro.txt')
+
 
 #if victory:
-    #level_up()
+    #level_up(
 
     #for ally_char in allies:
        # print(ally_char)

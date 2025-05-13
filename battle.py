@@ -194,6 +194,8 @@ def battle(allies, enemies, opening, closing, inventory):
 
     read_dialogue(opening)
 
+    saved_inventory = inventory
+
     turn = 0
     battle_ended = False
     victory = False
@@ -396,5 +398,7 @@ def battle(allies, enemies, opening, closing, inventory):
     
     if victory:
         read_dialogue(closing)
+    else:
+        inventory = saved_inventory
 
     return victory, inventory
