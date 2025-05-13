@@ -90,8 +90,8 @@ single_heal = attack("single_heal", "Single Heal", "Heals one ally significantly
 group_heal = attack("group_heal", "Group Heal", "Heals all allies a small amount.", -10, 6, False, True,
                     "waves healing light!", "casts group heal!", "misfires the spell.", "heals the enemy!", None)
 
-blind_strike = attack("blind_strike", "Blind Strike", "Deals damage and blinds the enemy.", 10, 3, True, False,
-                      "hits eyes directly!", "blinds the foe!", "misses!", "hits own foot!", 1)
+pocket_sand = attack("pocket_sand", "Pocket sand", "Deals damage and blinds the enemy.", 10, 3, True, False,
+                      "hits eyes directly!", "blinds the foe!", "only a tiny goes in their eye!", "you somehow throw it 90° to the left, and miss completly!", 1)
 
 shield_up = attack("shield_up", "Shield Up", "Raises a shield to reduce incoming damage.", 0, 2, False, False,
                    "perfect defense!", "raises a shield.", "shield slips!", "drops the shield!", 2)

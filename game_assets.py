@@ -164,8 +164,8 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
 
 
 # ------------------------------------------------- Player Moves -------------------------------------------------
-shield_up = attack("shield_up", "Shield Up", "Raises a shield to reduce incoming damage.", 0, 2, False, False,
-                   "perfect defense!", "raises a shield.", "shield slips!", "drops the shield!", 2)
+shield_up = attack("shield_up", "Shield Up", "Raises a calming shield to reduce incoming damage.", 0, -5, False, False,
+                   "perfect defense!", "raises a shield.", "the shield isnt as calming as advretised, \nyou report it for being a scam product.", "you dont get calmed at all?! your suing!!!", 2)
 # ------------------------------------------------- VIYH Moves -------------------------------------------------
 pessimism = attack('attack', 'Terrible Pessimism', '', 0, 10, True, False,
                  ["To be frank, given how absolutely dysfunctional the country was,", "I don't even think it's worth it."],
@@ -190,7 +190,7 @@ viyh = enemy(name='The Voice In Your Head',
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 
-              attacks=[kickflip, declaration],effects=[],abilities=[],heals=[pep_talk, apple])
+              attacks=[kickflip, declaration],effects=[1,2,3],abilities=[],heals=[pep_talk, apple])
 
 allies = [player]
 enemies = [viyh]

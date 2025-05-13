@@ -1,0 +1,36 @@
+from battle import turn
+from game_assets import *
+turn = 0
+
+
+timers = {}
+
+def apply(effect_id, char):
+    if effect_id is not None and effect_id not in char.effects:
+        char.effects.append(effect_id)
+        timers[(char.name, effect_id)] = turn
+        print(f"[EFFECT] {char.name} is now affected by effect {effect_id}")
+
+def track(characters):
+    to_remove = []
+
+    for char in characters:
+        for effect_id in char.effects:
+            key = (char.name, effect_id)
+
+            # Effect logic
+            run_effect_logic(effect_id, char)
+
+            if key in timers and turn - timers[key] >= 2:
+                to_remove.append((char, effect_id))
+
+    for char, effect_id in to_remove:
+        char.effects.remove(effect_id)
+        del timers[(char.name, effect_id)]
+        print(f"[EFFECT] {char.name}'s effect {effect_id} has worn off")
+
+def run_effect_logic(effect_id, target):
+    if effect_id == 3:  # terrified
+        target.nerves = max(target.min_nerves, target.nerves - 10)
+        print(f"[EFFECT] {target.name} loses 10 nerves from terrified")
+print(f"[EFFECT]")
