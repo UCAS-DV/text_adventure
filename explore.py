@@ -55,6 +55,7 @@ main_locations = [
        "item": {'item': present_item, 'position': 2},
        "boss": {'boss_encounter': santa_fight, 'position': 1},
        "ally": pepper,
+       "ally": pepper,
        "encounter": {'fight': spec_ops_fight, 'position': 3},
    },
    {

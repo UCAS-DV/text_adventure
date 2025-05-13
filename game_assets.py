@@ -182,9 +182,21 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
                  ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
                  ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
 
+debug_mode = False
+
+if debug_mode:
+    player_attacks = [kickflip, declaration, pep_talk, apple, falcon_punch, resign]
+else:
+    player_attacks = [kickflip, declaration, pep_talk, apple]
+
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 
-              attacks=[kickflip, declaration, pep_talk, apple, falcon_punch, resign],effects=[])
+              attacks=player_attacks,effects=[])
+
+def load_player():
+    player = ally(name='Unpaid Intern', 
+              max_hp=100, max_nerves=100, min_nerves=25, 
+              attacks=player_attacks,effects=[])
 
 # ------------------------------------------------- VIYH Moves -------------------------------------------------
 pessimism = attack('pessimism', 'Terrible Pessimism', '', 0, 10, True, False,
@@ -334,7 +346,7 @@ beam_enemy = attack('beam', 'Peppermint Beam', '', 30, 0, True, False,
 present_pepper = attack('present', 'Present', '', 0, 20, True, False,
                        ['Using her elf skills,', 'the elf quickly builds a teddy bear?', 'Huh, everyone looks at it adoringly.', 'But then, {tname} looks in its cold,', 'dead,', 'apathetic', 'eyes,', 'and is very disturbed by it.'],
                        ['Using her elf skills,', 'the elf quickly builds a water gun and fires it at {tname}.', "Now they're cold, wet, and not very happy."],
-                       ['Using her elf skills,', 'the elf quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control abd is only a little panicked to see how much happened while he was in a trance.'],
+                       ['Using her elf skills,', 'the elf quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control and is only a little panicked to see how much happened while he was in a trance.'],
                        ['Using her elf skills,', 'the elf quickly builds a sticky hand and flings it at {tname}.'], [])
 
 santa = enemy('Santa Claus', 120, 130, 10, [blast, intimidation], [], [], [])
@@ -356,7 +368,6 @@ present_ally = attack('present', 'Present', '', 0, 20, True, False,
                        ['Using her elf skills,', 'Pepper quickly builds a sticky hand and flings it at {tname}.'], [])
 
 pepper = ally('Pepper', 80, 100, 25, [beam_ally, present_ally], [])
-
 
 # ------------------------------------------------- Spec. Ops. Elves -------------------------------------------------
 present_enemy = attack('present', 'Present', '', 0, 20, True, False,
