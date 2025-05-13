@@ -7,8 +7,8 @@ def test_enemy_decision_tree(enemy):
     status_ability_list = getattr(enemy, "abilities", [])
     healing_ability_list = getattr(enemy, "heals", [])
 
-    enemy_team = enemies
-    player_team = allies
+    enemy_team = all_enemies
+    player_team = all_allies
 
     decision_list = ["attack", "ability", "heal"]
 

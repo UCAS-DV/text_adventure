@@ -152,13 +152,26 @@ present_item = item(name='Present',item_description='Tragically, Jackson Spook n
                                      'The horror game is kinda mediocre but your gameplay is so horrendous that it stresses everyone out.', 'Seriously, I have never seen someone suck at a video game so much.',
                                      'Like, if life was a video game,', "you wouldn't have gotten past 3.", "Thank goodness that this is all real and life isn't a video game."],
                  offensive=True, multi=True, ability=[])
+
+
 spookyland_item = item('Bagged Goldfish', "There's something off about this goldfish...", -50, -5, True, True, [],
                        ['For some reason you decide to use your goldfish you got from the carnival.', "You untie the bag, allowing the goldfish to see air.", 'The goldfish turns to your enemies and tells such a horrifying,',
                         'disturbing,', 'absolutely petrifying truth that no one can recover from.', 'The truth is so terrible that they actually suffer a heart attack for a brief moment as their heart stops from the shock.'])
+
+
 patriotism = item('Block of Patriotism', 'A block of pure, unfiltered patriotism.', 50, 50, False, True, [], 
                   ['Harnessing the power of our forefathers,', 'of our great EMUSA,', 'you feel a sudden bout of patriotism flow through your veins.', '"Raaaaah, may the EMUSA last centuries longer!" says Mr. Skellybones',
                    '"Yeah! May the EMUSA shine brighter than the brightest stars!"', '"I have not felt this proud of anything before!"', '"Not even the glorious North Pole" says Pepper.', 'You nod proudly.', 'We have a country to save,', 'and nothing is stopping us.'])
-
+alien_cat = item(
+    name="Alien Cat",
+    item_description="A purring space creature that hums at 432Hz and occasionally phases through walls.",
+    hp=-5,
+    nerves=-10,
+    offensive=False,
+    multi=False,
+    ability=[],
+    action_description=["The Alien Cat climbs onto your head and purrs", "You feel your neurons realign."]
+    )
 # ------------------------------------------------- Player Moves -------------------------------------------------
 kickflip = attack('sin_off', 'Kickflip', 'Wow everyone with a radical kickflip!', 15, 0, True, False, 
                   ['You run up and do the most rad', 'tubular', 'fresh', 'kickflip on {tname} the world has ever seen.'], 
