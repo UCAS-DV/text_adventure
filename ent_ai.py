@@ -1,7 +1,7 @@
 from game_assets import *
 import random
 
-def test_enemy_decision_tree(enemy):
+def enemy_decision_tree(enemy):
     # Extract attack types using getattr
     attack_list = getattr(enemy, "attacks", [])
     status_ability_list = getattr(enemy, "abilities", [])
@@ -97,7 +97,7 @@ shield_up = attack("shield_up", "Shield Up", "Raises a shield to reduce incoming
                    "perfect defense!", "raises a shield.", "shield slips!", "drops the shield!", 2)
 
 # Function call
-print(test_enemy_decision_tree(player))
+# print(test_enemy_decision_tree(player))
 
 
 

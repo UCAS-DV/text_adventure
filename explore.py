@@ -2,6 +2,7 @@ from game_assets import *
 from battle import battle
 from save_load import player_data
 from save_load import save_game
+from save_load import load_game
 from dialogue_reader import *
 from helper_funcs import inq_select
 
@@ -80,7 +81,7 @@ main_locations = [
         },
         "boss": None,
         "ally": zeep_vorp_ally,
-        "encounter": None
+        "encounter": {'position': None}
     },
     {
         "name": "North Pole",
@@ -130,13 +131,10 @@ def add_to_inventory(item):
    player_data['inventory'].append(item)
 
 def local_encounter(encounter):
-   return battle(player_data['allies'], encounter.enemies, encounter.opening, encounter.closing, player_data['inventory'])
+   return battle(load_game()['allies'], encounter.enemies, encounter.opening, encounter.closing, load_game()['inventory'])
 
 def explore(location, index):
     # Go through all main locations
-
-    player_data['location'] = index 
-    save_game(player_data)
 
     print(f"\n== Entering {location['name']} ==")
 
@@ -156,9 +154,9 @@ def explore(location, index):
 
             selected = location["mini_locations"][int(choice) - 1]
         else:
-            options = location['mini_locations'] + 'Exit'
+            options = location['mini_locations'] + ['Exit']
             
-            choice = inq_select('Which place would you like to go?', options)
+            choice = inq_select('Which place would you like to go?', *options)
 
             try:
                 selected = location["mini_locations"][int(choice) - 1]
@@ -181,6 +179,8 @@ def explore(location, index):
         # IF at NPC location, read NPC dialogue
         if choice == location['npc']['position']:
             read_dialogue(location['npc']['dialogue'])
+            if location['boss'] == None:
+                boss_victory = True
 
         # IF at encounter location, enter encounter
         if location['encounter']['position'] != None:
@@ -205,13 +205,7 @@ def explore(location, index):
             print(f"{location['ally'].name} has joined your team!")
             player_data['allies'].append(location["ally"])
 
-    else:
-        # If ally is gained from exploring only
-        if location["ally"] and location["ally"] not in player_data['allies']:
-            print(f"You’ve found {location['ally']} while exploring!")
-            player_data['allies'].append(location["ally"])
-
+    player_data['location'] = index + 1
+    save_game(player_data)
         
-
-
-# explore(main_locations[0])
+# explore(main_locations[1], 1)

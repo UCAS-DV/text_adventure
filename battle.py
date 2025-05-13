@@ -31,7 +31,7 @@ import game_assets
 import random
 from ent_ai import enemy_decision_tree
 import os
-import effects
+# import effects
 
 # Rolls random multipler based off of nerves
 def roll_nerves(nerves, attack, target):
@@ -98,7 +98,7 @@ def attack_them(att, dealer, targets, nerves):
             print(f'{dealer.name} removed {discomfort} nerves from {target.name}!')
 
         # Apply the effect
-        effects.apply(att.ability, target)
+        #effects.apply(att.ability, target)
 
 # Formats items so it can be used in UI
 def format(unformatted_list):
