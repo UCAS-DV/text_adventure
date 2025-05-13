@@ -4,6 +4,33 @@ import game_assets
 import random
 from ent_ai import enemy_decision_tree
 import os
+
+# Rolls random multipler based off of nerves
+def roll_nerves(nerves, attack, target):
+
+    roll = random.randint(1,100)
+
+    if roll < nerves * 0.1:
+        read_description(attack.super_success + [f'{attack.name} was super successful!'], target)
+        return 1.5
+    elif roll < nerves:
+       read_description(attack.success + [f'{attack.name} was successful!'], target)
+       return 1
+        
+    if roll > nerves * 1.5:
+        read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
+        return 0
+    elif roll > nerves:
+        read_description(attack.fail + [f'{attack.name} was a ineffective!'], target)
+        return 0.5
+
+# Attacks target   
+from dialogue_reader import *
+from helper_funcs import inq_select
+import game_assets
+import random
+from ent_ai import enemy_decision_tree
+import os
 import effects
 
 # Rolls random multipler based off of nerves
@@ -40,12 +67,6 @@ def attack_them(att, dealer, targets, nerves):
     discomfort *= nerve_multiplier
 
     for target in targets:
-        # Apply effects if applicable
-        if 'blinded' in target.effects:
-            dmg *= 1.5
-        if 'shielded' in target.effects:
-            dmg *= 0.75
-
         dmg = round(dmg)
         target.hp -= dmg
 
@@ -75,6 +96,9 @@ def attack_them(att, dealer, targets, nerves):
             print(f'{dealer.name} gave {target.name} {-discomfort} nerves!')
         elif discomfort > 0:
             print(f'{dealer.name} removed {discomfort} nerves from {target.name}!')
+
+        # Apply the effect
+        effects.apply(att.ability, target)
 
 # Formats items so it can be used in UI
 def format(unformatted_list):
@@ -124,7 +148,7 @@ def use_item(item, allies, enemies):
                 
                 break
             else:
-
+                
                 # Print out all enemy info and have user select enemy
                 enemy_info = format(enemies)
 
@@ -139,7 +163,7 @@ def use_item(item, allies, enemies):
 
                 read_description(item.a_desc, target)
 
-                # effects.Apply Effects
+                # Apply Effects
                 enemy_selected.hp += item.hp
                 enemy_selected.nerves += item.nerves
 
@@ -152,7 +176,7 @@ def use_item(item, allies, enemies):
         else:
             # IF item affects multiple allies
             if item.multi:
-
+                
                 # Applies effects to all allies
                 for ally in allies:  
                     ally.hp += item.hp
@@ -166,7 +190,7 @@ def use_item(item, allies, enemies):
 
                 break
             else:
-
+                
                 # Print out all enemy info and have user select enemy
                 ally_info = format(allies)
                 ally_selected = choose('Which ally would you like to select? ', allies)
@@ -177,7 +201,7 @@ def use_item(item, allies, enemies):
                 target = ally_selected
                 allies.remove(ally_selected)
 
-                # effects.Apply Effects
+                # Apply Effects
                 ally_selected.hp += item.hp
                 ally_selected.nerves += item.nerves
 
@@ -196,16 +220,13 @@ def battle(allies, enemies, opening, closing, inventory):
     read_dialogue(opening)
 
     saved_inventory = inventory
+    print(saved_inventory)
 
     turn = 0
-    effects.turn = turn
-
     battle_ended = False
     victory = False
 
     while not battle_ended:
-
-        effects.track(allies + enemies)
         
         # Checks if every ally has been knocked down
         lost = True
@@ -236,7 +257,7 @@ def battle(allies, enemies, opening, closing, inventory):
             break
 
         if won:
-
+            
             # Resets allied stats
             for ally in allies:
                 ally.hp = ally.max_hp
@@ -245,7 +266,7 @@ def battle(allies, enemies, opening, closing, inventory):
             victory = True
             battle_ended = True
             break
-
+        
         # IF player's turn
         if turn % 2 == 0:
 
@@ -268,7 +289,7 @@ def battle(allies, enemies, opening, closing, inventory):
                                 print(ally)
                             for enemy in enemies:
                                 print(enemy)
-                
+
                 # Attacks
                 case 2:
 
@@ -281,9 +302,9 @@ def battle(allies, enemies, opening, closing, inventory):
                     # IF ally is not downed
                     if ally_selected.hp > 0:
 
-                        combined_attacks = ally_selected.attacks + ally_selected.abilities + ally_selected.heals
-                        attack_selected = choose('Which attack would you like to select? ', combined_attacks)
-
+                        attack_info = format(ally_selected.attacks)
+                        attack_selected = choose('Which attack would you like to select? ', ally_selected.attacks)
+                        
                         if attack_selected == 'Back':
                             continue
 
@@ -340,24 +361,23 @@ def battle(allies, enemies, opening, closing, inventory):
                 # Use Item
                 case 3:
 
-                    item_info = format(inventory)
+                    item_info = format(saved_inventory)
 
-                    item_selected = choose('Which item would you like to select? ', inventory)
+                    item_selected = choose('Which item would you like to select? ', saved_inventory)
 
                     if item_selected == 'Back':
                         continue
                     
                     allies, enemies = use_item(item_selected, allies, enemies)
-                    inventory.remove(item_selected)
+                    saved_inventory.remove(item_selected)
 
                     turn += 1
+
+            input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
                 
 
         # Enemy Turn (Amber)
         else:
-            
-            
-            input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
 
             while True:
                 dealing_enemy = select_random(enemies)
@@ -375,7 +395,7 @@ def battle(allies, enemies, opening, closing, inventory):
                     break
 
 
-            input(f'{dealing_enemy.name} is taking the turn!')
+            
 
             attack = enemy_decision_tree(dealing_enemy, enemies, allies, dealing_enemy.attacks, dealing_enemy.abilities, dealing_enemy.heals)
             
@@ -391,19 +411,21 @@ def battle(allies, enemies, opening, closing, inventory):
                     continue
 
             if not attack.multi:
+                input(f'{dealing_enemy.name} is taking the turn!')
                 attack_them(attack, dealing_enemy, [enemy_target], dealing_enemy.nerves)
             else:
                 if attack.offensive:
+                    input(f'{dealing_enemy.name} is taking the turn!')
                     attack_them(attack, dealing_enemy, allies, dealing_enemy.nerves)
                 else:
+                    input(f'{dealing_enemy.name} is taking the turn!')
                     attack_them(attack, dealing_enemy, enemies, dealing_enemy.nerves)
 
             turn += 1
 
-    
     if victory:
         read_dialogue(closing)
+        return victory, saved_inventory
     else:
-        inventory = saved_inventory
-
-    return victory, inventory
+        print(saved_inventory)
+        return victory, inventory

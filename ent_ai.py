@@ -1,4 +1,4 @@
-import game_assets
+from game_assets import *
 import random
 
 def test_enemy_decision_tree(enemy):
@@ -97,7 +97,7 @@ shield_up = attack("shield_up", "Shield Up", "Raises a shield to reduce incoming
                    "perfect defense!", "raises a shield.", "shield slips!", "drops the shield!", 2)
 
 # Function call
-print(test_enemy_decision_tree(game_assets.player))
+print(test_enemy_decision_tree(player))
 
 
 

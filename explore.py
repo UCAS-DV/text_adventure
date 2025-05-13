@@ -103,7 +103,7 @@ def explore(location, index):
 
             selected = location["mini_locations"][int(choice) - 1]
         else:
-            options = location['mini_locations'] + 'Exit'
+            options = [*location['mini_locations'], 'Exit']
             
             choice = inq_select('Which place would you like to go?', options)
 
