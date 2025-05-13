@@ -10,6 +10,9 @@ class enemy:
         self.min_nerves = min_nerves
 
         self.attacks = attacks
+        self.abilities = abilities
+        self.heals = healing_abilities
+
         self.effects = effects
         self.abilities = abilities 
         self.heals = heals
@@ -113,6 +116,8 @@ all_allies = enemy('All enemies', 0, 0, 0, [], [], [], [])
 # ------------------------------------------------- Testing Assets Start ------------------------------------------------
 test_enemy_attack = attack('sin_off', 'Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 test_ally_attack = attack('sin_off', 'Test Attack 2', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
+falcon_punch = attack('heal', 'FALCON PUNCH', 'An attack for testing', 2000, 2000, True, False, ['0'], ['1'], ['2'], ['3'],[])
+resign = attack('heal', 'resign', 'An attack for testing', 2000, 2000, False, False, ['0'], ['1'], ['2'], ['3'],[])
 
 sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=-20, nerves=-20,
                  action_description=['This is an item.', 'It is being used.'],
@@ -128,6 +133,7 @@ mult_self_item = item(name='Item 4',item_description='An item made for testing!'
                  offensive=False, multi=True, ability=[])
 
 test_inventory = [sin_off_item, mult_off_item, sin_self_item, mult_self_item]
+test_attacks = [test_ally_attack, falcon_punch, resign]
 
 test_enemy = enemy(name='Test Enemy',
                    max_hp=50, max_nerves=100, min_nerves=10,
@@ -172,7 +178,7 @@ pessimism = attack('attack', 'Terrible Pessimism', '', 0, 10, True, False,
                  ["I'm going to be honest, I don't think we, an unpaid intern and a voice in that intern's head can save America like Madam Vice President wants us to."],
                  ['I believe that you will make a mistake at some point in time!', 'Take that!'],
                  ["I have so many negative things to say but what's even the point of sharing them?", 'Does it even matter?'],[])
-pep_talk = attack('single_heal', 'Pep Talk', "Fear can't beat out the power of a good pep talk!", -10, -10, False, False, 
+pep_talk_boss = attack('single_heal', 'Pep Talk', "Fear can't beat out the power of a good pep talk!", -10, -10, False, False, 
                       ['I give myself such an incredible, rousing self pep talk that even you feel a little inspired.', 'Wow, I should really pursue public speaking!', "You know, I think I might do so!", 'Yeah...', 'wait,', 'the only person who can hear me is you.', '...', 'Ow.'],
                      ['I give myself a pep talk and feel inspired by my own words.'], 
                      ["You know...", 'I am so happy that the only person who can hear me is you.'], 
@@ -206,7 +212,7 @@ def level_up():
         ally.min_nerves += 5 
 
 #if victory:
-    #level_up()
+    #level_up(
 
     #for ally_char in allies:
        # print(ally_char)
