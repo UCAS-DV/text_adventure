@@ -2,17 +2,41 @@ from InquirerPy import inquirer
 from dialogue_reader import read_dialogue
 from battle import battle
 from game_assets import *
-import save_load
+from save_load import *
 from explore import *
 
 def start_game():
-    read_dialogue('Dialogue\opening_cutscene.txt')
-    battle(save_load.player_data['allies'], [viyh], 'Dialogue/tutorial1.txt', 'Dialogue/viyh_closing.txt', save_load.player_data['inventory'])
+    read_dialogue('Dialogue\opening\opening_cutscene.txt')
+    battle(player_data['allies'], [viyh], 'Dialogue/opening/tutorial1.txt', 'Dialogue/opening/viyh_outro.txt', player_data['inventory'])
     explore(main_locations[0], 0)
-    save_load.player_data['allies'].append(zeep_vorp_ally)
+    explore(main_locations[1], 1)
     explore(main_locations[2], 2)
     player_data['allies'] = [player, skellybones_ally, pepper]
     explore(main_locations[3], 3)
+
+def load_game_main():
+    player_data = load_game()
+    print(player_data)
+
+    match int(player_data['location']):
+        case 0:
+            explore(main_locations[0], 0)
+            explore(main_locations[1], 1)
+            explore(main_locations[2], 2)
+            player_data['allies'] = [player, skellybones_ally, pepper]
+            explore(main_locations[3], 3)
+        case 1:
+            explore(main_locations[1], 1)
+            explore(main_locations[2], 2)
+            player_data['allies'] = [player, skellybones_ally, pepper]
+            explore(main_locations[3], 3)
+        case 2:
+            explore(main_locations[2], 2)
+            player_data['allies'] = [player, skellybones_ally, pepper]
+            explore(main_locations[3], 3)
+        case 3:
+            player_data['allies'] = [player, skellybones_ally, pepper]
+            explore(main_locations[3], 3)
 
 def main():
     game_title = "Quest For The Country!"
@@ -30,6 +54,8 @@ def main():
         match choice:
             case 1:
                 start_game()
+            case 2:
+                load_game_main()
 
         input("\nPress Enter to return to the main menu...")
 
