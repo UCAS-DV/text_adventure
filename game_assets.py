@@ -147,17 +147,31 @@ test_ally = ally(name='Test Ally',
               attacks=[test_ally_attack],effects=[])
 
 # ------------------------------------------------- Items -------------------------------------------------
-present_item = item(name='Present',item_description='Tragically, Jackson Spook never got his present in 2017. So sad.',hp=5, nerves=50,
+present_item = item(name='Present',item_description='Tragically, Jackson Spook never got his present in 2017. So sad.',hp=-5, nerves=-50,
                  action_description=['You pull out the present you got from earlier.', 'You open it to see a gaming console packed with a horror game.', 'You open it and hook it up to a nearby TV.',
                                      'The horror game is kinda mediocre but your gameplay is so horrendous that it stresses everyone out.', 'Seriously, I have never seen someone suck at a video game so much.',
                                      'Like, if life was a video game,', "you wouldn't have gotten past 3.", "Thank goodness that this is all real and life isn't a video game."],
                  offensive=True, multi=True, ability=[])
-spookyland_item = item('Bagged Goldfish', "There's something off about this goldfish...", 50, 5, True, True, [],
+
+
+spookyland_item = item('Bagged Goldfish', "There's something off about this goldfish...", -50, -5, True, True, [],
                        ['For some reason you decide to use your goldfish you got from the carnival.', "You untie the bag, allowing the goldfish to see air.", 'The goldfish turns to your enemies and tells such a horrifying,',
                         'disturbing,', 'absolutely petrifying truth that no one can recover from.', 'The truth is so terrible that they actually suffer a heart attack for a brief moment as their heart stops from the shock.'])
-patriotism = item('Block of Patriotism', 'A block of pure, unfiltered patriotism.', -50, -50, False, True, [], 
+
+
+patriotism = item('Block of Patriotism', 'A block of pure, unfiltered patriotism.', 50, 50, False, True, [], 
                   ['Harnessing the power of our forefathers,', 'of our great EMUSA,', 'you feel a sudden bout of patriotism flow through your veins.', '"Raaaaah, may the EMUSA last centuries longer!" says Mr. Skellybones',
                    '"Yeah! May the EMUSA shine brighter than the brightest stars!"', '"I have not felt this proud of anything before!"', '"Not even the glorious North Pole" says Pepper.', 'You nod proudly.', 'We have a country to save,', 'and nothing is stopping us.'])
+alien_cat = item(
+    name="Alien Cat",
+    item_description="A purring space creature that hums at 432Hz and occasionally phases through walls.",
+    hp=-5,
+    nerves=-10,
+    offensive=False,
+    multi=False,
+    ability=[],
+    action_description=["The Alien Cat climbs onto your head and purrs", "You feel your neurons realign."]
+    )
 # ------------------------------------------------- Player Moves -------------------------------------------------
 kickflip = attack('sin_off', 'Kickflip', 'Wow everyone with a radical kickflip!', 15, 0, True, False, 
                   ['You run up and do the most rad', 'tubular', 'fresh', 'kickflip on {tname} the world has ever seen.'], 
@@ -182,7 +196,7 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
                  ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
                  ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
 
-debug_mode = False
+debug_mode = True
 
 if debug_mode:
     player_attacks = [kickflip, declaration, pep_talk, apple, falcon_punch, resign]
@@ -328,7 +342,7 @@ blast = attack('blast', 'Christmas MegaBlast', '', 20, 0, True, True,
                 'Completely blinding you in its brilliance.', 'Oh, classic Santa!'],
                 ['Santa attempts to harness his Christmas Spirit but it seems that the stress of preparing for Christmas has gotten to him.', 'His spirit is considerably weaker.'],
                 ['"Hohoho!"', '"I wanted to go this far as much as you but you leave me no choice"', '"CHRISTMAS"', '"SUPER"', '"BLA-"', 'His hat falls off his head, cancelling his attack',
-                '"Oh! Pardon me!"'], [])
+                '"Oh! Pardon me!"'], [1])
 intimidation = attack('intimidation', 'Intimidation', '', 0, 15, True, True,
                       ['Santa walks up to you and places a hand on your shoulder.', '"220 N 330 W, Amber Avenue."', 'He walks up to Zeep Vorp next', '"114.234.123.65"', 'Finally he approaches Mr. Skellybones.', '"(555) 245-5555"', '"Am I correct?"'],
                       ['Santa pulls out his naughty list and he writes a few names in it.', 'You and your team stress out, worried that he put your names on the list.'],
@@ -380,7 +394,7 @@ shine = attack('shine', 'Shine', '', 15, 0, True, True,
                ["Using their cybernetic implant they got after Rudolph's fabled night,", 'the reindeer shines their nose, partially blinding everyone.'],
                ["Using their cybernetic implant they got after Rudolph's fabled night,", 'the reindeer shines their nose, but the battery is dying.', "It shines brightly for just a split second but it doesn't do a lot of damage."],
                ["Using their cybernetic implant they got after Rudolph's fabled night,", 'the reindeer shines their nose, but it seems like the battery is dead.', 'It finds a pair of AA batteries just to find out that the implant needs AAA batterires.', 'It searches around the factory and eventually finds the batteries it needs.'],
-               ['blindness'])
+               [1])
 snowball = attack('snowball', 'Snow Ball', '', 25, 10, True, False,
                   ['The elf makes a perfectly spherical snowball using magically summoned snow.', 'It tosses it with perfect precision.'],
                   ['The elf makes a decently spherical snowball using magically summoned snow.', 'It tosses it with masterful precision.'],
@@ -412,7 +426,7 @@ hologram = attack('hologram', 'Hologram', '', 0, 20, True, False,
                   ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but he trips and can only activate one because he broke the other 43.'],
                   ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but it seems like he ran out of his free trial.', 'He spends a couple minutes trying to pay for Hologram+ and eventually he figures it out.', 'Sigh...', 'classic Zeep Vorp.'], [])
 
-zeep_vorp_enemy = enemy('Zeep Vorp', 150, 100, 30, [super_charge], [hologram], [replication])
+zeep_vorp_enemy = enemy('Zeep Vorp', 150, 100, 30, [super_charge], [hologram], [replication], [])
 
 zeep_vorp_fight = encounter(zeep_vorp_enemy, 'Dialogue\white_house\zeep_vorp_intro.txt', 'Dialogue\white_house\zeep_vorp_outro.txt')
 
@@ -424,4 +438,3 @@ zeep_vorp_fight = encounter(zeep_vorp_enemy, 'Dialogue\white_house\zeep_vorp_int
        # print(ally_char)
 #else:
     #'YOU LOST IDIOT!!!!!!!!'
-
