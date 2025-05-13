@@ -418,7 +418,7 @@ zeep_vorp_fight = encounter(zeep_vorp_enemy, 'Dialogue\white_house\zeep_vorp_int
 
 
 #if victory:
-    #level_up()
+    #level_up(
 
     #for ally_char in allies:
        # print(ally_char)
