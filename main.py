@@ -5,11 +5,14 @@ from game_assets import *
 import save_load
 from explore import *
 
-def start_game_boss_rush():
-    # battle(save_load.player_data['allies'], enemies, 'Dialogue/tutorial1.txt', 'Dialogue/test.txt', save_load.player_data['inventory'])
+def start_game():
+    read_dialogue('Dialogue\opening\opening_cutscene.txt')
+    battle([player], [viyh], 'Dialogue/opening/tutorial1.txt', 'Dialogue/opening/viyh_outro.txt', save_load.player_data['inventory'])
+    explore(main_locations[0], 0)
+    player_data['allies'].append(zeep_vorp_ally)
     explore(main_locations[2], 2)
-    # battle(save_load.player_data['allies'], [skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue/skellybones_outro.txt', save_load.player_data['inventory'])
-    #battle([player, skellybones_ally, zeep_vorp_ally], santa_fight.enemies, santa_fight.opening, santa_fight.closing, [sin_off_item, sin_self_item])
+    player_data['allies'] = [player, skellybones_ally, pepper]
+    explore(main_locations[3], 3)
 
 def main():
     game_title = "Quest For The Country!"
@@ -22,36 +25,12 @@ def main():
         print("=" * 60)
         print()  # Spacing
 
-        # Menu options
-        menu_options = [
-            " Start New Game",
-            " Load Game",
-            " Settings",
-            " Exit"
-        ]
+        choice = inq_select('Use the arrow keys and "Enter" to navigate the menus.', 'New Game', 'Load Game', 'Settings')
 
-        questions = [
-            inquirer.List(
-                "menu",
-                message="Use arrow keys to navigate and Enter to select:",
-                choices=menu_options,
-            )
-        ]
-
-        answer = inquirer.prompt(questions)["menu"]
-
-        # Handle choices replace the placeholder text with actual game startup logic 
-        if answer == " Start New Game":
-            start_game_boss_rush()
-        elif answer == " Load Game":
-            print("Loading game... (placeholder)")
-        elif answer == " Settings":  # Fixed the curly quotes here
-            print("Opening settings... (placeholder)")
-        elif answer == " Exit":
-            print("Exiting game. Goodbye!")
-            break
+        match choice:
+            case 1:
+                start_game()
 
         input("\nPress Enter to return to the main menu...")
 
-start_game_boss_rush()
-
+main()

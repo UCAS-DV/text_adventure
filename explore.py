@@ -20,12 +20,12 @@ main_locations = [
                             ['You enter the 87th Annual Spookyland Pumpkin Patch of the carnival!', 'Given that this is Spookyland, all of the pumpkins are alive!', '"Hey! Human!" says one of the pumpkin.', '"I can make you rich and famous!"',
                              '"Just you wait! I will be the greatest pumpkin the world has ever seen!"', '"I am going solve homelessness and poverty."', '"I am gonna be the greatest philanthropist."', 
                              'As you listen to the pumpkin, a skeleton with carving tools picks it up and takes it away.', '"Just you wait!" says the pumpkin.', "I don't think we're gonna see it again..."],
-                            ['You find a ring toss game without an operator.', "There's a sign reading:", '"To the no one who is playing this game. Just take a prize. I really do not care."', 'You shrug and take a prize.'],
+                            ['You find a ring toss game without an operator.', "There's a sign reading:", '"To the no one who is playing this game. Just take a prize. I really do not care."', 'You shrug and take a bagged goldfish.'],
                             [''],
                             ['']],
        "intro": 'Dialogue\spookyland_entrance.txt',
        "npc": {'dialogue': "Dialogue\carnival_skeleton.txt", 'position': 1},
-       "item": {'item': sin_off_item, 'position': 3},
+       "item": {'item': spookyland_item, 'position': 3},
        "boss": {'boss_encounter': skellybones_fight, 'position': 5},
        "ally": skellybones_ally,
        "encounter": {'fight': spooky_monsters_fight, 'position': 4},
@@ -52,19 +52,21 @@ main_locations = [
                             "He is right. You're about to deface the constitution, the most sacred document in all of the EMUSA, for an autograph.", 'Are you sure?', '...', 'You walk away with an autograph from Rudolph, the Red-Nosed Reindeer.']],
        'intro': 'Dialogue/north_pole/north_pole_intro.txt',
        "npc": {'dialogue': 'Dialogue/north_pole/mrs_claus.txt', 'position': 4},
-       "item": {'item': sin_self_item, 'position': 2},
+       "item": {'item': present_item, 'position': 2},
        "boss": {'boss_encounter': santa_fight, 'position': 1},
-       "ally": zeep_vorp_ally,
+       "ally": pepper,
        "encounter": {'fight': spec_ops_fight, 'position': 3},
    },
    {
        "name": "White House",
-       "mini_locations": ["Oval Office", "War Room", "Press Room", "Garden", "Lincoln Bedroom"],
-       "npcs": ["President", "Vice President"],
-       "item": "Block of Patriotism",
-       "boss": "Zeep Vorp",
+       "mini_locations": ["Oval Office", "War Room", "Press Room", "Garden"],
+       'mini_local_desc': [[''], ['You stumble into the War Room and notice a block of something on the table.', 'You take it out of curiosity.']],
+       'intro': 'Dialogue\white_house\white_house_intro.txt',
+       "npc": {'dialogue': 'Dialogue\white_house\president.txt', 'position': 1},
+       "item": {'item': patriotism, 'position': 2},
+       "boss": {'boss_encounter': zeep_vorp_fight, 'position': 4},
        "ally": None,
-       "encounter": None,
+       "encounter": {'position': None},
    }
 ]
 
@@ -79,8 +81,8 @@ def local_encounter(encounter):
 def explore(location, index):
     # Go through all main locations
 
-    #player_data['location'] = index 
-    #save_game(player_data)
+    player_data['location'] = index 
+    save_game(player_data)
 
     print(f"\n== Entering {location['name']} ==")
 
@@ -127,7 +129,7 @@ def explore(location, index):
             read_dialogue(location['npc']['dialogue'])
 
         # IF at encounter location, enter encounter
-        if location['encounter'] != None:
+        if location['encounter']['position'] != None:
             if choice == location['encounter']['position'] and victory == False:
                 victory, player_data['inventory'] = local_encounter(location["encounter"]['fight'])
                 
