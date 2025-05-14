@@ -7,7 +7,6 @@ import ent_ai
 import os
 import effects
 
-
 # Attacks target   
 def attack_them(att, dealer, targets, nerves):
 
@@ -42,8 +41,6 @@ def attack_them(att, dealer, targets, nerves):
     discomfort *= nerve_multiplier
 
     for target in targets:
-
-        print(target.effects)
 
         if 1 in target.effects:
             dmg *= 1.25
@@ -371,7 +368,6 @@ def battle(allies, enemies, opening, closing, inventory):
             if player_acted:
                 input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
                 
-
         # Enemy Turn (Amber)
         else:
 
@@ -389,9 +385,6 @@ def battle(allies, enemies, opening, closing, inventory):
 
                 if all_enemies_down:
                     break
-
-
-            
 
             attack = ent_ai.enemy_decision_tree(dealing_enemy)
             
