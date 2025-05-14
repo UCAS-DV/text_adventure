@@ -34,7 +34,7 @@ def track(characters):
             # Effect logic
             run_effect_logic(effect_id, char)
 
-            if key in timers and turn - timers[key] >= 2:
+            if key in timers and turn - timers[key] >= 4:
                 to_remove.append((char, effect_id))
 
     for char, effect_id in to_remove:

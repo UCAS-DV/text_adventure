@@ -417,7 +417,7 @@ present_enemy = attack('present', 'Present', '', 0, 20, True, False,
                        ['Using their elf skills,', "the elf quickly builds spring toy that's slightly bent to {tname}.", 'The disappointment stings.'],
                        ['Using their elf skills,', "the elf quicklu sews a nice jacket.", 'They make it a slightly off color so it looks ugly.', 'They give it to {tname}.', "It looks a little off but hey, it's the thought that counts.", 'Although the thought was actively malicious...'],
                        ['Using their elf skills,', 'the elf quickly makes some chocolate.', 'They make it dark choclate expecting {tname} to dislike it,', 'but since {tname} is a good person,', 'they enjoy it!',], [])
-shine = attack('shine', 'Shine', '', 15, 0, True, True,
+shine = attack('shine', 'Shine', '', 10, 0, True, True,
                ["Using their cybernetic implant they got after Rudolph's fabled night,", 'the reindeer shines their nose at max brightness, completely blinding everyone.'],
                ["Using their cybernetic implant they got after Rudolph's fabled night,", 'the reindeer shines their nose, partially blinding everyone.'],
                ["Using their cybernetic implant they got after Rudolph's fabled night,", 'the reindeer shines their nose, but the battery is dying.', "It shines brightly for just a split second but it doesn't do a lot of damage."],

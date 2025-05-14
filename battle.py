@@ -7,31 +7,13 @@ import ent_ai
 import os
 import effects
 
-
 # Attacks target   
 def attack_them(att, dealer, targets, nerves):
+
     if att.ability:
         for i in range(len(att.ability)):
             for j in range(len(targets)):
                 effects.apply(att.ability[i],targets[j])
-    # Rolls random multipler based off of nerves
-    def roll_nerves(nerves, attack, target):
-
-        roll = random.randint(1,100)
-
-        if roll < nerves * 0.1:
-            read_description(attack.super_success + [f'{attack.name} was super successful!'], target)
-            return 1.5
-        elif roll <= nerves:
-            read_description(attack.success + [f'{attack.name} was successful!'], target)
-            return 1
-        if roll > nerves * 1.5:
-            read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
-            return 0.001
-        elif roll > nerves:
-            read_description(attack.fail + [f'{attack.name} was a ineffective!'], target)
-            return 0.5
-
 
     # Rolls random multipler based off of nerves
     def roll_nerves(nerves, attack, target):
@@ -67,12 +49,27 @@ def attack_them(att, dealer, targets, nerves):
 
         # print(target.effects)
 
+        # Blindness deals 25% more damage
         if 1 in target.effects:
-            dmg *= 1.25
-            discomfort *= 1.25
+            if dmg > 0: 
+                dmg *= 1.25
+                dmg = round(dmg)
+                print(f'{target.name} took {dmg - round(dmg/1.25)} more damage due to blindness')
+            if discomfort > 0: 
+                discomfort *= 1.25
+                discomfort = round(discomfort)
+                print(f'{target.name} lost {discomfort - round(discomfort/1.25)} more nerves due to blindness')
+
+        # Shielded resists 25% of damage
         if 2 in target.effects:
-            dmg *= 0.75
-            discomfort *= 0.75
+            if dmg > 0: 
+                dmg *= 0.75
+                dmg = round(dmg)
+                print(f'{target.name} resisted {round(dmg / 0.75) - dmg} points of damage due to blindness')
+            if discomfort > 0: 
+                discomfort *= 0.75
+                discomfort = round(discomfort)
+                print(f'{target.name} resisted {round(discomfort / 0.75) - discomfort} points of nerve loss due to blindness')
 
         dmg = round(dmg)
         target.hp -= dmg
