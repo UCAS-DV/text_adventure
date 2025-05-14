@@ -7,12 +7,32 @@ import ent_ai
 import os
 import effects
 
-# Attacks targe
+
+# Attacks target   
 def attack_them(att, dealer, targets, nerves):
     if att.ability:
         for i in range(len(att.ability)):
             for j in range(len(targets)):
                 effects.apply(att.ability[i],targets[j])
+    # Rolls random multipler based off of nerves
+    def roll_nerves(nerves, attack, target):
+
+        roll = random.randint(1,100)
+
+        if roll < nerves * 0.1:
+            read_description(attack.super_success + [f'{attack.name} was super successful!'], target)
+            return 1.5
+        elif roll <= nerves:
+            read_description(attack.success + [f'{attack.name} was successful!'], target)
+            return 1
+        if roll > nerves * 1.5:
+            read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
+            return 0.001
+        elif roll > nerves:
+            read_description(attack.fail + [f'{attack.name} was a ineffective!'], target)
+            return 0.5
+
+
     # Rolls random multipler based off of nerves
     def roll_nerves(nerves, attack, target):
 
@@ -44,6 +64,8 @@ def attack_them(att, dealer, targets, nerves):
     discomfort *= nerve_multiplier
 
     for target in targets:
+
+        # print(target.effects)
 
         if 1 in target.effects:
             dmg *= 1.25

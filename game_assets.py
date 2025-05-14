@@ -254,7 +254,7 @@ viyh = enemy(name='The Voice In Your Head',
              attacks=[pessimism, yell], abilities=[], effects=[], heals=[pep_talk_boss])
 
 # ------------------------------------------------- Skellybones (Boss) -------------------------------------------------
-bone_blow_boss = attack('bone_blow', 'Funny Bone Blow', '', 20, 10, True, False,
+bone_blow_boss = attack('bone_blow', 'Funny Bone Blow', '', 20, 0, True, False,
                    ["With what you think is a deadpan expression", "(you can't really tell because he's just a faceless skeleton)", 
                     "He lightly taps your funny bone.", "You look at him confused but suddenly... what feels like a jolt of lightening traverses through your arm and-",
                     '...', '...', 'You good?', 'It seems like your brain was too focused on writhing in very unfunny pain to remember to conjure my existence.', "Uh, don't do that again.",
@@ -391,8 +391,8 @@ present_pepper = attack('present', 'Present', '', 0, 20, True, False,
                        ['Using her elf skills,', 'the elf quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control and is only a little panicked to see how much happened while he was in a trance.'],
                        ['Using her elf skills,', 'the elf quickly builds a sticky hand and flings it at {tname}.'], [])
 
-santa = enemy('Santa Claus', 120, 130, 10, [blast, intimidation], [], [], [])
-agent_elf = enemy('Special Agent Elf', 80, 100, 25, [beam_enemy, present_pepper], [], [], [])
+santa = enemy('Santa Claus', 120, 80, 10, [blast, intimidation], [], [], [])
+agent_elf = enemy('Special Agent Elf', 80, 100, 10, [beam_enemy, present_pepper], [], [], [])
 
 santa_fight = encounter([santa, agent_elf], 'Dialogue/north_pole/santa_intro.txt', 'Dialogue\skellybones_outro.txt')
 

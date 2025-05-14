@@ -60,9 +60,12 @@ main_locations = [
                 "This is either a simulation, or Thursday."
             ],
             [
-                "Containment Cell 7B is open. That's... not great.",
-                "Zeep is inside a hamster ball made of light. \"Zeeple zop, I am king now!\"",
-                "You bow, mostly out of fear. The lights blink Morse code for ‘run’."
+                "You open a containment chamber.",
+                "Inside is a small, glowing cat with antennae.",
+                "It hisses and transmits NPR directly into your brain.",
+                "Zeep Vorp appears. \"Blorp kitty zoom! Meeow-meeps!\"",
+                "You nod solemnly and take the cat.",
+                "It now owns you."
             ],
             [
                 "The Hover Pad is quiet—too quiet.",
@@ -128,7 +131,7 @@ main_locations = [
 # Placeholder inventory and allies system
 
 def add_to_inventory(item):
-   player_data['inventory'].append(item)
+   save_game({'location': load_game()['location'], 'allies': load_game()['allies'], 'inventory': load_game()['inventory'] + [item]})
 
 def local_encounter(encounter):
    return battle(load_game()['allies'], encounter.enemies, encounter.opening, encounter.closing, load_game()['inventory'])

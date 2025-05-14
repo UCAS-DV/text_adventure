@@ -7,6 +7,11 @@ from explore import *
 from extras import extras_main
 
 def start_game():
+    save_game({
+    "location": 0,
+    "allies": [player],
+    "inventory": []
+    })
     read_dialogue('Dialogue/opening/opening_cutscene.txt')
     battle(player_data['allies'], [viyh], 'Dialogue/opening/tutorial1.txt', 'Dialogue/opening/viyh_outro.txt', player_data['inventory'])
     explore(main_locations[0], 0)
@@ -50,7 +55,7 @@ def main():
         print("=" * 60)
         print()  # Spacing
 
-        choice = inq_select('Use the arrow keys and "Enter" to navigate the menus.', 'New Game', 'Load Game', 'extras')
+        choice = inq_select('Use the arrow keys and "Enter" to navigate the menus.', 'New Game', 'Load Game', 'Extras')
 
         match choice:
             case 1:
@@ -60,6 +65,5 @@ def main():
             case 3:
                 extras_main()
 
-        input("\nPress Enter to return to the main menu...")
 
 main()
