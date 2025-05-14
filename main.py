@@ -4,6 +4,7 @@ from battle import battle
 from game_assets import *
 from save_load import *
 from explore import *
+from extras import extras_main
 
 def start_game():
     read_dialogue('Dialogue/opening/opening_cutscene.txt')
@@ -49,13 +50,15 @@ def main():
         print("=" * 60)
         print()  # Spacing
 
-        choice = inq_select('Use the arrow keys and "Enter" to navigate the menus.', 'New Game', 'Load Game', 'Settings')
+        choice = inq_select('Use the arrow keys and "Enter" to navigate the menus.', 'New Game', 'Load Game', 'extras')
 
         match choice:
             case 1:
                 start_game()
             case 2:
                 load_game_main()
+            case 3:
+                print("WIP")
 
         input("\nPress Enter to return to the main menu...")
 
