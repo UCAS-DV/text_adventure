@@ -80,7 +80,7 @@ def load_game():
         if 'Block of Patriotism' in items:
             data['inventory'].append(patriotism)
 
-    #print(data)
+    #print(data
     return data
 
 def main_menu():
