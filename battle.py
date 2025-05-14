@@ -7,7 +7,7 @@ import ent_ai
 import os
 import effects
 
-# Attacks target   
+# Attacks targe
 def attack_them(att, dealer, targets, nerves):
     if att.ability:
         for i in range(len(att.ability)):
