@@ -247,7 +247,7 @@ def battle(allies, enemies, opening, closing, inventory):
         
         # IF player's turn
         if turn % 2 == 0:
-
+            player_acted = False
             match inq_select('Which action would you like to perform?', 'Check Stats', 'Attack', 'Use Item'):
 
                 # Check Stats
@@ -267,6 +267,7 @@ def battle(allies, enemies, opening, closing, inventory):
                                 print(ally)
                             for enemy in enemies:
                                 print(enemy)
+                    continue
 
                 # Attacks
                 case 2:
@@ -322,10 +323,12 @@ def battle(allies, enemies, opening, closing, inventory):
                             # Attack/Affect ALL targets depending if attack if offensive
                             if attack_selected.offensive:
                                 attack_them(attack_selected, ally_selected, enemies, ally_selected.nerves)
+                                player_acted = True
                                 turn += 1
                                 effects.turn = turn
                             else:
                                 attack_them(attack_selected, ally_selected, allies, ally_selected.nerves)
+                                player_acted = True
                                 turn += 1
                                 effects.turn = turn
 
@@ -335,6 +338,7 @@ def battle(allies, enemies, opening, closing, inventory):
 
                     if target != None:
                         if target.hp > 0:
+                            player_acted = True
                             turn += 1
                             effects.turn = turn
 
@@ -354,8 +358,8 @@ def battle(allies, enemies, opening, closing, inventory):
 
                     turn += 1
                     effects.turn = turn
-
-            input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
+            if player_acted:
+                input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
                 
 
         # Enemy Turn (Amber)
