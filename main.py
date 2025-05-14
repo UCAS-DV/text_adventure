@@ -6,8 +6,8 @@ import save_load
 from explore import *
 
 def start_game():
-    read_dialogue('Dialogue\opening_cutscene.txt')
-    battle(save_load.player_data['allies'], [viyh], 'Dialogue/tutorial1.txt', 'Dialogue/viyh_closing.txt', save_load.player_data['inventory'])
+    read_dialogue('Dialogue/opening/opening_cutscene.txt')
+    battle(save_load.player_data['allies'], [viyh], 'Dialogue/opening/tutorial1.txt', 'Dialogue/opening/viyh_outro.txt', save_load.player_data['inventory'])
     explore(main_locations[0], 0)
     save_load.player_data['allies'].append(zeep_vorp_ally)
     explore(main_locations[2], 2)
