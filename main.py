@@ -4,6 +4,7 @@ from battle import battle
 from game_assets import *
 from save_load import *
 from explore import *
+from extras import extras_main
 
 def start_game():
     save_game({
@@ -21,6 +22,7 @@ def start_game():
 
 def load_game_main():
     player_data = load_game()
+    #print(player_data)
 
     match int(player_data['location']):
         case 0:
@@ -53,13 +55,15 @@ def main():
         print("=" * 60)
         print()  # Spacing
 
-        choice = inq_select('Use the arrow keys and "Enter" to navigate the menus:', 'New Game', 'Load Game')
+        choice = inq_select('Use the arrow keys and "Enter" to navigate the menus.', 'New Game', 'Load Game', 'Extras')
 
         match choice:
             case 1:
                 start_game()
             case 2:
                 load_game_main()
+            case 3:
+                extras_main()
 
 
 main()

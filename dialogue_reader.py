@@ -1,3 +1,4 @@
+from helper_funcs import inq_select
 # Converts choosen dialogue file to a list of strings
 def read_dialogue_file(filepath):
     with open(filepath, 'r') as dialogue_file:
@@ -26,11 +27,11 @@ def read_dialogue(filepath):
 
             # Present dialogue options
             while True:
-                print(f'1. {decisions[1]}')
-                print(f'2. {decisions[2]}')
-                target_path = input('What do you want to do (Enter Number): ')
+                #print(f'1. {decisions[1]}')
+                #print(f'2. {decisions[2]}')
+                target_path = inq_select("which would you like to do?",decisions[1],decisions[2])
 
-                if target_path in ['1', '2']:
+                if target_path in [1, 2]:
                     break
 
 def read_description(description, target):
