@@ -69,7 +69,7 @@ def load_game():
         
         items = file.read().split(',')
 
-        print(items)
+        #print(items)
 
         if 'Present' in items:
             data['inventory'].append(present_item)
@@ -80,7 +80,7 @@ def load_game():
         if 'Block of Patriotism' in items:
             data['inventory'].append(patriotism)
 
-    print(data)
+    #print(data)
     return data
 
 def main_menu():

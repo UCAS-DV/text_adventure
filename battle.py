@@ -201,8 +201,8 @@ def use_item(item, allies, enemies):
 
 # Main battle function
 def battle(allies, enemies, opening, closing, inventory):
-    print(allies)
-    print(enemies)
+    #print(allies)
+    #print(enemies)
     ent_ai.ent_ai_allies = allies
     ent_ai.ent_ai_enemies = enemies
 

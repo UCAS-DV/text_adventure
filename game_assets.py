@@ -1,4 +1,4 @@
-debug_mode = True
+debug_mode = False
 
 class enemy:
     def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, abilities, effects, heals):

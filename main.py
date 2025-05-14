@@ -17,7 +17,7 @@ def start_game():
 
 def load_game_main():
     player_data = load_game()
-    print(player_data)
+    #print(player_data)
 
     match int(player_data['location']):
         case 0:
