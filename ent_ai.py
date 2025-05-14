@@ -5,7 +5,7 @@ ent_ai_enemies = []
 ent_ai_allies = []
 
 def enemy_decision_tree(enemy):
-    # Extract attack types using getattr
+    # Extract attack types using getatt
     attack_list = getattr(enemy, "attacks", [])
     status_ability_list = getattr(enemy, "abilities", [])
     healing_ability_list = getattr(enemy, "heals", [])

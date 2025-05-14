@@ -72,7 +72,7 @@ def attack_them(att, dealer, targets, nerves):
             print(f'{dealer.name} removed {discomfort} nerves from {target.name}!')
 
         # Apply the effect
-        effects.apply(att.ability, target)
+        #effects.apply(att.ability, target)
 
 # Formats items so it can be used in UI
 def format(unformatted_list):
