@@ -15,10 +15,11 @@ def inq_select(*args):
 
 # File to store saves
 SAVE_FILE = "save_file.csv"
+inventory_file = 'save_inventory.txt'
 
 # Empty player data (waiting to be loaded)
 player_data = {
-    "location": None,
+    "location": 1,
     "allies": [player],
     "inventory": []
 }
@@ -31,12 +32,21 @@ def save_game(data):
             data["location"],
             ";".join(str(len(data["allies"]))),
         ])
+
+    with open(inventory_file, mode='w', newline='') as file:
+        for item in data['inventory']:
+            file.write(f'{item.name},')
+
     print("\n Game saved successfully!\n")
 
 def load_game():
     if not os.path.exists(SAVE_FILE):
         print("\n No save file found.\n")
         return None
+
+    data = {'location': None,
+            'allies': [],
+            'inventory': []}
 
     with open(SAVE_FILE, mode="r") as file:
         reader = csv.DictReader(file)
@@ -52,12 +62,23 @@ def load_game():
                 case 3:
                     allies = [player, skellybones_ally, zeep_vorp_ally]
 
-            data = {'location': location,
-                    'allies': allies,
-                    'inventory': []}
+            data['location'] = location
+            data["allies"] = allies
 
-            return data
-    return None
+    with open(inventory_file, mode='r') as file:
+        
+        items = file.read().split(',')
+
+        if 'Present' in items:
+            data['inventory'].append(present_item)
+        if 'Bagged Goldfish' in items:
+            data['inventory'].append(spookyland_item)
+        if 'Alien Cat' in items:
+            data['inventory'].append(alien_cat)
+        if 'Block of Patriotism' in items:
+            data['inventory'].append(patriotism)
+            
+    return data
 
 def main_menu():
     while True:
@@ -77,7 +98,6 @@ def main_menu():
                 player_data.update(loaded_data)
         elif choice == 3:
             print("\n Current Player Data:")
-            print(f"Level: {player_data['level']}")
             print(f"Location: {player_data['location']}")
             print(f"Allies: {player_data['allies']}")
             print(f"Inventory: {player_data['inventory']}\n")

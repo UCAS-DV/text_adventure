@@ -2,6 +2,7 @@ from game_assets import *
 from battle import battle
 from save_load import player_data
 from save_load import save_game
+from save_load import load_game
 from dialogue_reader import *
 from helper_funcs import inq_select
 
@@ -27,8 +28,8 @@ main_locations = [
                              'You shrug and take a bagged goldfish.'],
                             [''],
                             ['']],
-        "intro": 'Dialogue\\spookyland_entrance.txt',
-        "npc": {'dialogue': "Dialogue\\carnival_skeleton.txt", 'position': 1},
+        "intro": 'Dialogue/spookyland_entrance.txt',
+        "npc": {'dialogue': "Dialogue/carnival_skeleton.txt", 'position': 1},
         "item": {'item': spookyland_item, 'position': 3},
         "boss": {'boss_encounter': skellybones_fight, 'position': 5},
         "ally": skellybones_ally,
@@ -59,9 +60,12 @@ main_locations = [
                 "This is either a simulation, or Thursday."
             ],
             [
-                "Containment Cell 7B is open. That's... not great.",
-                "Zeep is inside a hamster ball made of light. \"Zeeple zop, I am king now!\"",
-                "You bow, mostly out of fear. The lights blink Morse code for ‘run’."
+                "You open a containment chamber.",
+                "Inside is a small, glowing cat with antennae.",
+                "It hisses and transmits NPR directly into your brain.",
+                "Zeep Vorp appears. \"Blorp kitty zoom! Meeow-meeps!\"",
+                "You nod solemnly and take the cat.",
+                "It now owns you."
             ],
             [
                 "The Hover Pad is quiet—too quiet.",
@@ -80,7 +84,7 @@ main_locations = [
         },
         "boss": None,
         "ally": zeep_vorp_ally,
-        "encounter": None
+        "encounter": {'position': None}
     },
     {
         "name": "North Pole",
@@ -115,8 +119,8 @@ main_locations = [
         'mini_local_desc': [[''],
                             ['You stumble into the War Room and notice a block of something on the table.',
                              'You take it out of curiosity.']],
-        'intro': 'Dialogue\\white_house\\white_house_intro.txt',
-        "npc": {'dialogue': 'Dialogue\\white_house\\president.txt', 'position': 1},
+        'intro': 'Dialogue/white_house/white_house_intro.txt',
+        "npc": {'dialogue': 'Dialogue/white_house/president.txt', 'position': 1},
         "item": {'item': patriotism, 'position': 2},
         "boss": {'boss_encounter': zeep_vorp_fight, 'position': 4},
         "ally": None,
@@ -127,16 +131,13 @@ main_locations = [
 # Placeholder inventory and allies system
 
 def add_to_inventory(item):
-   player_data['inventory'].append(item)
+   save_game({'location': load_game()['location'], 'allies': load_game()['allies'], 'inventory': load_game()['inventory'] + [item]})
 
 def local_encounter(encounter):
-   return battle(player_data['allies'], encounter.enemies, encounter.opening, encounter.closing, player_data['inventory'])
+   return battle(load_game()['allies'], encounter.enemies, encounter.opening, encounter.closing, load_game()['inventory'])
 
 def explore(location, index):
     # Go through all main locations
-
-    player_data['location'] = index 
-    save_game(player_data)
 
     print(f"\n== Entering {location['name']} ==")
 
@@ -156,9 +157,9 @@ def explore(location, index):
 
             selected = location["mini_locations"][int(choice) - 1]
         else:
-            options = location['mini_locations'] + 'Exit'
+            options = location['mini_locations'] + ['Exit']
             
-            choice = inq_select('Which place would you like to go?', options)
+            choice = inq_select('Which place would you like to go?', *options)
 
             try:
                 selected = location["mini_locations"][int(choice) - 1]
@@ -181,6 +182,8 @@ def explore(location, index):
         # IF at NPC location, read NPC dialogue
         if choice == location['npc']['position']:
             read_dialogue(location['npc']['dialogue'])
+            if location['boss'] == None:
+                boss_victory = True
 
         # IF at encounter location, enter encounter
         if location['encounter']['position'] != None:
@@ -205,12 +208,12 @@ def explore(location, index):
             print(f"{location['ally'].name} has joined your team!")
             player_data['allies'].append(location["ally"])
 
-    else:
-        # If ally is gained from exploring only
-        if location["ally"] and location["ally"] not in player_data['allies']:
-            print(f"You’ve found {location['ally']} while exploring!")
-            player_data['allies'].append(location["ally"])
-
+    player_data['location'] = index + 1
+    save_game(player_data)
         
+<<<<<<< HEAD
 
 # explore(main_locations[0])
+=======
+# explore(main_locations[1], 1)
+>>>>>>> 1211fe944ee08a636b9e17e41af661ecefadf409

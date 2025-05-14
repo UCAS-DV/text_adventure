@@ -1,5 +1,5 @@
 class enemy:
-    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, abilities, healing_abilities, effects):
+    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, abilities, effects, heals):
         self.name = name
 
         self.max_hp = max_hp
@@ -11,20 +11,26 @@ class enemy:
 
         self.attacks = attacks
         self.abilities = abilities
-        self.heals = healing_abilities
-
         self.effects = effects
+        self.heals = heals
 
     def __str__(self):
         stats = f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
 
-        for effect in self.effects:
-            stats += f'\n{effect.capitalize()}'
+
+        if 2 in self.effects:
+            stats += f'    Shielded - 25% damage resistance'
+
+        if 2 in self.effects:
+            stats += f'    Blinded - 25% damage vulnerability'
+
+        if 3 in self.effects:
+            stats += f'    Terrified - Loses 10 nerves per turn'
 
         return stats
 
 class ally:
-    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, effects):
+    def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, abilities, effects, heals):
         self.name = name
 
         self.max_hp = max_hp
@@ -35,13 +41,15 @@ class ally:
         self.min_nerves = min_nerves
 
         self.attacks = attacks
+        self.abilities = abilities
         self.effects = effects
+        self.heals = heals
 
     def __str__(self):
         stats = f'-~-~-~-~-{self.name}-~-~-~-~-\nHP: {self.hp}/{self.max_hp}\nNerves: {self.nerves}/{self.max_nerves}\nMinimum Nerves: {self.min_nerves}'
 
-        for effect in self.effects:
-            stats += f'\n{effect.capitalize()}'
+        #for effect in self.effects:
+            #stats += f'\n{effect.capitalize()}'
 
         return stats
 
@@ -68,16 +76,24 @@ class attack:
     def __str__(self):
         # Affects single enemy
         if self.offensive and not self.multi:
-            return f'{self.name}:\n    {self.desc}\n    Damage: {self.hp}\n    Nerves: {self.nerves}\n    Target: Enemy'
+            string = f'{self.name}:\n    {self.desc}\n    Damage: {self.hp}\n    Nerves: {self.nerves}\n    Target: Enemy'
         # Affects multiple enemies
         elif self.offensive and self.multi:
-            return f'{self.name}:\n    {self.desc}\n    Damage: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Enemies'
+            string = f'{self.name}:\n    {self.desc}\n    Damage: {self.hp}\n    Nerves: {self.nerves}\n    Target: All Enemies'
         # Affects single ally
         elif not self.offensive and not self.multi:
-            return f'{self.name}:\n    {self.desc}\n    HP Gained: {-self.hp}\n    Nerves: {-self.nerves}\n    Target: Ally'
+            string = f'{self.name}:\n    {self.desc}\n    HP Gained: {-self.hp}\n    Nerves: {-self.nerves}\n    Target: Ally'
         # Affects multiple allies
         elif not self.offensive and self.multi:
-            return f'{self.name}:\n    {self.desc}\n    HP Gained: {-self.hp}\n    Nerves: {-self.nerves}\n    Target: All Allies'
+            string = f'{self.name}:\n    {self.desc}\n    HP Gained: {-self.hp}\n    Nerves: {-self.nerves}\n    Target: All Allies'
+
+        if 2 in self.ability:
+            string += f'\n    Applies Shielded which applies a 25% damage resistance.'
+
+        if 3 in self.ability:
+            string += f'\n    Applies Terrified which takes 10 nerves each turn.'
+
+        return string
 
 class item:
     def __init__(self, name, item_description, hp, nerves, offensive, multi, ability, action_description):
@@ -114,7 +130,7 @@ class encounter:
         
 
 all_enemies = enemy('All enemies', 0, 0, 0, [], [], [], [])
-all_allies = enemy('All enemies', 0, 0, 0, [], [], [], [])
+all_allies = ally('All enemies', 0, 0, 0, [], [], [], [])
 
 # ------------------------------------------------- Testing Assets Start ------------------------------------------------
 test_enemy_attack = attack('sin_off', 'Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
@@ -140,11 +156,11 @@ test_attacks = [test_ally_attack, falcon_punch, resign]
 
 test_enemy = enemy(name='Test Enemy',
                    max_hp=50, max_nerves=100, min_nerves=10,
-                   attacks=[test_enemy_attack],abilities=[],healing_abilities=[],effects=[])
+                   attacks=[test_enemy_attack],abilities=[],effects=[],heals=[])
 
 test_ally = ally(name='Test Ally', 
               max_hp=100, max_nerves=100, min_nerves=10, 
-              attacks=[test_ally_attack],effects=[])
+              attacks=[test_ally_attack],abilities=[],effects=[],heals=[])
 
 # ------------------------------------------------- Items -------------------------------------------------
 present_item = item(name='Present',item_description='Tragically, Jackson Spook never got his present in 2017. So sad.',hp=-5, nerves=-50,
@@ -196,21 +212,24 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
                  ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
                  ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
 
-debug_mode = True
-
-if debug_mode:
-    player_attacks = [kickflip, declaration, pep_talk, apple, falcon_punch, resign]
-else:
-    player_attacks = [kickflip, declaration, pep_talk, apple]
+debug_mode = False
 
 player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 
-              attacks=player_attacks,effects=[])
+              attacks=[kickflip, declaration],abilities=[],effects=[],heals=[pep_talk, apple])
 
-def load_player():
-    player = ally(name='Unpaid Intern', 
+def load_player(player_ally):
+
+    if debug_mode:
+        player_attacks = [kickflip, declaration, falcon_punch, resign]
+    else:
+        player_attacks = [kickflip, declaration]
+
+    player_ally = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 
-              attacks=player_attacks,effects=[])
+              attacks=player_attacks,abilities=[], effects=[],heals=[pep_talk, apple])
+    
+    return player_ally
 
 # ------------------------------------------------- VIYH Moves -------------------------------------------------
 pessimism = attack('pessimism', 'Terrible Pessimism', '', 0, 10, True, False,
@@ -231,10 +250,10 @@ yell = attack('yell', 'Unbearable Yell', '', 10, 5, True, False,
 
 viyh = enemy(name='The Voice In Your Head', 
              max_hp=50, max_nerves=100, min_nerves=10, 
-             attacks=[pessimism, yell], abilities=[], healing_abilities=[pep_talk_boss], effects=[])
+             attacks=[pessimism, yell], abilities=[], effects=[], heals=[pep_talk_boss])
 
 # ------------------------------------------------- Skellybones (Boss) -------------------------------------------------
-bone_blow_boss = attack('bone_blow', 'Funny Bone Blow', '', 20, 10, True, False,
+bone_blow_boss = attack('bone_blow', 'Funny Bone Blow', '', 20, 0, True, False,
                    ["With what you think is a deadpan expression", "(you can't really tell because he's just a faceless skeleton)", 
                     "He lightly taps your funny bone.", "You look at him confused but suddenly... what feels like a jolt of lightening traverses through your arm and-",
                     '...', '...', 'You good?', 'It seems like your brain was too focused on writhing in very unfunny pain to remember to conjure my existence.', "Uh, don't do that again.",
@@ -256,10 +275,10 @@ truth_enemy = attack('truth', 'Disturbing Truth', '', 0, 20, True, False,
                      ['"Raaaah. 2017 was 8 years ago."', 'You feel disturbed.'],
                      ['"Raaaah. Some people are poor."', 'You feel a little bummed out.'],
                      ['Mr. Skellybones tries to disturb you but it ended up being such a blatant truth that you feel nothing.', 'You look at him with a deadpan expression.', 
-                     'He feels a little embarressed.'], [])
+                     'He feels a little embarressed.'], [3])
 
 skellybones_boss = enemy('Mr. Skellybones', 70, 100, 10,
-                    [bone_blow_boss, truth_enemy], [], [got_milk_enemy], [])
+                    [bone_blow_boss, truth_enemy], [], [], [got_milk_enemy])
 
 skellybones_fight = encounter([skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue\skellybones_outro.txt')
 
@@ -284,10 +303,10 @@ truth_ally = attack('truth', 'Disturbing Truth', "Freak your opponents out with 
                      ['"Raaaah. 2017 was 8 years ago."', 'Everyone feels disturbed.'],
                      ['"Raaaah. Some people are poor."', 'Your enemies feels a little bummed out.'],
                      ['Mr. Skellybones tries to disturb your enemies but it ended up being such a blatant truth that they feel nothing.', 'Everyone looks at him with a deadpan expression.', 
-                     'He feels a little embarressed.'], [])
+                     'He feels a little embarressed.'], [3])
 
 skellybones_ally = ally('Mr. Skellybones', 70, 100, 10,
-                    [bone_blow_ally, got_milk_ally, truth_ally], [])
+                    [bone_blow_ally, truth_ally], [], [], [got_milk_ally])
 
 # ------------------------------------------------- Very Spooky Monsters -------------------------------------------------
 moral_support = attack('moral_support', 'Moral Support', '', -20, -10, False, False,
@@ -311,7 +330,7 @@ trick = attack('nudge', 'Trick', '', 10, 0, True, False,
                ['"Brains... trick or treat!"', ''],
                ['"Brains... trick or treat!"', 'You shake your head in disapproval, rejecting the zombie.', 'The zombie walks away defeated.', '"Rejected me just like Jessica..." the zombie says under its breath.'], [])
 
-ghost = enemy('Very Spooky Ghost', 30, 100, 30, [], [], [moral_support], [])
+ghost = enemy('Very Spooky Ghost', 30, 100, 30, [], [], [], [moral_support])
 zombie_one = enemy('David', 40, 100, 10, [trick, scare], [], [], [])
 zombie_two = enemy('Very Spooky Zombie', 40, 100, 10, [trick, scare], [], [], [])
 
@@ -324,13 +343,21 @@ charge_ally = attack('charge', 'Proton Charge', 'Harness the power of the electr
                      ['Zeep Vorp throws several proton charges at the enemies.'],
                      ['Zeep Vorp throws several proton charges at the enemies,', 'but he forgot to turn them on.', '"Vorleep zam zoop?"', 'Since he was so polite, everyone let Zeep Vorp turn on the proton charges.', '"Verleem!"', 'BOOM'],
                      ['Zeep Vorp tries to throw several proton charges but it seems like he forgot them at home.', '"Vap zeem! Jimlip?"', 'Everyone lets Zeep Vorp go back home to get them.'], [])
+
 heal_field = attack('field', 'Heal Field', 'Heal up in this totally not FDA-approved heal field!', -10, -10, False, True,
                     ['It seems like Zeep Vorp in his clumsiness, accidentally super charged the heal field.', "He doesn't know how it happened but hey", 'if it works, it works.'],
                     ['Zeep Vorp places down a heal field.', 'Everyone feels a little bit better now, mentally and physically.'],
                     ['Zeep Vorp places down a heal field which works for a bit,', 'but he trips on it,', 'turning it off.'],
                     ['Zeep Vorp places down a heal field but he forgets the password on how to turn it on.'], [])
 
-zeep_vorp_ally = ally("Zeep Vorp", 80, 100, 10, [charge_ally, heal_field], [])
+shield_up = attack("shield_up", "Shield Up", "Deploys a calming shield to reduce incoming damage.", 0, -10, False, False,
+                   ['Zeep Vorp deploys a strangely calming shield.', 'Inside you hear oddly zen music and smell...', 'peppermint...', 'gross...', "But hey, it's the thought that counts."],
+                   ['Zeep Vorp places down a shield to protect everyone.', "Everyone's nerves are slightly eased."],
+                   ["Zeep Vorp places down a shield but it seems like he forgot the batteries, which stresses everyone out but don't worry,", "he got it working"],
+                   ['Zeep Vorp places down a shield that is not calming at all.', "It's just constant alarm clock timers going off over and over and over.", '3/10,', 'would not recommend.'],
+                   [2])
+
+zeep_vorp_ally = ally("Zeep Vorp", 80, 100, 10, [charge_ally], [shield_up],[],[heal_field])
 
 # ------------------------------------------------- Santa Claus Fight -------------------------------------------------
 blast = attack('blast', 'Christmas MegaBlast', '', 20, 0, True, True, 
@@ -363,8 +390,8 @@ present_pepper = attack('present', 'Present', '', 0, 20, True, False,
                        ['Using her elf skills,', 'the elf quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control and is only a little panicked to see how much happened while he was in a trance.'],
                        ['Using her elf skills,', 'the elf quickly builds a sticky hand and flings it at {tname}.'], [])
 
-santa = enemy('Santa Claus', 120, 130, 10, [blast, intimidation], [], [], [])
-agent_elf = enemy('Special Agent Elf', 80, 100, 25, [beam_enemy, present_pepper], [], [], [])
+santa = enemy('Santa Claus', 120, 80, 10, [blast, intimidation], [], [], [])
+agent_elf = enemy('Special Agent Elf', 80, 100, 10, [beam_enemy, present_pepper], [], [], [])
 
 santa_fight = encounter([santa, agent_elf], 'Dialogue/north_pole/santa_intro.txt', 'Dialogue\skellybones_outro.txt')
 
@@ -381,7 +408,7 @@ present_ally = attack('present', 'Present', '', 0, 20, True, False,
                        ['Using her elf skills,', 'Pepper quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control abd is only a little panicked to see how much happened while he was in a trance.'],
                        ['Using her elf skills,', 'Pepper quickly builds a sticky hand and flings it at {tname}.'], [])
 
-pepper = ally('Pepper', 80, 100, 25, [beam_ally, present_ally], [])
+pepper = ally('Pepper', 80, 100, 25, [beam_ally, present_ally], [], [], [])
 
 # ------------------------------------------------- Spec. Ops. Elves -------------------------------------------------
 present_enemy = attack('present', 'Present', '', 0, 20, True, False,
@@ -426,7 +453,7 @@ hologram = attack('hologram', 'Hologram', '', 0, 20, True, False,
                   ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but he trips and can only activate one because he broke the other 43.'],
                   ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but it seems like he ran out of his free trial.', 'He spends a couple minutes trying to pay for Hologram+ and eventually he figures it out.', 'Sigh...', 'classic Zeep Vorp.'], [])
 
-zeep_vorp_enemy = enemy('Zeep Vorp', 150, 100, 30, [super_charge], [hologram], [replication], [])
+zeep_vorp_enemy = enemy('Zeep Vorp', 150, 100, 30, [super_charge], [hologram], [], [replication])
 
 zeep_vorp_fight = encounter(zeep_vorp_enemy, 'Dialogue\white_house\zeep_vorp_intro.txt', 'Dialogue\white_house\zeep_vorp_outro.txt')
 
