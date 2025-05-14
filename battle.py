@@ -5,7 +5,7 @@ import game_assets
 import random
 import ent_ai
 import os
-# import effects
+import effects
 
 # Rolls random multipler based off of nerves
 def roll_nerves(nerves, attack, target):

@@ -200,7 +200,7 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
 debug_mode = True
 
 if debug_mode:
-    player_attacks = [kickflip, declaration, pep_talk, apple, falcon_punch, resign]
+    player_attacks = [kickflip, declaration, falcon_punch, resign]
 else:
     player_attacks = [kickflip, declaration]
 
