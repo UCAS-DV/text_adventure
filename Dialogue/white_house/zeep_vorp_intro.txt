@@ -7,11 +7,13 @@
 1"I'm"
 1"right."
 1She points at Zeep Vorp.
-1"Intelligence indicates that the last page lies with him."
+1"The last page lies with him."
 1"Vorpl gleeben?"
 1"Give up the game Vorp."
 1"We know it's you."
 1You step in front of Zeep Vorp to protect him.
+1"Zeep Vorp has been an enemy of the EMUSA for a while now."
+1"There's a reason why we put him in the biohazard box in Area 51."
 1You vigourously shake your head.
 1Zeep Vorp starts laughing...
 1A lot...
@@ -27,6 +29,4 @@
 1You fall to your knees in shock.
 1Mr. Skellybones and Pepper go to comfort you.
 1Suddenly, a mech flies into the garden and Zeep Vorp hops in.
-1I can't believe we have to do this.
-1But we must fight Zeep Vorp!
 1"Tulap!"

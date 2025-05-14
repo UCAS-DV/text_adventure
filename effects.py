@@ -15,7 +15,7 @@ def apply(effect_ids, char):
         if effect_id is not None and effect_id not in char.effects:
             char.effects.append(effect_id)
             timers[(char.name, effect_id)] = turn
-            print(f"[EFFECT] {char.name} is now affected by effect {effect_id}")
+            print(f"{char.name} is now affected by effect {effect_id}")
 
 
 def track(characters):
