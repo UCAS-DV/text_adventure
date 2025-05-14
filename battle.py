@@ -7,27 +7,30 @@ import ent_ai
 import os
 import effects
 
-# Rolls random multipler based off of nerves
-def roll_nerves(nerves, attack, target):
-
-    roll = random.randint(1,100)
-
-    if roll < nerves * 0.1:
-        read_description(attack.super_success + [f'{attack.name} was super successful!'], target)
-        return 1.5
-    elif roll < nerves:
-       read_description(attack.success + [f'{attack.name} was successful!'], target)
-       return 1
-        
-    if roll > nerves * 1.5:
-        read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
-        return 0
-    elif roll > nerves:
-        read_description(attack.fail + [f'{attack.name} was a ineffective!'], target)
-        return 0.5
-
 # Attacks target   
 def attack_them(att, dealer, targets, nerves):
+    if att.ability:
+        for i in range(len(att.ability)):
+            for j in range(len(targets)):
+                effects.apply(att.ability[i],targets[j])
+    # Rolls random multipler based off of nerves
+    def roll_nerves(nerves, attack, target):
+
+        roll = random.randint(1,100)
+
+        if roll < nerves * 0.1:
+            read_description(attack.super_success + [f'{attack.name} was super successful!'], target)
+            return 1.5
+        elif roll <= nerves:
+            read_description(attack.success + [f'{attack.name} was successful!'], target)
+            return 1
+        if roll > nerves * 1.5:
+            read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
+            return 0.001
+        elif roll > nerves:
+            read_description(attack.fail + [f'{attack.name} was a ineffective!'], target)
+            return 0.5
+
 
     input(f'{dealer.name} uses {att.name}!')
 
@@ -41,6 +44,14 @@ def attack_them(att, dealer, targets, nerves):
     discomfort *= nerve_multiplier
 
     for target in targets:
+
+        if 1 in target.effects:
+            dmg *= 1.25
+            discomfort *= 1.25
+        if 2 in target.effects:
+            dmg *= 0.75
+            discomfort *= 0.75
+
         dmg = round(dmg)
         target.hp -= dmg
 
@@ -190,14 +201,17 @@ def use_item(item, allies, enemies):
 
 # Main battle function
 def battle(allies, enemies, opening, closing, inventory):
-    
-    ent_ai.ent_ai_allies
-    ent_ai.ent_ai_enemies
+    print(allies)
+    print(enemies)
+    ent_ai.ent_ai_allies = allies
+    ent_ai.ent_ai_enemies = enemies
+
+    all = allies+enemies
+
 
     read_dialogue(opening)
 
     saved_inventory = inventory
-    print(saved_inventory)
 
     turn = 0
     effects.turn = turn
@@ -205,6 +219,8 @@ def battle(allies, enemies, opening, closing, inventory):
     victory = False
 
     while not battle_ended:
+
+        effects.track(all)
         
         # Checks if every ally has been knocked down
         lost = True
@@ -361,7 +377,6 @@ def battle(allies, enemies, opening, closing, inventory):
             if player_acted:
                 input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
                 
-
         # Enemy Turn (Amber)
         else:
 
@@ -379,9 +394,6 @@ def battle(allies, enemies, opening, closing, inventory):
 
                 if all_enemies_down:
                     break
-
-
-            
 
             attack = ent_ai.enemy_decision_tree(dealing_enemy)
             
@@ -414,5 +426,10 @@ def battle(allies, enemies, opening, closing, inventory):
         read_dialogue(closing)
         return victory, saved_inventory
     else:
-        print(saved_inventory)
         return victory, inventory
+    
+
+#list1 = ["poop", "joe"]
+#list2 = ["yourmother", "swanson"]
+#list3 = list1+list2
+#print(list3)

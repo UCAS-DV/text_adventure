@@ -58,7 +58,7 @@ def main():
             case 2:
                 load_game_main()
             case 3:
-                print("WIP")
+                extras_main()
 
         input("\nPress Enter to return to the main menu...")
 

@@ -1,22 +1,23 @@
 from helper_funcs import inq_select
-import game_assets
 from image_loader import display_image
+from inspect_character import get_char_stats
+from game_assets import everyone
 def extras_main():
     while True:
-        debug_str = f"Debug attacks: {game_assets.debug_mode}"
-        choice = inq_select("Modify:", debug_str, "View map", "Unused inspect characters", "Exit to main menu")
+        choice = inq_select("view:", "map", "Unused inspect characters", "Exit to main menu")
 
         match choice:
             case 1:
-                if game_assets.debug_mode:
-                    game_assets.debug_mode = False
-                elif not game_assets.debug_mode:
-                    game_assets.debug_mode = True
-            case 2:
                 display_image()
+            case 2:
+                selection = inq_select("Which charecter would you like to inspect?", *everyone)
+                selection = everyone[selection-1]
+                get_char_stats(selection)
             case 3:
-                print("WIP")
+                break
+
 
     
-
-extras_main()
+if __name__ == "__main__":
+    extras_main()
+#extras_main()

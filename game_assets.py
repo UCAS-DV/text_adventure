@@ -1,3 +1,5 @@
+debug_mode = True
+
 class enemy:
     def __init__(self, name, max_hp, max_nerves, min_nerves, attacks, abilities, effects, heals):
         self.name = name
@@ -212,24 +214,23 @@ apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doc
                  ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
                  ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
 
-debug_mode = False
 
-player = ally(name='Unpaid Intern', 
-              max_hp=100, max_nerves=100, min_nerves=25, 
-              attacks=[kickflip, declaration],abilities=[],effects=[],heals=[pep_talk, apple])
 
-def load_player(player_ally):
+
+def load_player():
 
     if debug_mode:
         player_attacks = [kickflip, declaration, falcon_punch, resign]
     else:
         player_attacks = [kickflip, declaration]
 
-    player_ally = ally(name='Unpaid Intern', 
+    player = ally(name='Unpaid Intern', 
               max_hp=100, max_nerves=100, min_nerves=25, 
               attacks=player_attacks,abilities=[], effects=[],heals=[pep_talk, apple])
     
-    return player_ally
+    return player
+
+player = load_player()
 
 # ------------------------------------------------- VIYH Moves -------------------------------------------------
 pessimism = attack('pessimism', 'Terrible Pessimism', '', 0, 10, True, False,
@@ -280,7 +281,7 @@ truth_enemy = attack('truth', 'Disturbing Truth', '', 0, 20, True, False,
 skellybones_boss = enemy('Mr. Skellybones', 70, 100, 10,
                     [bone_blow_boss, truth_enemy], [], [], [got_milk_enemy])
 
-skellybones_fight = encounter([skellybones_boss], 'Dialogue\skellybones_intro.txt', 'Dialogue\skellybones_outro.txt')
+skellybones_fight = encounter([skellybones_boss], 'Dialogue/skellybones_intro.txt', 'Dialogue/skellybones_outro.txt')
 
 # ------------------------------------------------- Skellybones (Ally) -------------------------------------------------
 bone_blow_ally = attack('bone_blow', 'Funny Bone Blow', '"HEY! This is no laughing matter!', 20, 10, True, False,
@@ -465,3 +466,5 @@ zeep_vorp_fight = encounter(zeep_vorp_enemy, 'Dialogue\white_house\zeep_vorp_int
        # print(ally_char)
 #else:
     #'YOU LOST IDIOT!!!!!!!!'
+
+everyone = [test_enemy, viyh, skellybones_boss, ghost, zombie_one, zombie_two, santa, agent_elf, elf_one, elf_two, reindeer, zeep_vorp_enemy, test_ally, player, skellybones_ally, zeep_vorp_ally, pepper]

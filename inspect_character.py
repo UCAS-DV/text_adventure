@@ -158,4 +158,4 @@ def get_char_stats(char_name):
 
     
 
-get_char_stats(player)
+#get_char_stats(player)
