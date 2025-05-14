@@ -6,7 +6,7 @@ from save_load import *
 from explore import *
 
 def start_game():
-    read_dialogue('Dialogue\opening\opening_cutscene.txt')
+    read_dialogue('Dialogue/opening/opening_cutscene.txt')
     battle(player_data['allies'], [viyh], 'Dialogue/opening/tutorial1.txt', 'Dialogue/opening/viyh_outro.txt', player_data['inventory'])
     explore(main_locations[0], 0)
     explore(main_locations[1], 1)

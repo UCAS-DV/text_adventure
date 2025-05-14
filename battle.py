@@ -1,37 +1,11 @@
-from dialogue_reader import *
-from helper_funcs import inq_select
-import game_assets
-import random
-from ent_ai import enemy_decision_tree
-import os
-
-# Rolls random multipler based off of nerves
-def roll_nerves(nerves, attack, target):
-
-    roll = random.randint(1,100)
-
-    if roll < nerves * 0.1:
-        read_description(attack.super_success + [f'{attack.name} was super successful!'], target)
-        return 1.5
-    elif roll < nerves:
-       read_description(attack.success + [f'{attack.name} was successful!'], target)
-       return 1
-        
-    if roll > nerves * 1.5:
-        read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
-        return 0
-    elif roll > nerves:
-        read_description(attack.fail + [f'{attack.name} was a ineffective!'], target)
-        return 0.5
-
 # Attacks target   
 from dialogue_reader import *
 from helper_funcs import inq_select
 import game_assets
 import random
-from ent_ai import enemy_decision_tree
+import ent_ai
 import os
-# import effects
+import effects
 
 # Rolls random multipler based off of nerves
 def roll_nerves(nerves, attack, target):
@@ -216,6 +190,9 @@ def use_item(item, allies, enemies):
 
 # Main battle function
 def battle(allies, enemies, opening, closing, inventory):
+    
+    ent_ai.ent_ai_allies
+    ent_ai.ent_ai_enemies
 
     read_dialogue(opening)
 
@@ -223,6 +200,7 @@ def battle(allies, enemies, opening, closing, inventory):
     print(saved_inventory)
 
     turn = 0
+    effects.turn = turn
     battle_ended = False
     victory = False
 
@@ -345,9 +323,11 @@ def battle(allies, enemies, opening, closing, inventory):
                             if attack_selected.offensive:
                                 attack_them(attack_selected, ally_selected, enemies, ally_selected.nerves)
                                 turn += 1
+                                effects.turn = turn
                             else:
                                 attack_them(attack_selected, ally_selected, allies, ally_selected.nerves)
                                 turn += 1
+                                effects.turn = turn
 
                     else: 
                         input('Oops! Seems like you selected a downed ally!')
@@ -356,6 +336,7 @@ def battle(allies, enemies, opening, closing, inventory):
                     if target != None:
                         if target.hp > 0:
                             turn += 1
+                            effects.turn = turn
 
                 
                 # Use Item
@@ -372,6 +353,7 @@ def battle(allies, enemies, opening, closing, inventory):
                     saved_inventory.remove(item_selected)
 
                     turn += 1
+                    effects.turn = turn
 
             input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
                 
@@ -397,7 +379,7 @@ def battle(allies, enemies, opening, closing, inventory):
 
             
 
-            attack = enemy_decision_tree(dealing_enemy, enemies, allies, dealing_enemy.attacks, dealing_enemy.abilities, dealing_enemy.heals)
+            attack = ent_ai.enemy_decision_tree(dealing_enemy)
             
             if attack.offensive:
                 enemy_target = select_random(allies)
@@ -422,6 +404,7 @@ def battle(allies, enemies, opening, closing, inventory):
                     attack_them(attack, dealing_enemy, enemies, dealing_enemy.nerves)
 
             turn += 1
+            effects.turn = turn
 
     if victory:
         read_dialogue(closing)
