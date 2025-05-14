@@ -32,25 +32,6 @@ def attack_them(att, dealer, targets, nerves):
             return 0.5
 
 
-    # Rolls random multipler based off of nerves
-    def roll_nerves(nerves, attack, target):
-
-        roll = random.randint(1,100)
-
-        if roll < nerves * 0.1:
-            read_description(attack.super_success + [f'{attack.name} was super successful!'], target)
-            return 1.5
-        elif roll <= nerves:
-            read_description(attack.success + [f'{attack.name} was successful!'], target)
-            return 1
-        if roll > nerves * 1.5:
-            read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
-            return 0.001
-        elif roll > nerves:
-            read_description(attack.fail + [f'{attack.name} was a ineffective!'], target)
-            return 0.5
-
-
     input(f'{dealer.name} uses {att.name}!')
 
     dmg = att.hp
