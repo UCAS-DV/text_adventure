@@ -281,8 +281,9 @@ def battle(allies, enemies, opening, closing, inventory):
                     # IF ally is not downed
                     if ally_selected.hp > 0:
 
-                        attack_info = format(ally_selected.attacks)
-                        attack_selected = choose('Which attack would you like to select? ', ally_selected.attacks)
+                        all_actions = ally_selected.attacks + ally_selected.abilities + ally_selected.heals
+
+                        attack_selected = choose('Which attack would you like to select? ', all_actions)
                         
                         if attack_selected == 'Back':
                             continue
@@ -295,8 +296,7 @@ def battle(allies, enemies, opening, closing, inventory):
                             # IF attack is offensive
                             if attack_selected.offensive:
                                 target_info = format(enemies)
-                                
-                                
+                                                             
                                 try:
                                     target = enemies[inq_select('Which enemy would you like to attack? ', *target_info) - 1]
                                 except:
