@@ -11,7 +11,7 @@ def enemy_decision_tree(enemy):
     healing_ability_list = getattr(enemy, "heals", [])
 
     enemy_team = ent_ai_enemies
-    player_team = ent_ai_enemies
+    player_team = ent_ai_allies
 
     decision_list = ["attack", "ability", "heal"]
 

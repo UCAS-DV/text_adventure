@@ -69,6 +69,8 @@ def load_game():
         
         items = file.read().split(',')
 
+        #print(items)
+
         if 'Present' in items:
             data['inventory'].append(present_item)
         if 'Bagged Goldfish' in items:
@@ -77,7 +79,8 @@ def load_game():
             data['inventory'].append(alien_cat)
         if 'Block of Patriotism' in items:
             data['inventory'].append(patriotism)
-            
+
+    #print(data
     return data
 
 def main_menu():
