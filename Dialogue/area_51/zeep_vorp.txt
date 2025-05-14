@@ -1,10 +1,18 @@
-1Zeep Vorp is fiddling with a machine labeled "Definitely Not A Time Blender."
-1"Voop glorp zindle dop!" he beams.
-1"Raaaah, honored one," Mr. Skellybones growls, "is it safe to be in here?"
-1Zeep shrugs and hands you a fishbowl helmet full of Jell-O.
-1"Vorp slindoo!" he insists.
-'put it on'decline
-1You put it on.
-1In one large gulp, its gone.
-2You shake your head No.
-2Zeep looks down, depressed 
+1You sneak into the alien lab, cautious as to what might be in store.
+1In the room you notice a box labeled "biohazard" shaking.
+1"Raaaah, we should leave" remarks Mr. Skellybones.
+1You begin to slowly leave the room until you hear.
+1"Vadel glorb, Veep veep!"
+1You immediately rush to open the box.
+1"Honored one, wait!"
+1When you open the box, a little green alien in a space suit jumps out of the box.
+1It's none other than your childhood friend Zeep Vorp!
+1"Veedel glammon struss stap!"
+1You and Mr. Skellybones laugh hysterically.
+1It seems like he hasn't lost his charm
+1"Raaaah, honored one, do you know this one?" He points to Zeep Vorp.
+1You nod proudly.
+1You then show Zeep Vorp the page of the constitution.
+1"Glam veedel? Yoop zam zeedel!"
+1Zeep Vorp is joining us!
+1How lovely!
