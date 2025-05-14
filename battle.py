@@ -1,4 +1,4 @@
-# Attacks target   
+# Attacks targe 
 from dialogue_reader import *
 from helper_funcs import inq_select
 import game_assets
