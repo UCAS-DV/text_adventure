@@ -254,7 +254,7 @@ viyh = enemy(name='The Voice In Your Head',
              attacks=[pessimism, yell], abilities=[], effects=[], heals=[pep_talk_boss])
 
 # ------------------------------------------------- Skellybones (Boss) -------------------------------------------------
-bone_blow_boss = attack('bone_blow', 'Funny Bone Blow', '', 20, 0, True, False,
+bone_blow_boss = attack('bone_blow', 'Funny Bone Blow', '', 15, 0, True, False,
                    ["With what you think is a deadpan expression", "(you can't really tell because he's just a faceless skeleton)", 
                     "He lightly taps your funny bone.", "You look at him confused but suddenly... what feels like a jolt of lightening traverses through your arm and-",
                     '...', '...', 'You good?', 'It seems like your brain was too focused on writhing in very unfunny pain to remember to conjure my existence.', "Uh, don't do that again.",
@@ -271,7 +271,7 @@ got_milk_enemy = attack('single_heal', 'Got Milk?', '', -20, 0, False, False,
                         ['He reaches behind a grave and grabs a jug of expired Awesome Price(TM) milk.', "He drinks it and seems disgusted," "you can't really tell because he's just a skeleton."],
                         ['He reaches behind a grave and grabs an empty jug of Clarkplace(TM) milk.', 'He looks at the jug with despair.', '"Raaaah. Why did you have to leave me too dear Clarkplace(TM) Milk"',
                         'You reconcile him as he despairs', '"Raaaah. Thank you"', "Now that he's feeling better, you hug and then continue the fight"], [])
-truth_enemy = attack('truth', 'Disturbing Truth', '', 0, 20, True, False,
+truth_enemy = attack('truth', 'Disturbing Truth', '', 0, 15, True, False,
                      ['He walks up to you and whispers to you...', '"Raaaah."', '[My lawyer has advised me to remove the following dialogue]'],
                      ['"Raaaah. 2017 was 8 years ago."', 'You feel disturbed.'],
                      ['"Raaaah. Some people are poor."', 'You feel a little bummed out.'],
@@ -316,7 +316,7 @@ moral_support = attack('moral_support', 'Moral Support', '', -20, -10, False, Fa
                        ['"Hooray for {tname}?" says the ghost', '"And um..."', '"Well...', '"A for effort?"'],
                        ['"OH COME ON!" says the ghost', '"THEY WERE RIGHT THERE!"', '"YOU-"', '"YOU-"', '"IMBECILES!"', 'Everyone looks at the ghost shocked.', 'You shake your head in disapproval', '"Oh..."', '"Uh..."', '"Hee hee?"'], [])
 
-scare = attack('scare', 'Scare', '', 0, 15, True, False,
+scare = attack('scare', 'Scare', '', 0, 10, True, False,
                ["You blink and the zombie's gone!", "Well that's awfully convienent.", "I'm sure nothing could go wrong!", 'You turn around to see the zombie right next to you.', 'It whispers in your ear, ', '"Your body replaces your cells every 7 to 10 years."',
                 'AAAAAAAAAAAAA!', 'PHILOSOPHICAL DILLEMA!'],
                 ['"Boo!"', 'Eek!'],
@@ -335,7 +335,7 @@ ghost = enemy('Very Spooky Ghost', 30, 100, 30, [], [], [], [moral_support])
 zombie_one = enemy('David', 40, 100, 10, [trick, scare], [], [], [])
 zombie_two = enemy('Very Spooky Zombie', 40, 100, 10, [trick, scare], [], [], [])
 
-spooky_monsters_fight = encounter([zombie_one, zombie_two, ghost], 'Dialogue\encounter_1_intro.txt', 'Dialogue\encounter_1_outro.txt')
+spooky_monsters_fight = encounter([zombie_one, ghost], 'Dialogue\encounter_1_intro.txt', 'Dialogue\encounter_1_outro.txt')
 
 # ------------------------------------------------- Zeep Vorp (Ally) -------------------------------------------------
 
