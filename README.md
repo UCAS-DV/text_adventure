@@ -31,7 +31,7 @@ This is Quest for the Country! A text-based comedy RPG based on recovering the l
 This program is a single-single player intended to be played by one player. It is also a python program that needs python to run.
 
 This is what the game should look like upon starting it:
-![image](https://github.com/UCAS-DV/text_adventure/blob/main/Screenshot%202025-05-15%20101503.png)
+![image](https://github.com/UCAS-DV/text_adventure/blob/main/images/Screenshot%202025-05-15%20101503.png)
 
 ## Contributors
 ---
