@@ -457,7 +457,7 @@ hologram = attack('hologram', 'Hologram', '', 0, 20, True, False,
 
 zeep_vorp_enemy = enemy('Zeep Vorp', 150, 100, 30, [super_charge], [hologram], [], [replication])
 
-zeep_vorp_fight = encounter(zeep_vorp_enemy, 'Dialogue\white_house\zeep_vorp_intro.txt', 'Dialogue\white_house\zeep_vorp_outro.txt')
+zeep_vorp_fight = encounter([zeep_vorp_enemy], 'Dialogue\white_house\zeep_vorp_intro.txt', 'Dialogue\white_house\zeep_vorp_outro.txt')
 
 
 #if victory:
