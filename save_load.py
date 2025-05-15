@@ -61,6 +61,8 @@ def load_game():
                     allies = [player, skellybones_ally]
                 case 3:
                     allies = [player, skellybones_ally, zeep_vorp_ally]
+                case 4:
+                    allies = [player, skellybones_ally, pepper]
 
             data['location'] = location
             data["allies"] = allies
