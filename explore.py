@@ -41,11 +41,7 @@ main_locations = [
         "intro": "Dialogue/area_51/area_51_intro.txt",
         "mini_local_desc": [
             [
-                "You enter the Alien Lab. Beakers bubble, lights flicker.",
-                "Zeep Vorp is trying to reheat spaghetti with a laser scalpel.",
-                '"Verleem vop dopl zop!" he exclaims, turning toward you with glowing noodles in hand.',
-                '"Voop scrupl verloon dep st!" The microwave implodes. A small wormhole opens and closes with a polite burp.',
-                "You feel slightly more enlightened. And very slightly on fire."
+                ''
             ],
             [
                 "You approach the crash site of what appears to be... a UFO made entirely of pretzel rods.",
