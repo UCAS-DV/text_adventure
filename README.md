@@ -3,7 +3,7 @@
 
 ## Project description
 ---
-+ Creating a game where a broke intern gets a call from the president/vice president about a stolen Declaration of Independence. The intern is tasked to restore it and has to go through several locations with different bosses who own pieces of the Declaration. As the intern progresses, he meets allies that help him and gains items.
++ Creating a game where a broke intern gets a call from the president/vice president about a stolen Constitution. The intern is tasked to restore it and has to go through several locations with different bosses who own pieces of the Constitution. As the intern progresses, he meets allies that help him and gains items.
 
 
 ## Installation
@@ -23,7 +23,7 @@
 + You can see your health and other stats
 + There is a story line
 + You get to interact with NPC's
-+ To collect all the pieces of the Declaration of Independence
++ To collect all the pieces of the Constitution
 
 
 ## Used Technology
@@ -35,7 +35,6 @@
 ## Execution and usage
 ---
 + People play this game to have fun and waste their time during summer.
-+ To feed people brain rot.
 
 
 ## Contributors

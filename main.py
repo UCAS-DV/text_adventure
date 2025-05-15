@@ -6,6 +6,7 @@ from save_load import *
 from explore import *
 from extras import extras_main
 
+# Runs game by going through game sequence
 def start_game():
     save_game({
     "location": 0,
@@ -20,10 +21,12 @@ def start_game():
     player_data['allies'] = [player, skellybones_ally, pepper]
     explore(main_locations[3], 3)
 
+# Runs game by going through game sequence depending on the progress the player has
 def load_game_main():
     player_data = load_game()
     #print(player_data)
 
+    # Loads
     match int(player_data['location']):
         case 0:
             explore(main_locations[0], 0)

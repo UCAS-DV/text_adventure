@@ -165,14 +165,14 @@ test_ally = ally(name='Test Ally',
               attacks=[test_ally_attack],abilities=[],effects=[],heals=[])
 
 # ------------------------------------------------- Items -------------------------------------------------
-present_item = item(name='Present',item_description='Tragically, Jackson Spook never got his present in 2017. So sad.',hp=-5, nerves=-50,
+present_item = item(name='Present',item_description='Tragically, Jackson Spook never got his present in 2017. So sad.',hp=-5, nerves=-30,
                  action_description=['You pull out the present you got from earlier.', 'You open it to see a gaming console packed with a horror game.', 'You open it and hook it up to a nearby TV.',
                                      'The horror game is kinda mediocre but your gameplay is so horrendous that it stresses everyone out.', 'Seriously, I have never seen someone suck at a video game so much.',
                                      'Like, if life was a video game,', "you wouldn't have gotten past 3.", "Thank goodness that this is all real and life isn't a video game."],
                  offensive=True, multi=True, ability=[])
 
 
-spookyland_item = item('Bagged Goldfish', "There's something off about this goldfish...", -50, -5, True, True, [],
+spookyland_item = item('Bagged Goldfish', "There's something off about this goldfish...", -30, -5, True, True, [],
                        ['For some reason you decide to use your goldfish you got from the carnival.', "You untie the bag, allowing the goldfish to see air.", 'The goldfish turns to your enemies and tells such a horrifying,',
                         'disturbing,', 'absolutely petrifying truth that no one can recover from.', 'The truth is so terrible that they actually suffer a heart attack for a brief moment as their heart stops from the shock.'])
 
@@ -180,11 +180,12 @@ spookyland_item = item('Bagged Goldfish', "There's something off about this gold
 patriotism = item('Block of Patriotism', 'A block of pure, unfiltered patriotism.', 50, 50, False, True, [], 
                   ['Harnessing the power of our forefathers,', 'of our great EMUSA,', 'you feel a sudden bout of patriotism flow through your veins.', '"Raaaaah, may the EMUSA last centuries longer!" says Mr. Skellybones',
                    '"Yeah! May the EMUSA shine brighter than the brightest stars!"', '"I have not felt this proud of anything before!"', '"Not even the glorious North Pole" says Pepper.', 'You nod proudly.', 'We have a country to save,', 'and nothing is stopping us.'])
+
 alien_cat = item(
     name="Alien Cat",
     item_description="A purring space creature that hums at 432Hz and occasionally phases through walls.",
-    hp=-5,
-    nerves=-10,
+    hp=35,
+    nerves=75,
     offensive=False,
     multi=False,
     ability=[],
@@ -353,8 +354,8 @@ heal_field = attack('field', 'Heal Field', 'Heal up in this totally not FDA-appr
 
 shield_up = attack("shield_up", "Shield Up", "Deploys a calming shield to reduce incoming damage.", 0, -10, False, False,
                    ['Zeep Vorp deploys a strangely calming shield.', 'Inside you hear oddly zen music and smell...', 'peppermint...', 'gross...', "But hey, it's the thought that counts."],
-                   ['Zeep Vorp places down a shield to protect everyone.', "Everyone's nerves are slightly eased."],
-                   ["Zeep Vorp places down a shield but it seems like he forgot the batteries, which stresses everyone out but don't worry,", "he got it working"],
+                   ['Zeep Vorp places down a shield to protect {tname}.', "{tname}'s nerves are slightly eased."],
+                   ["Zeep Vorp places down a shield but it seems like he forgot the batteries, which stresses {tname} out but don't worry,", "he got it working"],
                    ['Zeep Vorp places down a shield that is not calming at all.', "It's just constant alarm clock timers going off over and over and over.", '3/10,', 'would not recommend.'],
                    [2])
 
@@ -370,13 +371,13 @@ blast = attack('blast', 'Christmas MegaBlast', '', 20, 0, True, True,
                 'Completely blinding you in its brilliance.', 'Oh, classic Santa!'],
                 ['Santa attempts to harness his Christmas Spirit but it seems that the stress of preparing for Christmas has gotten to him.', 'His spirit is considerably weaker.'],
                 ['"Hohoho!"', '"I wanted to go this far as much as you but you leave me no choice"', '"CHRISTMAS"', '"SUPER"', '"BLA-"', 'His hat falls off his head, cancelling his attack',
-                '"Oh! Pardon me!"'], [1])
+                '"Oh! Pardon me!"'], [])
 intimidation = attack('intimidation', 'Intimidation', '', 0, 15, True, True,
                       ['Santa walks up to you and places a hand on your shoulder.', '"220 N 330 W, Amber Avenue."', 'He walks up to Zeep Vorp next', '"114.234.123.65"', 'Finally he approaches Mr. Skellybones.', '"(555) 245-5555"', '"Am I correct?"'],
                       ['Santa pulls out his naughty list and he writes a few names in it.', 'You and your team stress out, worried that he put your names on the list.'],
                       ["Santa begins to charge up a Christmas MegaBlast and you panic for a little bit, until you realize he's been charging it for longer than usual.", 
                         'So you shrug, walk up, and knock his hat off his head.'],
-                      ['"Why you have tested me patience for too long."', '"I am going to say a horrible thing."', '"You will not even believe what I am about to say."',
+                      ['"Why you have tested my patience for too long."', '"I am going to say a horrible thing."', '"You will not even believe what I am about to say."',
                        'You stress out, worried that Santa is going to destroy his precious, pure image. You brace for the worst.', '"YOU ARE SUBPAR IN SOME OF YOUR HOBBIES!"', 
                        '"do not worry though, practice makes perfect"', '"BUT YOU WILL HAVE TO PRACTICE A LOT!"', 'Santa smirks, proud of his own audacity.'], [])
 beam_enemy = attack('beam', 'Peppermint Beam', '', 30, 0, True, False,
@@ -394,7 +395,7 @@ present_pepper = attack('present', 'Present', '', 0, 20, True, False,
 santa = enemy('Santa Claus', 120, 80, 10, [blast, intimidation], [], [], [])
 agent_elf = enemy('Special Agent Elf', 80, 100, 10, [beam_enemy, present_pepper], [], [], [])
 
-santa_fight = encounter([santa, agent_elf], 'Dialogue/north_pole/santa_intro.txt', 'Dialogue\skellybones_outro.txt')
+santa_fight = encounter([santa, agent_elf], 'Dialogue/north_pole/santa_intro.txt', 'Dialogue/north_pole/santa_outro.txt')
 
 # ------------------------------------------------- Pepper -------------------------------------------------
 beam_ally = attack('beam', 'Peppermint Beam', '', 30, 0, True, False,
