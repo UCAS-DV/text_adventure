@@ -38,8 +38,7 @@ This is what the game should look like upon starting it:
 + Avery Bowman wrote the original code for exploration and the original README. She was the Content Area Expert
 + Yenesis Rabelo wrote the original code for saving and loading. She was the UI/UX designer.
 + Darius Vaiaoga wrote the code for almost all of the battle system, heavily modified the code for saving/loading, exploration, modified the README, wrote almost all of the descriptions and dialogue (with the exception of portions of Area 51), created all of the used game assets, and created the original game. He was the team leader for the project.
-+ Amber Bishop wrote the code for status effects, fixed a vast majority of the bugs, wrote the enemy AI, created all of the features in the extras tab, and helped heavily with the ideas for how the code should function. She was the lead programmer.
-
++ Amber Bishop wrote the code for status effects, fixed a vast majority of the bugs, wrote the enemy AI, created all of the features in the extras tab, and helped heavily with the ideas for how the code should function. She was the lead programmer.     
 
 ## Author's info
 ---
