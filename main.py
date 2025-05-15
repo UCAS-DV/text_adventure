@@ -18,7 +18,11 @@ def start_game():
     explore(main_locations[0], 0)
     explore(main_locations[1], 1)
     explore(main_locations[2], 2)
-    player_data['allies'] = [player, skellybones_ally, pepper]
+    save_game({
+        "location": 3,
+        "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
+        "inventory": []
+    })
     explore(main_locations[3], 3)
 
 # Runs game by going through game sequence depending on the progress the player has
@@ -32,19 +36,36 @@ def load_game_main():
             explore(main_locations[0], 0)
             explore(main_locations[1], 1)
             explore(main_locations[2], 2)
-            player_data['allies'] = [player, skellybones_ally, pepper]
+            save_game({
+    "location": 3,
+    "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
+    "inventory": []
+    })
+            save_game()
             explore(main_locations[3], 3)
         case 1:
             explore(main_locations[1], 1)
             explore(main_locations[2], 2)
-            player_data['allies'] = [player, skellybones_ally, pepper]
+            save_game({
+    "location": 3,
+    "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
+    "inventory": []
+    })
             explore(main_locations[3], 3)
         case 2:
             explore(main_locations[2], 2)
-            player_data['allies'] = [player, skellybones_ally, pepper]
+            save_game({
+    "location": 3,
+    "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
+    "inventory": []
+    })
             explore(main_locations[3], 3)
         case 3:
-            player_data['allies'] = [player, skellybones_ally, pepper]
+            save_game({
+    "location": 3,
+    "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
+    "inventory": []
+    })
             explore(main_locations[3], 3)
 
 def main():

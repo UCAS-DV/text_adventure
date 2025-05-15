@@ -137,7 +137,7 @@ all_allies = ally('All enemies', 0, 0, 0, [], [], [], [])
 # ------------------------------------------------- Testing Assets Start ------------------------------------------------
 test_enemy_attack = attack('sin_off', 'Test Attack 1', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
 test_ally_attack = attack('sin_off', 'Test Attack 2', 'An attack for testing', 20, 20, True, False, ['0'], ['1'], ['2'], ['3'],[])
-falcon_punch = attack('heal', 'FALCON PUNCH', 'An attack for testing', 2000, 2000, True, False, ['0'], ['1'], ['2'], ['3'],[])
+falcon_punch = attack('heal', 'FALCON PUNCH', 'An attack for testing', 2000, 2000, True, True, ['0'], ['1'], ['2'], ['3'],[])
 resign = attack('heal', 'resign', 'An attack for testing', 2000, 2000, False, False, ['0'], ['1'], ['2'], ['3'],[])
 
 sin_off_item = item(name='Item 1',item_description='An item made for testing!',hp=-20, nerves=-20,
@@ -359,7 +359,7 @@ shield_up = attack("shield_up", "Shield Up", "Deploys a calming shield to reduce
                    ['Zeep Vorp places down a shield that is not calming at all.', "It's just constant alarm clock timers going off over and over and over.", '3/10,', 'would not recommend.'],
                    [2])
 
-zeep_vorp_ally = ally("Zeep Vorp", 80, 100, 10, [charge_ally], [shield_up],[],[heal_field])
+zeep_vorp_ally = ally("Zeep Vorp", 80, 100, 10, [charge_ally, falcon_punch], [shield_up],[],[heal_field])
 
 # ------------------------------------------------- Santa Claus Fight -------------------------------------------------
 blast = attack('blast', 'Christmas MegaBlast', '', 20, 0, True, True, 
