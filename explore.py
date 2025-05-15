@@ -110,16 +110,15 @@ main_locations = [
     },
     {
         "name": "White House",
-        "mini_locations": ["Oval Office", "War Room", "Press Room", "Garden"],
+        "mini_locations": ["Oval Office", "War Room", "Garden"],
         'mini_local_desc': [[''],
                             ['You stumble into the War Room and notice a block of something on the table.',
                              'You take it out of curiosity.'],
-                             [''],
                              ['']],
         'intro': 'Dialogue/white_house/white_house_intro.txt',
         "npc": {'dialogue': 'Dialogue/white_house/president.txt', 'position': 1},
         "item": {'item': patriotism, 'position': 2},
-        "boss": {'boss_encounter': zeep_vorp_fight, 'position': 4},
+        "boss": {'boss_encounter': zeep_vorp_fight, 'position': 3},
         "ally": None,
         "encounter": {'position': None},
     }
