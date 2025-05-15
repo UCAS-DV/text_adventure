@@ -272,7 +272,7 @@ got_milk_enemy = attack('single_heal', 'Got Milk?', '', -20, 0, False, False,
                         ['He reaches behind a grave and grabs a jug of expired Awesome Price(TM) milk.', "He drinks it and seems disgusted," "you can't really tell because he's just a skeleton."],
                         ['He reaches behind a grave and grabs an empty jug of Clarkplace(TM) milk.', 'He looks at the jug with despair.', '"Raaaah. Why did you have to leave me too dear Clarkplace(TM) Milk"',
                         'You reconcile him as he despairs', '"Raaaah. Thank you"', "Now that he's feeling better, you hug and then continue the fight"], [])
-truth_enemy = attack('truth', 'Disturbing Truth', '', 0, 15, True, False,
+truth_enemy = attack('truth', 'Disturbing Truth', '', 0, 5, True, False,
                      ['He walks up to you and whispers to you...', '"Raaaah."', '[My lawyer has advised me to remove the following dialogue]'],
                      ['"Raaaah. 2017 was 8 years ago."', 'You feel disturbed.'],
                      ['"Raaaah. Some people are poor."', 'You feel a little bummed out.'],
@@ -300,7 +300,7 @@ got_milk_ally = attack('single_heal', 'Got Milk?', 'Milk makes your bones strong
                         ['He reaches behind a grave and grabs a jug of expired Awesome Price(TM) milk.', "He drinks it and seems disgusted," "you can't really tell because he's just a skeleton."],
                         ['He reaches behind a grave and grabs an empty jug of Clarkplace(TM) milk.', 'He looks at the jug with despair.', '"Raaaah. Why did you have to leave me too dear Clarkplace(TM) Milk"',
                         'You reconcile him as he despairs', '"Raaaah. Thank you"', "Now that he's feeling better, you hug and then continue the fight"], [])
-truth_ally = attack('truth', 'Disturbing Truth', "Freak your opponents out with something mildly shocking!", 0, 0, True, True,
+truth_ally = attack('truth', 'Disturbing Truth', "Freak your opponents out with something mildly shocking!", 0, 20, True, True,
                      ['Mr. Skellybones stands and declares...', '"Raaaah."', '[My lawyer has advised me to remove the following dialogue]', 'You and your enemies are very disturbed'],
                      ['"Raaaah. 2017 was 8 years ago."', 'Everyone feels disturbed.'],
                      ['"Raaaah. Some people are poor."', 'Your enemies feels a little bummed out.'],
