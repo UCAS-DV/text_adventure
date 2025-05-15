@@ -45,4 +45,4 @@ def track(characters):
 def run_effect_logic(effect_id, target):
     if effect_id == 3:  # terrified
         target.nerves = max(target.min_nerves, target.nerves - 5)
-        print(f"{target.name} loses 10 nerves from terrified")
+        print(f"{target.name} loses 5 nerves from terrified")
