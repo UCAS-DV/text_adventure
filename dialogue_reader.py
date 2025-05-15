@@ -29,9 +29,10 @@ def read_dialogue(filepath):
             while True:
                 #print(f'1. {decisions[1]}')
                 #print(f'2. {decisions[2]}')
-                target_path = inq_select("which would you like to do?",decisions[1],decisions[2])
+                target_path = str(inq_select("which would you like to do?",decisions[1],decisions[2]))
 
-                if target_path in [1, 2]:
+                if target_path in ['1', '2']:
+                    
                     break
 
 def read_description(description, target):

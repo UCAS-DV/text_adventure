@@ -57,14 +57,13 @@ main_locations = [
                 "You enter the Hologram Hall, where fake presidents debate holographic goats.",
                 "Zeep is at the podium arguing with a projected pinecone.",
                 '"Dap no streeple vink!" he shouts. You nod solemnly.',
-                "This is either a simulation, or Thursday."
             ],
             [
                 "You open a containment chamber.",
                 "Inside is a small, glowing cat with antennae.",
                 "It hisses and transmits NPR directly into your brain.",
                 "Zeep Vorp appears. \"Blorp kitty zoom! Meeow-meeps!\"",
-                "You nod solemnly and take the cat.",
+                "You nod and take the cat.",
                 "It now owns you."
             ],
             [

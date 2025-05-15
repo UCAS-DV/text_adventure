@@ -47,10 +47,11 @@ def attack_them(att, dealer, targets, nerves):
 
     for target in targets:
 
-        # print(target.effects)
+        #print(target.effects)
 
         # Blindness deals 25% more damage
         if 1 in target.effects:
+            
             if dmg > 0: 
                 dmg *= 1.25
                 dmg = round(dmg)
@@ -65,11 +66,11 @@ def attack_them(att, dealer, targets, nerves):
             if dmg > 0: 
                 dmg *= 0.75
                 dmg = round(dmg)
-                print(f'{target.name} resisted {round(dmg / 0.75) - dmg} points of damage due to blindness')
+                print(f'{target.name} resisted {round(dmg / 0.75) - dmg} points of damage due to being shielded')
             if discomfort > 0: 
                 discomfort *= 0.75
                 discomfort = round(discomfort)
-                print(f'{target.name} resisted {round(discomfort / 0.75) - discomfort} points of nerve loss due to blindness')
+                print(f'{target.name} resisted {round(discomfort / 0.75) - discomfort} points of nerve loss due to shielded')
 
         dmg = round(dmg)
         target.hp -= dmg
@@ -115,6 +116,7 @@ def format(unformatted_list):
 
     return list_info
 
+# UI for choosing something from the list
 def choose(prompt, selection_list):
     list_info = format(selection_list)
 
@@ -124,7 +126,6 @@ def choose(prompt, selection_list):
     except:
         return 'Back'
     
-
 # Selects random member from list
 def select_random(selection_list):
     return selection_list[random.randint(0, len(selection_list) - 1)]
