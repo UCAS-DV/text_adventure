@@ -336,7 +336,7 @@ ghost = enemy('Very Spooky Ghost', 30, 100, 30, [], [], [], [moral_support])
 zombie_one = enemy('David', 40, 100, 10, [trick, scare], [], [], [])
 zombie_two = enemy('Very Spooky Zombie', 40, 100, 10, [trick, scare], [], [], [])
 
-spooky_monsters_fight = encounter([zombie_one, ghost], 'Dialogue\encounter_intro.txt', 'Dialogue\encounter_outro.txt')
+spooky_monsters_fight = encounter([zombie_one, ghost], 'Dialogue/encounter_intro.txt', 'Dialogue/encounter_outro.txt')
 
 # ------------------------------------------------- Zeep Vorp (Ally) -------------------------------------------------
 
