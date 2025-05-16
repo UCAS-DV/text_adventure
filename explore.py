@@ -124,11 +124,11 @@ main_locations = [
     }
 ]
 
-# Placeholder inventory and allies system
-
+# Adds items to inventory
 def add_to_inventory(item):
    save_game({'location': load_game()['location'], 'allies': load_game()['allies'], 'inventory': load_game()['inventory'] + [item]})
 
+# Starts encounter
 def local_encounter(encounter):
    return battle(load_game()['allies'], encounter.enemies, encounter.opening, encounter.closing, load_game()['inventory'])
 

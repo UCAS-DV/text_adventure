@@ -50,36 +50,7 @@ def load_game_main():
     match int(player_data['location']):
         
         case -1:
-            save_game({
-                "location": -1,
-                "allies": [player],
-                "inventory": load_game()['inventory']
-            })
-
-            read_dialogue('Dialogue/opening/opening_cutscene.txt')
-            tutorial_finished = False
-
-            while not tutorial_finished:
-
-                tutorial_finished, empty_list = battle(player_data['allies'], [viyh], 'Dialogue/opening/tutorial1.txt', 'Dialogue/opening/viyh_outro.txt', player_data['inventory'])
-
-            save_game({
-                "location": 0,
-                "allies": [player],
-                "inventory": load_game()['inventory']
-            })
-
-            explore(main_locations[0], 0)
-            explore(main_locations[1], 1)
-            explore(main_locations[2], 2)
-
-            save_game({
-                "location": 3,
-                "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
-                "inventory": load_game()['inventory']
-            })
-
-            explore(main_locations[3], 3)
+            start_game()
 
         # IF at Spookyland
         case 0:
