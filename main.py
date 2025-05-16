@@ -8,21 +8,37 @@ from extras import extras_main
 
 # Runs game by going through game sequence
 def start_game():
+
     save_game({
-    "location": 0,
-    "allies": [player],
-    "inventory": []
+        "location": -1,
+        "allies": [player],
+        "inventory": []
     })
+
     read_dialogue('Dialogue/opening/opening_cutscene.txt')
-    battle(player_data['allies'], [viyh], 'Dialogue/opening/tutorial1.txt', 'Dialogue/opening/viyh_outro.txt', player_data['inventory'])
+
+    tutorial_finished = False
+
+    while not tutorial_finished:
+
+        tutorial_finished, empty_list = battle(player_data['allies'], [viyh], 'Dialogue/opening/tutorial1.txt', 'Dialogue/opening/viyh_outro.txt', player_data['inventory'])
+
+    save_game({
+        "location": 0,
+        "allies": [player],
+        "inventory": []
+    })
+
     explore(main_locations[0], 0)
     explore(main_locations[1], 1)
     explore(main_locations[2], 2)
+
     save_game({
         "location": 3,
         "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
         "inventory": []
     })
+
     explore(main_locations[3], 3)
 
 # Runs game by going through game sequence depending on the progress the player has
@@ -30,42 +46,90 @@ def load_game_main():
     player_data = load_game()
     #print(player_data)
 
-    # Loads
+    # Loads Game depending on progress tracked in save_file
     match int(player_data['location']):
+        
+        case -1:
+            save_game({
+                "location": -1,
+                "allies": [player],
+                "inventory": []
+            })
+
+            read_dialogue('Dialogue/opening/opening_cutscene.txt')
+            tutorial_finished = False
+
+            while not tutorial_finished:
+
+                tutorial_finished, empty_list = battle(player_data['allies'], [viyh], 'Dialogue/opening/tutorial1.txt', 'Dialogue/opening/viyh_outro.txt', player_data['inventory'])
+
+            save_game({
+                "location": 0,
+                "allies": [player],
+                "inventory": []
+            })
+
+            explore(main_locations[0], 0)
+            explore(main_locations[1], 1)
+            explore(main_locations[2], 2)
+
+            save_game({
+                "location": 3,
+                "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
+                "inventory": []
+            })
+
+            explore(main_locations[3], 3)
+
+        # IF at Spookyland
         case 0:
             explore(main_locations[0], 0)
             explore(main_locations[1], 1)
             explore(main_locations[2], 2)
+
             save_game({
-    "location": 3,
-    "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
-    "inventory": []
-    })
-            save_game()
+            "location": 3,
+            "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
+            "inventory": load_game()['inventory']
+            })
+
             explore(main_locations[3], 3)
+
+        # IF at Area 51
         case 1:
             explore(main_locations[1], 1)
             explore(main_locations[2], 2)
+
             save_game({
-    "location": 3,
-    "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
-    "inventory": []
-    })
+            "location": 3,
+            "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
+            "inventory": load_game()['inventory']
+            })
+
             explore(main_locations[3], 3)
+
+        # IF at North Pole
         case 2:
+
             explore(main_locations[2], 2)
+
             save_game({
-    "location": 3,
-    "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
-    "inventory": []
-    })
+            "location": 3,
+            "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
+            "inventory": load_game()['inventory']
+            })
+
             explore(main_locations[3], 3)
+
+        # IF at White House
         case 3:
+
             save_game({
-    "location": 3,
-    "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
-    "inventory": []
-    })
+            "location": 3,
+            "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
+            "inventory": load_game()['inventory']
+            })
+
             explore(main_locations[3], 3)
 
 def main():
