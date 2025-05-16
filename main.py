@@ -12,7 +12,7 @@ def start_game():
     save_game({
         "location": -1,
         "allies": [player],
-        "inventory": []
+        "inventory": load_game()['inventory']
     })
 
     read_dialogue('Dialogue/opening/opening_cutscene.txt')
@@ -26,7 +26,7 @@ def start_game():
     save_game({
         "location": 0,
         "allies": [player],
-        "inventory": []
+        "inventory": load_game()['inventory']
     })
 
     explore(main_locations[0], 0)
@@ -36,7 +36,7 @@ def start_game():
     save_game({
         "location": 3,
         "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
-        "inventory": []
+        "inventory": load_game()['inventory']
     })
 
     explore(main_locations[3], 3)
@@ -53,7 +53,7 @@ def load_game_main():
             save_game({
                 "location": -1,
                 "allies": [player],
-                "inventory": []
+                "inventory": load_game()['inventory']
             })
 
             read_dialogue('Dialogue/opening/opening_cutscene.txt')
@@ -66,7 +66,7 @@ def load_game_main():
             save_game({
                 "location": 0,
                 "allies": [player],
-                "inventory": []
+                "inventory": load_game()['inventory']
             })
 
             explore(main_locations[0], 0)
@@ -76,7 +76,7 @@ def load_game_main():
             save_game({
                 "location": 3,
                 "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
-                "inventory": []
+                "inventory": load_game()['inventory']
             })
 
             explore(main_locations[3], 3)

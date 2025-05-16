@@ -30,7 +30,7 @@ def attack_them(att, dealer, targets, nerves):
             read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
             return 0.001
         elif roll > nerves:
-            read_description(attack.fail + [f'{attack.name} was a ineffective!'], target)
+            read_description(attack.fail + [f'{attack.name} was ineffective!'], target)
             return 0.5
 
 
@@ -446,6 +446,7 @@ def battle(allies, enemies, opening, closing, inventory):
         read_dialogue(closing)
         return victory, saved_inventory
     else:
+        input('===================== YOU LOSE ===================== \n Try Again')
         return victory, inventory
     
 

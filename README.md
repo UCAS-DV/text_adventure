@@ -33,6 +33,8 @@ This program is a single-single player intended to be played by one player. It i
 This is what the game should look like upon starting it:
 ![image](https://github.com/UCAS-DV/text_adventure/blob/main/images/Screenshot%202025-05-15%20101503.png)
 
+To turn on Debug Mode, go to line one of game_assets.py and set debug_mode to true
+
 ## Contributors
 ---
 + Avery Bowman wrote the original code for exploration and the original README. She was the Content Area Expert
