@@ -451,7 +451,7 @@ replication = attack('replication', 'Replication', '', -20, -10, False, False,
                      'but he forgot to duplicate his conscious so the clones just run off on their own endeavors.', "I hope they're okay, wherever they went."], [])
 hologram = attack('hologram', 'Hologram', '', 0, 20, True, False,
                   ["Zeep Vorp activates a hologram showing {tname}'s greatest fear.", 'Even Mr. Skellybones is shocked at how scary Zeep Vorp can be.'],
-                  ['Zeep Vorp activates several holograms of himself to confuses {tname}.'],
+                  ['Zeep Vorp activates several holograms of himself to confuse {tname}.'],
                   ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but he trips and can only activate one because he broke the other 43.'],
                   ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but it seems like he ran out of his free trial.', 'He spends a couple minutes trying to pay for Hologram+ and eventually he figures it out.', 'Sigh...', 'classic Zeep Vorp.'], [])
 
