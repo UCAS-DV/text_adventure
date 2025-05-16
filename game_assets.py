@@ -164,7 +164,7 @@ test_ally = ally(name='Test Ally',
               max_hp=100, max_nerves=100, min_nerves=10, 
               attacks=[test_ally_attack],abilities=[],effects=[],heals=[])
 
-# ------------------------------------------------- Items -------------------------------------------------
+# ------------------------------------------------- Items ------------------------------------------------
 present_item = item(name='Present',item_description='Tragically, Jackson Spook never got his present in 2017. So sad.',hp=-5, nerves=-30,
                  action_description=['You pull out the present you got from earlier.', 'You open it to see a gaming console packed with a horror game.', 'You open it and hook it up to a nearby TV.',
                                      'The horror game is kinda mediocre but your gameplay is so horrendous that it stresses everyone out.', 'Seriously, I have never seen someone suck at a video game so much.',
