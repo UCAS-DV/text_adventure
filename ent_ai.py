@@ -46,9 +46,9 @@ def enemy_decision_tree(enemy):
     # HEAL weighting logic
     if healing_ability_list:
         if near_death_enemies:
-            decision_list.extend(["heal"] * 3)
-        if damaged_allies:
             decision_list.extend(["heal"] * 2)
+        if damaged_allies:
+            decision_list.append(["heal"])
 
     # ATTACK weighting logic
     if attack_list:

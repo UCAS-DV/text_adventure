@@ -40,7 +40,7 @@ To turn on Debug Mode, go to line one of game_assets.py and set debug_mode to tr
 + Avery Bowman wrote the original code for exploration and the original README. She was the Content Area Expert
 + Yenesis Rabelo wrote the original code for saving and loading. She was the UI/UX designer.
 + Darius Vaiaoga wrote the code for almost all of the battle system, heavily modified the code for saving/loading, exploration, modified the README, wrote almost all of the descriptions and dialogue (with the exception of portions of Area 51), created all of the used game assets, and created the original game. He was the team leader for the project.
-+ Amber Bishop wrote the code for status effects, fixed a vast majority of the bugs, wrote the enemy AI, created all of the features in the extras tab, and helped heavily with the ideas for how the code should function. She was the lead programmer.     
++ Amber Bishop wrote the code for effects.py, ent_ai.py, extras.py, image_loader.py, inspect_charecter.py, helper_funcs.py, fixed a vast majority of the bugs, wrote the enemy AI, created all of the features in the extras tab, and helped heavily with the ideas for how the code should function. She was the lead programmer.     
 
 ## Author's info
 ---
@@ -49,4 +49,4 @@ To turn on Debug Mode, go to line one of game_assets.py and set debug_mode to tr
 + I am Darius Vaiaoga, a student of Ms. LaRose's Computer Programming 2 class. I have always had a passion for programming, learning it when I was 7 years old. Specifically, I have a passion for game design and I aspire to complete a proper game one day, but any programming is good programming. I also hold passions for history and astronomy. My primary hobbies are learning about history and playing video games.
 
 You can contact me at my school email: darius.vaiaoga@ucas-edu.net
-+ Amber: I'm a 10th grader at UCAS, who enjoys coding, and game design. DO NOT CONTACT ME
++ Amber: I'm a 10th grader at UCAS, who enjoys coding, and game design. My dream job is to work Valve. You can contact me at mark.bishop@ucas-edu.net
