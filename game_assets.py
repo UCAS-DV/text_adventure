@@ -333,8 +333,8 @@ trick = attack('nudge', 'Trick', '', 10, 0, True, False,
                ['"Brains... trick or treat!"', 'You shake your head in disapproval, rejecting the zombie.', 'The zombie walks away defeated.', '"Rejected me just like Jessica..." the zombie says under its breath.'], [])
 
 ghost = enemy('Very Spooky Ghost', 40, 100, 30, [], [], [], [moral_support])
-zombie_one = enemy('David', 40, 100, 10, [trick, scare], [], [], [])
-zombie_two = enemy('Very Spooky Zombie', 40, 100, 10, [trick, scare], [], [], [])
+zombie_one = enemy('David', 40, 100, 20, [trick, scare], [], [], [])
+zombie_two = enemy('Very Spooky Zombie', 40, 100, 20, [trick, scare], [], [], [])
 
 spooky_monsters_fight = encounter([zombie_one, ghost], 'Dialogue/encounter_intro.txt', 'Dialogue/encounter_outro.txt')
 
@@ -392,7 +392,7 @@ present_pepper = attack('present', 'Present', '', 0, 20, True, False,
                        ['Using her elf skills,', 'the elf quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control and is only a little panicked to see how much happened while he was in a trance.'],
                        ['Using her elf skills,', 'the elf quickly builds a sticky hand and flings it at {tname}.'], [])
 
-santa = enemy('Santa Claus', 120, 120, 10, [blast, intimidation], [], [], [])
+santa = enemy('Santa Claus', 120, 120, 25, [blast, intimidation], [], [], [])
 agent_elf = enemy('Special Agent Elf', 80, 100, 10, [beam_enemy, present_pepper], [], [], [])
 
 santa_fight = encounter([santa, agent_elf], 'Dialogue/north_pole/santa_intro.txt', 'Dialogue/north_pole/santa_outro.txt')
@@ -432,7 +432,7 @@ snowball = attack('snowball', 'Snow Ball', '', 25, 10, True, False,
 
 elf_one = enemy('Spec. Ops. Elf 1', 30, 100, 30, [present_enemy, snowball], [], [], [])
 elf_two = enemy('Spec. Ops. Elf 2', 30, 100, 30, [present_enemy, snowball], [], [], [])
-reindeer = enemy('Spec. Ops. Reindeer', 60, 100, 10, [], [shine], [], [])
+reindeer = enemy('Spec. Ops. Reindeer', 60, 100, 20, [], [shine], [], [])
 
 spec_ops_fight = encounter([elf_one, elf_two, reindeer], 'Dialogue/north_pole/spec_ops_intro.txt', 'Dialogue/north_pole/spec_ops_outro.txt')
 
