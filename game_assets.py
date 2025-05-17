@@ -199,47 +199,8 @@ alien_cat = item(
     ability=[],
     action_description=["The Alien Cat climbs onto your head and purrs", "You feel your neurons realign."]
     )
-# ------------------------------------------------- Player Moves -------------------------------------------------
-kickflip = attack('sin_off', 'Kickflip', 'Wow everyone with a radical kickflip!', 20, 0, True, False, 
-                  ['You run up and do the most rad', 'tubular', 'fresh', 'kickflip on {tname} the world has ever seen.'], 
-                  ['You run up and RADICALLY kickflip {tname}.'], 
-                  ['You run up and kickflip {tname} but it was only kinda cool.', 'Honestly, it was a 6/10 at best.'],
-                  ['You run up and try to kickflip {tname} but you trip and fall onto a nearby skateboard.', 'You end up kickfliping the skateboard,', 'followed by 7 1080 flips', 
-                   'and then a 1080 backflip off of the skateboard and onto another skateboard.', 'You end up winning the local "cool guy" competition but you dealt no damage.'],[])
-declaration = attack('sin_off', 'Uncouth Declaration', "Forget physical damage! Emotional damage is where it's at!", 0, 15, True, False, 
-                     ["Oh...", "wow...", "I get how intense this situation is but you didn't have to go that far.", "To be frank I don't even know if you can legally say that."],
-                     ['You yell some very inflamatory statements.', 'The shock of your statements makes {tname} uneasy'], 
-                     ['You yell some somewhat mean statements.', 'Honestly, {tname} is shocked at how you could come up with such mild statements'], 
-                     ["Okay, so, pro tip...", 'Calling {tname} "Stinky" is not very effective past the first grade'],[])
-pep_talk = attack('single_heal', 'Pep Talk', "Fear can't beat out the power of a good pep talk!", 0, -20, False, False, 
-                     ['You give such an incredible, rousing self pep talk that even your enemies feel a little inspired.'],
-                     ['You give an inspirational pep talk that relieves the stress of battle.'], 
-                     ['You try to give yourself a pep talk but you suck at public speaking so it proves ineffective.'], 
-                     ['...', "That was...", 'something.', "Don't beat yourself up about it,", 'just ensure that you will never have to do any sort of public speaking...', 'ever...'
-        "and you'll be fine!"],[])
-apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doctor away! Although it might be better to have a doctor in this situation...', -20, 0, False, False,
-                 ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples.', "It's rumored that signed apples are only healthy if they deem the eater worthy.", 'Fortunately, the eater was worthy!'],
-                 ["{tname} eats the apple and is as healthy as ever!"],
-                 ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
-                 ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
 
-
-
-
-def load_player():
-
-    if debug_mode:
-        player_attacks = [kickflip, declaration, falcon_punch, resign]
-    else:
-        player_attacks = [kickflip, declaration]
-
-    player = ally(name='Unpaid Intern', 
-              max_hp=100, max_nerves=100, min_nerves=25, 
-              attacks=player_attacks,abilities=[], effects=[],heals=[pep_talk, apple])
-    
-    return player
-
-player = load_player()
+# ================================================= Bosses =================================================
 
 # ------------------------------------------------- VIYH Moves -------------------------------------------------
 pessimism = attack('pessimism', 'Terrible Pessimism', '', 0, 10, True, False,
@@ -279,87 +240,10 @@ truth_enemy = attack('truth', 'Disturbing Truth', '', 0, 10, True, False,
                      ['Mr. Skellybones tries to disturb you but it ended up being such a blatant truth that you feel nothing.', 'You look at him with a deadpan expression.', 
                      'He feels a little embarressed.'], [3])
 
-skellybones_boss = enemy('Mr. Skellybones', 70, 100, 10,
+skellybones_boss = enemy('Mr. Skellybones', 90, 100, 10,
                     [bone_blow_boss, truth_enemy], [], [], [])
 
 skellybones_fight = encounter([skellybones_boss], 'Dialogue/skellybones_intro.txt', 'Dialogue/skellybones_outro.txt')
-
-# ------------------------------------------------- Skellybones (Ally) -------------------------------------------------
-bone_blow_ally = attack('bone_blow', 'Funny Bone Blow', '"HEY! This is no laughing matter!', 10, 10, True, False,
-                   ["With what you think is a deadpan expression", "(you can't really tell because he's just a faceless skeleton)", 
-                    "He lightly taps {tname}'s funny bone.", "You look at him confused but suddenly {tname} shuts down completely.", "It's like someone turned {tname} off and on again"],
-                    ["He hits {tname}'s funny bone in a very unfunny way."],
-                    ["He tries to hit {tname}'s funny bone in a very unfunny way but he only lightly taps it"],
-                    ["He tries to hit {tname}'s funny bone but he trips and hits his own funny bone.", 'He lays on the ground immobilized as you look down at him with pity.',
-                    '"THIS IS NOT FUNNY RAAAAAAH"', 'Eventually he gets his footing and the battle continues.'], [])
-got_milk_ally = attack('single_heal', 'Got Milk?', 'Milk makes your bones stronger!', -20, 0, False, False,
-                        ['He reaches behinda grave and grabs a jug of Clarkplace(TM) milk.', '"Raaaah. Only Clarkplace Milk(TM) makes feel this good."', 
-                        '"You can find Clarkplace Milk(TM) at your local PriceCo(TM) for only $4.29"', 'He tilts his skull in what you think is a wink and drinks the whole cartoon.', 
-                        'He looks significantly more health y.'],
-                        ['He reaches behind a grave and grabs a jug of Awesome Price(TM) milk.', 'He drinks it and looks revitalized.'],
-                        ['He reaches behind a grave and grabs a jug of expired Awesome Price(TM) milk.', "He drinks it and seems disgusted," "you can't really tell because he's just a skeleton."],
-                        ['He reaches behind a grave and grabs an empty jug of Clarkplace(TM) milk.', 'He looks at the jug with despair.', '"Raaaah. Why did you have to leave me too dear Clarkplace(TM) Milk"',
-                        'You reconcile him as he despairs', '"Raaaah. Thank you"', "Now that he's feeling better, you hug and then continue the fight"], [])
-truth_ally = attack('truth', 'Disturbing Truth', "Freak your opponents out with something mildly shocking!", 0, 5, True, True,
-                     ['Mr. Skellybones stands and declares...', '"Raaaah."', '[My lawyer has advised me to remove the following dialogue]', 'You and your enemies are very disturbed'],
-                     ['"Raaaah. 2017 was 8 years ago."', 'Everyone feels disturbed.'],
-                     ['"Raaaah. Some people are poor."', 'Your enemies feels a little bummed out.'],
-                     ['Mr. Skellybones tries to disturb your enemies but it ended up being such a blatant truth that they feel nothing.', 'Everyone looks at him with a deadpan expression.', 
-                     'He feels a little embarressed.'], [3])
-
-skellybones_ally = ally('Mr. Skellybones', 70, 100, 10,
-                    [bone_blow_ally, truth_ally], [], [], [got_milk_ally])
-
-# ------------------------------------------------- Very Spooky Monsters -------------------------------------------------
-moral_support = attack('moral_support', 'Moral Support', '', -20, -10, False, False,
-                       ['The ghost flies to the {tname}.', "The ghost reaches into itself and pulls out a bag of G&Gs and hands it to the {tname}.", '"I hope you know that you deserve this after all of your hard work!"', '{tname} smiles gently and eats the G&Gs.', "They taste absolutely horrendous but it's the thought that counts!"],
-                       ['"Hooray for {tname}!" says the ghost', '"We all love {tname}! Heehee!"', 'The {tname} feels revitalized and motivated.'],
-                       ['"Hooray for {tname}?" says the ghost', '"And um..."', '"Well...', '"A for effort?"'],
-                       ['"OH COME ON!" says the ghost', '"THEY WERE RIGHT THERE!"', '"YOU-"', '"YOU-"', '"IMBECILES!"', 'Everyone looks at the ghost shocked.', 'You shake your head in disapproval', '"Oh..."', '"Uh..."', '"Hee hee?"'], [])
-
-scare = attack('scare', 'Scare', '', 0, 10, True, False,
-               ["You blink and the zombie's gone!", "Well that's awfully convienent.", "I'm sure nothing could go wrong!", 'You turn around to see the zombie right next to you.', 'It whispers in your ear, ', '"Your body replaces your cells every 7 to 10 years."',
-                'AAAAAAAAAAAAA!', 'PHILOSOPHICAL DILLEMA!'],
-                ['"Boo!"', 'Eek!'],
-                ['"Boo?"', 'Eek?'],
-                ["You blink and the zombie's gone!", "Well that's awfully convienent.", "Although I'm sure it's going to pop up and scare us.", "So be prepared!", '...', '...', '...', "It's been 15 minutes, what's the deal?",
-                 "You see the zombie walk back.", '"Sorry, I went to go make sure I left my door locked before leaving."', '"I did!"', 'You shrug and continue the battle.'], [])
-
-trick = attack('nudge', 'Trick', '', 10, 0, True, False,
-               ['The zombie charges at you and you promptly run away.', 'You keep running until you realize that something is off.', 'You look down to find that you have just ran off a cliff.', 'You raise up a sign saying "Help" and fall all of the way down.',
-                'Eventually you make it back up to the carnival.'],
-               ['"Brains... trick or treat!"', 'You notice a shadow forming under you.', 'You look up to see a piano falling from the sky.', "It seems like we've been tricked...", 'The piano falls and crushes you.'],
-               ['"Brains... trick or treat!"', ''],
-               ['"Brains... trick or treat!"', 'You shake your head in disapproval, rejecting the zombie.', 'The zombie walks away defeated.', '"Rejected me just like Jessica..." the zombie says under its breath.'], [])
-
-ghost = enemy('Very Spooky Ghost', 40, 100, 30, [], [], [], [moral_support])
-zombie_one = enemy('David', 40, 100, 10, [trick, scare], [], [], [])
-zombie_two = enemy('Very Spooky Zombie', 40, 100, 10, [trick, scare], [], [], [])
-
-spooky_monsters_fight = encounter([zombie_one, ghost], 'Dialogue/encounter_intro.txt', 'Dialogue/encounter_outro.txt')
-
-# ------------------------------------------------- Zeep Vorp (Ally) -------------------------------------------------
-
-charge_ally = attack('charge', 'Proton Charge', 'Harness the power of the electromagnatism with a proton charge!', 10, 0, True, True,
-                     ['It seems like Zeep Vorp remembered to set his proton charges to "Illegal everywhere except Texas" instead of "Mild Inconvience."'],
-                     ['Zeep Vorp throws several proton charges at the enemies.'],
-                     ['Zeep Vorp throws several proton charges at the enemies,', 'but he forgot to turn them on.', '"Vorleep zam zoop?"', 'Since he was so polite, everyone let Zeep Vorp turn on the proton charges.', '"Verleem!"', 'BOOM'],
-                     ['Zeep Vorp tries to throw several proton charges but it seems like he forgot them at home.', '"Vap zeem! Jimlip?"', 'Everyone lets Zeep Vorp go back home to get them.'], [])
-
-heal_field = attack('field', 'Heal Field', 'Heal up in this totally not FDA-approved heal field!', -15, -15, False, True,
-                    ['It seems like Zeep Vorp in his clumsiness, accidentally super charged the heal field.', "He doesn't know how it happened but hey", 'if it works, it works.'],
-                    ['Zeep Vorp places down a heal field.', 'Everyone feels a little bit better now, mentally and physically.'],
-                    ['Zeep Vorp places down a heal field which works for a bit,', 'but he trips on it,', 'turning it off.'],
-                    ['Zeep Vorp places down a heal field but he forgets the password on how to turn it on.'], [])
-
-shield_up = attack("shield_up", "Shield Up", "Deploys a calming shield to reduce incoming damage.", 0, -10, False, False,
-                   ['Zeep Vorp deploys a strangely calming shield.', 'Inside you hear oddly zen music and smell...', 'peppermint...', 'gross...', "But hey, it's the thought that counts."],
-                   ['Zeep Vorp places down a shield to protect {tname}.', "{tname}'s nerves are slightly eased."],
-                   ["Zeep Vorp places down a shield but it seems like he forgot the batteries, which stresses {tname} out but don't worry,", "he got it working"],
-                   ['Zeep Vorp places down a shield that is not calming at all.', "It's just constant alarm clock timers going off over and over and over.", '3/10,', 'would not recommend.'],
-                   [2])
-
-zeep_vorp_ally = ally("Zeep Vorp", 60, 100, 10, [charge_ally], [shield_up],[],[heal_field])
 
 # ------------------------------------------------- Santa Claus Fight -------------------------------------------------
 blast = attack('blast', 'Christmas MegaBlast', '', 20, 0, True, True, 
@@ -392,25 +276,63 @@ present_pepper = attack('present', 'Present', '', 0, 20, True, False,
                        ['Using her elf skills,', 'the elf quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control and is only a little panicked to see how much happened while he was in a trance.'],
                        ['Using her elf skills,', 'the elf quickly builds a sticky hand and flings it at {tname}.'], [])
 
-santa = enemy('Santa Claus', 120, 120, 10, [blast, intimidation], [], [], [])
+santa = enemy('Santa Claus', 100, 120, 10, [blast, intimidation], [], [], [])
 agent_elf = enemy('Special Agent Elf', 80, 100, 10, [beam_enemy, present_pepper], [], [], [])
 
 santa_fight = encounter([santa, agent_elf], 'Dialogue/north_pole/santa_intro.txt', 'Dialogue/north_pole/santa_outro.txt')
 
-# ------------------------------------------------- Pepper -------------------------------------------------
-beam_ally = attack('beam', 'Peppermint Beam', '', 25, 0, True, False,
-              ['Pepper stands back and gets ready for something.', 'She closes her eyes and starts yelling for some reason?.', 'Suddenly, she starts glowing the hat on her head turns from a dark green to a bright white.'
-               '"SUPER"', '"PEPPER-"', '"MINT"', '"BEEEEEEEEEEEEAAAAAAAAAAAAAAMMMMMMMMMMM!"', 'The light from the beam is blinding.', "It's thin as paper but the damage is incredible."],
-              ['Pepper makes a finger gun and points it at {tname}.','"PEPPERMINT"', '"BEAM!', "The laser blasts out of her hand and burns with the heat of a thousand suns.", "It's extremely precise and Worst of all,", 'it tastes like peppermint.', 'Gross...'],
-              ['"PEPPERMINT"', '""BLAST!"', 'Nothing happens.', '"Wait..."', '"That is not right."', '"Peppermint beam?"', "The beam fires out of her hands at {tname}, but because of the embarrasment of her initial blast, it's less powerful."],
-              ['PEPPERMINT', 'BEAM!', 'At the speed of light, it fires out of her hand.', 'She smirks arrogantly, proud of her actions.', 'She completely missed.', 'Haha,', 'loser.'], [])
-present_ally = attack('present', 'Present', '', 0, 20, True, False,
-                       ['Using her elf skills,', 'Pepper quickly builds a teddy bear?', 'Huh, everyone looks at it adoringly.', 'But then, {tname} looks in its cold,', 'dead,', 'apathetic', 'eyes,', 'and is very disturbed by it.'],
-                       ['Using her elf skills,', 'Pepper quickly builds a water gun and fires it at {tname}.', "Now they're cold, wet, and not very happy."],
-                       ['Using her elf skills,', 'Pepper quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control abd is only a little panicked to see how much happened while he was in a trance.'],
-                       ['Using her elf skills,', 'Pepper quickly builds a sticky hand and flings it at {tname}.'], [])
+# ------------------------------------------------- Zeep Vorp (Boss) -------------------------------------------------
+super_charge = attack('charge', 'Super Proton Charge', 'Harness the power of the electromagnatism with a proton charge!', 25, 0, True, True,
+                     ['It seems like Zeep Vorp remembered to set his proton charges to "Illegal everywhere except Texas" instead of "Mild Inconvience."'],
+                     ['Zeep Vorp fires several super-proton charges at you and your team.'],
+                     ['Zeep Vorp fires several super-proton charges but you and your team narrowly dodge out of the way.'],
+                     ['Zeep Vorp tries to fire a bunch of super-proton charges at you but his mech jams.'], [])
+replication = attack('replication', 'Replication', '', -20, -10, False, False,
+                     ['Zeep somehow created a better, more evolved version of himself who kicked him out of the mech, fixed the mech, and took charge himself.'],
+                     ['In what I can only describe as a crime against biology,', 'Zeep duplicates himself several times to tend to him and fix his ship as he pilots it.'],
+                     ["Zeep duplicates himself several times to tend to him and fix his ship, but apparently it's hard to repair a flying mech's external wounds, as it is flying,",
+                     'So nothing really gets done.', "They were able to stick a princess-branded bandages on it so I'm sure it's fine."],
+                     ['In what I can only describe as an attempted crime against biology,', 'Zeep duplicates himself several times to tend to his own wounds and fix his ship as he pilots it...',
+                     'but he forgot to duplicate his conscious so the clones just run off on their own endeavors.', "I hope they're okay, wherever they went."], [])
+hologram = attack('hologram', 'Hologram', '', 0, 20, True, False,
+                  ["Zeep Vorp activates a hologram showing {tname}'s greatest fear.", 'Even Mr. Skellybones is shocked at how scary Zeep Vorp can be.'],
+                  ['Zeep Vorp activates several holograms of himself to confuse {tname}.'],
+                  ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but he trips and can only activate one because he broke the other 43.'],
+                  ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but it seems like he ran out of his free trial.', 'He spends a couple minutes trying to pay for Hologram+ and eventually he figures it out.', 'Sigh...', 'classic Zeep Vorp.'], [])
 
-pepper = ally('Pepper', 60, 100, 25, [beam_ally, present_ally], [], [], [])
+zeep_vorp_enemy = enemy('Zeep Vorp', 120, 130, 30, [super_charge], [hologram], [], [replication])
+
+zeep_vorp_fight = encounter([zeep_vorp_enemy], 'Dialogue/white_house/zeep_vorp_intro.txt', "Dialogue/white_house/zeep_vorp_outro.txt")
+
+# ================================================= Encounters =================================================
+
+# ------------------------------------------------- Very Spooky Monsters -------------------------------------------------
+moral_support = attack('moral_support', 'Moral Support', '', -20, -10, False, False,
+                       ['The ghost flies to the {tname}.', "The ghost reaches into itself and pulls out a bag of G&Gs and hands it to the {tname}.", '"I hope you know that you deserve this after all of your hard work!"', '{tname} smiles gently and eats the G&Gs.', "They taste absolutely horrendous but it's the thought that counts!"],
+                       ['"Hooray for {tname}!" says the ghost', '"We all love {tname}! Heehee!"', 'The {tname} feels revitalized and motivated.'],
+                       ['"Hooray for {tname}?" says the ghost', '"And um..."', '"Well...', '"A for effort?"'],
+                       ['"OH COME ON!" says the ghost', '"THEY WERE RIGHT THERE!"', '"YOU-"', '"YOU-"', '"IMBECILES!"', 'Everyone looks at the ghost shocked.', 'You shake your head in disapproval', '"Oh..."', '"Uh..."', '"Hee hee?"'], [])
+
+scare = attack('scare', 'Scare', '', 0, 10, True, False,
+               ["You blink and the zombie's gone!", "Well that's awfully convienent.", "I'm sure nothing could go wrong!", 'You turn around to see the zombie right next to you.', 'It whispers in your ear, ', '"Your body replaces your cells every 7 to 10 years."',
+                'AAAAAAAAAAAAA!', 'PHILOSOPHICAL DILLEMA!'],
+                ['"Boo!"', 'Eek!'],
+                ['"Boo?"', 'Eek?'],
+                ["You blink and the zombie's gone!", "Well that's awfully convienent.", "Although I'm sure it's going to pop up and scare us.", "So be prepared!", '...', '...', '...', "It's been 15 minutes, what's the deal?",
+                 "You see the zombie walk back.", '"Sorry, I went to go make sure I left my door locked before leaving."', '"I did!"', 'You shrug and continue the battle.'], [])
+
+trick = attack('nudge', 'Trick', '', 10, 0, True, False,
+               ['The zombie charges at you and you promptly run away.', 'You keep running until you realize that something is off.', 'You look down to find that you have just ran off a cliff.', 'You raise up a sign saying "Help" and fall all of the way down.',
+                'Eventually you make it back up to the carnival.'],
+               ['"Brains... trick or treat!"', 'You notice a shadow forming under you.', 'You look up to see a piano falling from the sky.', "It seems like we've been tricked...", 'The piano falls and crushes you.'],
+               ['"Brains... trick or treat!"', ''],
+               ['"Brains... trick or treat!"', 'You shake your head in disapproval, rejecting the zombie.', 'The zombie walks away defeated.', '"Rejected me just like Jessica..." the zombie says under its breath.'], [])
+
+ghost = enemy('Very Spooky Ghost', 55, 100, 30, [], [], [], [moral_support])
+zombie_one = enemy('David', 50, 100, 10, [trick, scare], [], [], [])
+zombie_two = enemy('Very Spooky Zombie', 40, 100, 10, [trick, scare], [], [], [])
+
+spooky_monsters_fight = encounter([zombie_one, ghost], 'Dialogue/encounter_intro.txt', 'Dialogue/encounter_outro.txt')
 
 # ------------------------------------------------- Spec. Ops. Elves -------------------------------------------------
 present_enemy = attack('present', 'Present', '', 0, 20, True, False,
@@ -436,28 +358,114 @@ reindeer = enemy('Spec. Ops. Reindeer', 60, 100, 10, [], [shine], [], [])
 
 spec_ops_fight = encounter([elf_one, elf_two, reindeer], 'Dialogue/north_pole/spec_ops_intro.txt', 'Dialogue/north_pole/spec_ops_outro.txt')
 
-# ------------------------------------------------- Zeep Vorp (Boss) -------------------------------------------------
-super_charge = attack('charge', 'Super Proton Charge', 'Harness the power of the electromagnatism with a proton charge!', 25, 0, True, True,
+# ================================================= Allies =================================================
+
+# ------------------------------------------------- Player Moves -------------------------------------------------
+kickflip = attack('sin_off', 'Kickflip', 'Wow everyone with a radical kickflip!', 20, 0, True, False, 
+                  ['You run up and do the most rad', 'tubular', 'fresh', 'kickflip on {tname} the world has ever seen.'], 
+                  ['You run up and RADICALLY kickflip {tname}.'], 
+                  ['You run up and kickflip {tname} but it was only kinda cool.', 'Honestly, it was a 6/10 at best.'],
+                  ['You run up and try to kickflip {tname} but you trip and fall onto a nearby skateboard.', 'You end up kickfliping the skateboard,', 'followed by 7 1080 flips', 
+                   'and then a 1080 backflip off of the skateboard and onto another skateboard.', 'You end up winning the local "cool guy" competition but you dealt no damage.'],[])
+declaration = attack('sin_off', 'Uncouth Declaration', "Forget physical damage! Emotional damage is where it's at!", 0, 15, True, False, 
+                     ["Oh...", "wow...", "I get how intense this situation is but you didn't have to go that far.", "To be frank I don't even know if you can legally say that."],
+                     ['You yell some very inflamatory statements.', 'The shock of your statements makes {tname} uneasy'], 
+                     ['You yell some somewhat mean statements.', 'Honestly, {tname} is shocked at how you could come up with such mild statements'], 
+                     ["Okay, so, pro tip...", 'Calling {tname} "Stinky" is not very effective past the first grade'],[])
+pep_talk = attack('single_heal', 'Pep Talk', "Fear can't beat out the power of a good pep talk!", 0, -20, False, False, 
+                     ['You give such an incredible, rousing self pep talk that even your enemies feel a little inspired.'],
+                     ['You give an inspirational pep talk that relieves the stress of battle.'], 
+                     ['You try to give yourself a pep talk but you suck at public speaking so it proves ineffective.'], 
+                     ['...', "That was...", 'something.', "Don't beat yourself up about it,", 'just ensure that you will never have to do any sort of public speaking...', 'ever...'
+        "and you'll be fine!"],[])
+apple = attack('single_heal', 'Apple', 'As they say, an apple a day keep the doctor away! Although it might be better to have a doctor in this situation...', -20, 0, False, False,
+                 ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples.', "It's rumored that signed apples are only healthy if they deem the eater worthy.", 'Fortunately, the eater was worthy!'],
+                 ["{tname} eats the apple and is as healthy as ever!"],
+                 ['It seems that you have Gala apple.', "I guess it's healthy but did you seriously have to have the worst type of apple.", '{tname} eats the apple unhappily.', "Fortunately it's still healthy"],
+                 ['The apple tastes funny.', 'In the bitemark you can see the signature of John Apple,', 'the inventor of apples', '"You are NOT worthy!"', 'says the apple as it dissappears.', 'It seems like {tname} was not worthy of a signed apple.'],[])
+
+
+def load_player():
+
+    if debug_mode:
+        player_attacks = [kickflip, declaration, falcon_punch, resign]
+    else:
+        player_attacks = [kickflip, declaration]
+
+    player = ally(name='Unpaid Intern', 
+              max_hp=100, max_nerves=100, min_nerves=25, 
+              attacks=player_attacks,abilities=[], effects=[],heals=[pep_talk, apple])
+    
+    return player
+
+player = load_player()
+
+# ------------------------------------------------- Skellybones (Ally) -------------------------------------------------
+bone_blow_ally = attack('bone_blow', 'Funny Bone Blow', '"HEY! This is no laughing matter!', 10, 10, True, False,
+                   ["With what you think is a deadpan expression", "(you can't really tell because he's just a faceless skeleton)", 
+                    "He lightly taps {tname}'s funny bone.", "You look at him confused but suddenly {tname} shuts down completely.", "It's like someone turned {tname} off and on again"],
+                    ["He hits {tname}'s funny bone in a very unfunny way."],
+                    ["He tries to hit {tname}'s funny bone in a very unfunny way but he only lightly taps it"],
+                    ["He tries to hit {tname}'s funny bone but he trips and hits his own funny bone.", 'He lays on the ground immobilized as you look down at him with pity.',
+                    '"THIS IS NOT FUNNY RAAAAAAH"', 'Eventually he gets his footing and the battle continues.'], [])
+got_milk_ally = attack('single_heal', 'Got Milk?', 'Milk makes your bones stronger!', -20, 0, False, False,
+                        ['He reaches behinda grave and grabs a jug of Clarkplace(TM) milk.', '"Raaaah. Only Clarkplace Milk(TM) makes feel this good."', 
+                        '"You can find Clarkplace Milk(TM) at your local PriceCo(TM) for only $4.29"', 'He tilts his skull in what you think is a wink and drinks the whole cartoon.', 
+                        'He looks significantly more health y.'],
+                        ['He reaches behind a grave and grabs a jug of Awesome Price(TM) milk.', 'He drinks it and looks revitalized.'],
+                        ['He reaches behind a grave and grabs a jug of expired Awesome Price(TM) milk.', "He drinks it and seems disgusted," "you can't really tell because he's just a skeleton."],
+                        ['He reaches behind a grave and grabs an empty jug of Clarkplace(TM) milk.', 'He looks at the jug with despair.', '"Raaaah. Why did you have to leave me too dear Clarkplace(TM) Milk"',
+                        'You reconcile him as he despairs', '"Raaaah. Thank you"', "Now that he's feeling better, you hug and then continue the fight"], [])
+truth_ally = attack('truth', 'Disturbing Truth', "Freak your opponents out with something mildly shocking!", 0, 5, True, True,
+                     ['Mr. Skellybones stands and declares...', '"Raaaah."', '[My lawyer has advised me to remove the following dialogue]', 'You and your enemies are very disturbed'],
+                     ['"Raaaah. 2017 was 8 years ago."', 'Everyone feels disturbed.'],
+                     ['"Raaaah. Some people are poor."', 'Your enemies feels a little bummed out.'],
+                     ['Mr. Skellybones tries to disturb your enemies but it ended up being such a blatant truth that they feel nothing.', 'Everyone looks at him with a deadpan expression.', 
+                     'He feels a little embarressed.'], [3])
+
+skellybones_ally = ally('Mr. Skellybones', 70, 100, 10,
+                    [bone_blow_ally, truth_ally], [], [], [got_milk_ally])
+
+
+# ------------------------------------------------- Zeep Vorp (Ally) -------------------------------------------------
+
+charge_ally = attack('charge', 'Proton Charge', 'Harness the power of the electromagnatism with a proton charge!', 10, 0, True, True,
                      ['It seems like Zeep Vorp remembered to set his proton charges to "Illegal everywhere except Texas" instead of "Mild Inconvience."'],
-                     ['Zeep Vorp fires several super-proton charges at you and your team.'],
-                     ['Zeep Vorp fires several super-proton charges but you and your team narrowly dodge out of the way.'],
-                     ['Zeep Vorp tries to fire a bunch of super-proton charges at you but his mech jams.'], [])
-replication = attack('replication', 'Replication', '', -20, -10, False, False,
-                     ['Zeep somehow created a better, more evolved version of himself who kicked him out of the mech, fixed the mech, and took charge himself.'],
-                     ['In what I can only describe as a crime against biology,', 'Zeep duplicates himself several times to tend to him and fix his ship as he pilots it.'],
-                     ["Zeep duplicates himself several times to tend to him and fix his ship, but apparently it's hard to repair a flying mech's external wounds, as it is flying,",
-                     'So nothing really gets done.', "They were able to stick a princess-branded bandages on it so I'm sure it's fine."],
-                     ['In what I can only describe as an attempted crime against biology,', 'Zeep duplicates himself several times to tend to his own wounds and fix his ship as he pilots it...',
-                     'but he forgot to duplicate his conscious so the clones just run off on their own endeavors.', "I hope they're okay, wherever they went."], [])
-hologram = attack('hologram', 'Hologram', '', 0, 20, True, False,
-                  ["Zeep Vorp activates a hologram showing {tname}'s greatest fear.", 'Even Mr. Skellybones is shocked at how scary Zeep Vorp can be.'],
-                  ['Zeep Vorp activates several holograms of himself to confuse {tname}.'],
-                  ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but he trips and can only activate one because he broke the other 43.'],
-                  ['Zeep Vorp tries to activate several holograms of himself to confuse {tname}, but it seems like he ran out of his free trial.', 'He spends a couple minutes trying to pay for Hologram+ and eventually he figures it out.', 'Sigh...', 'classic Zeep Vorp.'], [])
+                     ['Zeep Vorp throws several proton charges at the enemies.'],
+                     ['Zeep Vorp throws several proton charges at the enemies,', 'but he forgot to turn them on.', '"Vorleep zam zoop?"', 'Since he was so polite, everyone let Zeep Vorp turn on the proton charges.', '"Verleem!"', 'BOOM'],
+                     ['Zeep Vorp tries to throw several proton charges but it seems like he forgot them at home.', '"Vap zeem! Jimlip?"', 'Everyone lets Zeep Vorp go back home to get them.'], [])
 
-zeep_vorp_enemy = enemy('Zeep Vorp', 150, 130, 30, [super_charge], [hologram], [], [replication])
+heal_field = attack('field', 'Heal Field', 'Heal up in this totally not FDA-approved heal field!', -15, -15, False, True,
+                    ['It seems like Zeep Vorp in his clumsiness, accidentally super charged the heal field.', "He doesn't know how it happened but hey", 'if it works, it works.'],
+                    ['Zeep Vorp places down a heal field.', 'Everyone feels a little bit better now, mentally and physically.'],
+                    ['Zeep Vorp places down a heal field which works for a bit,', 'but he trips on it,', 'turning it off.'],
+                    ['Zeep Vorp places down a heal field but he forgets the password on how to turn it on.'], [])
 
-zeep_vorp_fight = encounter([zeep_vorp_enemy], 'Dialogue/white_house/zeep_vorp_intro.txt', "Dialogue/white_house/zeep_vorp_outro.txt")
+shield_up = attack("shield_up", "Shield Up", "Deploys a calming shield to reduce incoming damage.", 0, -10, False, False,
+                   ['Zeep Vorp deploys a strangely calming shield.', 'Inside you hear oddly zen music and smell...', 'peppermint...', 'gross...', "But hey, it's the thought that counts."],
+                   ['Zeep Vorp places down a shield to protect {tname}.', "{tname}'s nerves are slightly eased."],
+                   ["Zeep Vorp places down a shield but it seems like he forgot the batteries, which stresses {tname} out but don't worry,", "he got it working"],
+                   ['Zeep Vorp places down a shield that is not calming at all.', "It's just constant alarm clock timers going off over and over and over.", '3/10,', 'would not recommend.'],
+                   [2])
+
+zeep_vorp_ally = ally("Zeep Vorp", 60, 100, 10, [charge_ally], [shield_up],[],[heal_field])
+
+# ------------------------------------------------- Pepper -------------------------------------------------
+beam_ally = attack('beam', 'Peppermint Beam', '', 25, 0, True, False,
+              ['Pepper stands back and gets ready for something.', 'She closes her eyes and starts yelling for some reason?.', 'Suddenly, she starts glowing the hat on her head turns from a dark green to a bright white.'
+               '"SUPER"', '"PEPPER-"', '"MINT"', '"BEEEEEEEEEEEEAAAAAAAAAAAAAAMMMMMMMMMMM!"', 'The light from the beam is blinding.', "It's thin as paper but the damage is incredible."],
+              ['Pepper makes a finger gun and points it at {tname}.','"PEPPERMINT"', '"BEAM!', "The laser blasts out of her hand and burns with the heat of a thousand suns.", "It's extremely precise and Worst of all,", 'it tastes like peppermint.', 'Gross...'],
+              ['"PEPPERMINT"', '""BLAST!"', 'Nothing happens.', '"Wait..."', '"That is not right."', '"Peppermint beam?"', "The beam fires out of her hands at {tname}, but because of the embarrasment of her initial blast, it's less powerful."],
+              ['PEPPERMINT', 'BEAM!', 'At the speed of light, it fires out of her hand.', 'She smirks arrogantly, proud of her actions.', 'She completely missed.', 'Haha,', 'loser.'], [])
+present_ally = attack('present', 'Present', '', 0, 20, True, False,
+                       ['Using her elf skills,', 'Pepper quickly builds a teddy bear?', 'Huh, everyone looks at it adoringly.', 'But then, {tname} looks in its cold,', 'dead,', 'apathetic', 'eyes,', 'and is very disturbed by it.'],
+                       ['Using her elf skills,', 'Pepper quickly builds a water gun and fires it at {tname}.', "Now they're cold, wet, and not very happy."],
+                       ['Using her elf skills,', 'Pepper quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control abd is only a little panicked to see how much happened while he was in a trance.'],
+                       ['Using her elf skills,', 'Pepper quickly builds a sticky hand and flings it at {tname}.'], [])
+
+pepper = ally('Pepper', 60, 100, 25, [beam_ally, present_ally], [], [], [])
+
+
 
 
 #if victory:
