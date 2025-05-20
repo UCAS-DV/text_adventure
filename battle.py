@@ -284,7 +284,7 @@ def battle(allies, enemies, opening, closing, inventory):
         # IF player's turn
         if turn % 2 == 0:
             player_acted = False
-            match inq_select('Which action would you like to perform?', 'Check Stats', 'Attack', 'Use Item'):
+            match inq_select('Which action would you like to perform?', 'Check Stats', 'Attack', 'Use Item', 'Run Away'):
 
                 # Check Stats
                 case 1:
@@ -394,6 +394,26 @@ def battle(allies, enemies, opening, closing, inventory):
 
                     turn += 1
                     effects.turn = turn
+
+                case 4:
+
+                    input('You ran away (Enter to Continue)')
+
+                    # Resets enemy stats
+                    for enemy in enemies:
+                        enemy.hp = enemy.max_hp
+                        enemy.nerves = enemy.max_nerves
+
+                    # Resets allied stats
+                    for ally in allies:
+                        ally.hp = ally.max_hp
+                        ally.nerves = ally.max_nerves
+
+                    victory = False
+                    battle_ended = True
+                    break
+
+
             if player_acted:
                 input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
                 
@@ -443,10 +463,11 @@ def battle(allies, enemies, opening, closing, inventory):
             effects.turn = turn
 
     if victory:
+        input('===================== YOU WON ===================== \n(Enter to Continue)')
         read_dialogue(closing)
         return victory, saved_inventory
     else:
-        input('===================== YOU LOSE ===================== \n Try Again')
+        input('===================== YOU LOSE ===================== \n(Enter to Continue)')
         return victory, inventory
     
 
