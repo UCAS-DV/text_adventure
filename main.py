@@ -12,7 +12,7 @@ def start_game():
     save_game({
         "location": -1,
         "allies": [player],
-        "inventory": load_game()['inventory']
+        "inventory": []
     })
 
     read_dialogue('Dialogue/opening/opening_cutscene.txt')
@@ -118,7 +118,8 @@ def main():
 
         match choice:
             case 1:
-                start_game()
+                if inq_select("Starting a new game will completely wipe your save file. Are you sure?", 'No', 'Yes') == 2:
+                    start_game()
             case 2:
                 load_game_main()
             case 3:

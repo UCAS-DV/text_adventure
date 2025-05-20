@@ -19,19 +19,22 @@ def attack_them(att, dealer, targets, nerves):
     def roll_nerves(nerves, attack, target):
 
         roll = random.randint(1,100)
-
-        if roll < nerves * 0.1:
-            read_description(attack.super_success + [f'{attack.name} was super successful!'], target)
-            return 1.5
-        elif roll <= nerves:
+        if attack != game_assets.pep_talk:
+            if roll < nerves * 0.1:
+                read_description(attack.super_success + [f'{attack.name} was super successful!'], target)
+                return 1.5
+            elif roll <= nerves:
+                read_description(attack.success + [f'{attack.name} was successful!'], target)
+                return 1
+            if roll > nerves * 1.5:
+                read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
+                return 0.001
+            elif roll > nerves:
+                read_description(attack.fail + [f'{attack.name} was ineffective!'], target)
+                return 0.5
+        else:
             read_description(attack.success + [f'{attack.name} was successful!'], target)
             return 1
-        if roll > nerves * 1.5:
-            read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
-            return 0.001
-        elif roll > nerves:
-            read_description(attack.fail + [f'{attack.name} was ineffective!'], target)
-            return 0.5
 
 
     input(f'{dealer.name} uses {att.name}!')
@@ -146,8 +149,9 @@ def use_item(item, allies, enemies):
 
                 # Applies effects to all enemies
                 for enemy in enemies:  
-                    enemy.hp += item.hp
-                    enemy.nerves += item.nerves
+                    if enemy.hp > 0:
+                        enemy.hp += item.hp
+                        enemy.nerves += item.nerves
 
                 input(f'All enemies lost {-item.hp} health.\nAll enemies lost {-item.nerves} nerves.')
                 
@@ -184,8 +188,9 @@ def use_item(item, allies, enemies):
                 
                 # Applies effects to all allies
                 for ally in allies:  
-                    ally.hp += item.hp
-                    ally.nerves += item.nerves
+                    if ally.hp > 0:
+                        ally.hp += item.hp
+                        ally.nerves += item.nerves
 
                 target = game_assets.all_allies
 
