@@ -224,7 +224,7 @@ viyh = enemy(name='The Voice In Your Head',
              attacks=[pessimism, yell], abilities=[], effects=[], heals=[pep_talk_boss])
 
 # ------------------------------------------------- Skellybones (Boss) -------------------------------------------------
-bone_blow_boss = attack('bone_blow', 'Funny Bone Blow', '', 15, 0, True, False,
+bone_blow_boss = attack('bone_blow', 'Funny Bone Blow', '', 20, 0, True, False,
                    ["With what you think is a deadpan expression", "(you can't really tell because he's just a faceless skeleton)", 
                     "He lightly taps your funny bone.", "You look at him confused but suddenly... what feels like a jolt of lightening traverses through your arm and-",
                     '...', '...', 'You good?', 'It seems like your brain was too focused on writhing in very unfunny pain to remember to conjure my existence.', "Uh, don't do that again.",
@@ -239,9 +239,18 @@ truth_enemy = attack('truth', 'Disturbing Truth', '', 0, 10, True, False,
                      ['"Raaaah. Some people are poor."', 'You feel a little bummed out.'],
                      ['Mr. Skellybones tries to disturb you but it ended up being such a blatant truth that you feel nothing.', 'You look at him with a deadpan expression.', 
                      'He feels a little embarressed.'], [3])
+got_milk_enemy = attack('single_heal', 'Got Milk?', 'Milk makes your bones stronger!', -20, 0, False, False,
+                        ['He reaches behinda grave and grabs a jug of Clarkplace(TM) milk.', '"Raaaah. Only Clarkplace Milk(TM) makes feel this good."', 
+                        '"You can find Clarkplace Milk(TM) at your local PriceCo(TM) for only $4.29"', 'He tilts his skull in what you think is a wink and drinks the whole cartoon.', 
+                        'He looks significantly more health y.'],
+                        ['He reaches behind a grave and grabs a jug of Awesome Price(TM) milk.', 'He drinks it and looks revitalized.'],
+                        ['He reaches behind a grave and grabs a jug of expired Awesome Price(TM) milk.', "He drinks it and seems disgusted," "you can't really tell because he's just a skeleton."],
+                        ['He reaches behind a grave and grabs an empty jug of Clarkplace(TM) milk.', 'He looks at the jug with despair.', '"Raaaah. Why did you have to leave me too dear Clarkplace(TM) Milk"',
+                        'You reconcile him as he despairs', '"Raaaah. Thank you"', "Now that he's feeling better, you hug and then continue the fight"], [])
+
 
 skellybones_boss = enemy('Mr. Skellybones', 100, 100, 10,
-                    [bone_blow_boss, truth_enemy], [], [], [])
+                    [bone_blow_boss, truth_enemy], [], [], [got_milk_enemy])
 
 skellybones_fight = encounter([skellybones_boss], 'Dialogue/skellybones_intro.txt', 'Dialogue/skellybones_outro.txt')
 
@@ -366,13 +375,13 @@ kickflip = attack('sin_off', 'Kickflip', 'Wow everyone with a radical kickflip!'
                   ['You run up and RADICALLY kickflip {tname}.'], 
                   ['You run up and kickflip {tname} but it was only kinda cool.', 'Honestly, it was a 6/10 at best.'],
                   ['You run up and try to kickflip {tname} but you trip and fall onto a nearby skateboard.', 'You end up kickfliping the skateboard,', 'followed by 7 1080 flips', 
-                   'and then a 1080 backflip off of the skateboard and onto another skateboard.', 'You end up winning the local "cool guy" competition but you dealt no damage.'],[])
+                   'and then a 1080 backflip off of the skateboard and onto another skateboard.', 'You end up winning the local "cool guy" competition but you dealt almost no damage.'],[])
 declaration = attack('sin_off', 'Uncouth Declaration', "Forget physical damage! Emotional damage is where it's at!", 0, 15, True, False, 
                      ["Oh...", "wow...", "I get how intense this situation is but you didn't have to go that far.", "To be frank I don't even know if you can legally say that."],
                      ['You yell some very inflamatory statements.', 'The shock of your statements makes {tname} uneasy'], 
                      ['You yell some somewhat mean statements.', 'Honestly, {tname} is shocked at how you could come up with such mild statements'], 
                      ["Okay, so, pro tip...", 'Calling {tname} "Stinky" is not very effective past the first grade'],[])
-pep_talk = attack('single_heal', 'Pep Talk', "Fear can't beat out the power of a good pep talk! (This works regardless of your nerves)", 0, -20, False, False, 
+pep_talk = attack('single_heal', 'Pep Talk', "Fear can't beat out the power of a good pep talk! (This works regardless of your nerves)", 0, -15, False, False, 
                      ['You give such an incredible, rousing self pep talk that even your enemies feel a little inspired.'],
                      ['You give an inspirational pep talk that relieves the stress of battle.'], 
                      ['You try to give yourself a pep talk but you suck at public speaking so it proves ineffective.'], 
@@ -408,14 +417,6 @@ bone_blow_ally = attack('bone_blow', 'Funny Bone Blow', '"HEY! This is no laughi
                     ["He tries to hit {tname}'s funny bone in a very unfunny way but he only lightly taps it"],
                     ["He tries to hit {tname}'s funny bone but he trips and hits his own funny bone.", 'He lays on the ground immobilized as you look down at him with pity.',
                     '"THIS IS NOT FUNNY RAAAAAAH"', 'Eventually he gets his footing and the battle continues.'], [])
-got_milk_ally = attack('single_heal', 'Got Milk?', 'Milk makes your bones stronger!', -20, 0, False, False,
-                        ['He reaches behinda grave and grabs a jug of Clarkplace(TM) milk.', '"Raaaah. Only Clarkplace Milk(TM) makes feel this good."', 
-                        '"You can find Clarkplace Milk(TM) at your local PriceCo(TM) for only $4.29"', 'He tilts his skull in what you think is a wink and drinks the whole cartoon.', 
-                        'He looks significantly more health y.'],
-                        ['He reaches behind a grave and grabs a jug of Awesome Price(TM) milk.', 'He drinks it and looks revitalized.'],
-                        ['He reaches behind a grave and grabs a jug of expired Awesome Price(TM) milk.', "He drinks it and seems disgusted," "you can't really tell because he's just a skeleton."],
-                        ['He reaches behind a grave and grabs an empty jug of Clarkplace(TM) milk.', 'He looks at the jug with despair.', '"Raaaah. Why did you have to leave me too dear Clarkplace(TM) Milk"',
-                        'You reconcile him as he despairs', '"Raaaah. Thank you"', "Now that he's feeling better, you hug and then continue the fight"], [])
 truth_ally = attack('truth', 'Disturbing Truth', "Freak your opponents out with something mildly shocking!", 0, 5, True, True,
                      ['Mr. Skellybones stands and declares...', '"Raaaah."', '[My lawyer has advised me to remove the following dialogue]', 'You and your enemies are very disturbed'],
                      ['"Raaaah. 2017 was 8 years ago."', 'Everyone feels disturbed.'],
@@ -424,7 +425,7 @@ truth_ally = attack('truth', 'Disturbing Truth', "Freak your opponents out with 
                      'He feels a little embarressed.'], [3])
 
 skellybones_ally = ally('Mr. Skellybones', 70, 100, 10,
-                    [bone_blow_ally, truth_ally], [], [], [got_milk_ally])
+                    [bone_blow_ally], [truth_ally], [], [])
 
 
 # ------------------------------------------------- Zeep Vorp (Ally) -------------------------------------------------
@@ -457,7 +458,7 @@ beam_ally = attack('beam', 'Peppermint Beam', '', 25, 0, True, False,
               ['Pepper makes a finger gun and points it at {tname}.','"PEPPERMINT"', '"BEAM!', "The laser blasts out of her hand and burns with the heat of a thousand suns.", "It's extremely precise and Worst of all,", 'it tastes like peppermint.', 'Gross...'],
               ['"PEPPERMINT"', '""BLAST!"', 'Nothing happens.', '"Wait..."', '"That is not right."', '"Peppermint beam?"', "The beam fires out of her hands at {tname}, but because of the embarrasment of her initial blast, it's less powerful."],
               ['PEPPERMINT', 'BEAM!', 'At the speed of light, it fires out of her hand.', 'She smirks arrogantly, proud of her actions.', 'She completely missed.', 'Haha,', 'loser.'], [])
-present_ally = attack('present', 'Present', '', 0, 20, True, False,
+present_ally = attack('present', 'Present', '', 0, 15, True, False,
                        ['Using her elf skills,', 'Pepper quickly builds a teddy bear?', 'Huh, everyone looks at it adoringly.', 'But then, {tname} looks in its cold,', 'dead,', 'apathetic', 'eyes,', 'and is very disturbed by it.'],
                        ['Using her elf skills,', 'Pepper quickly builds a water gun and fires it at {tname}.', "Now they're cold, wet, and not very happy."],
                        ['Using her elf skills,', 'Pepper quickly builds one of those really mesmerizing fans that light up.', 'You know the one.', 'Anyway she turns it on and it mesmerizes {tname}.', '{tname} eventually regains control abd is only a little panicked to see how much happened while he was in a trance.'],

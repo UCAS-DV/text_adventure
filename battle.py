@@ -28,7 +28,7 @@ def attack_them(att, dealer, targets, nerves):
                 return 1
             if roll > nerves * 1.5:
                 read_description(attack.super_fail + [f'{attack.name} was a complete failure!'], target)
-                return 0.001
+                return 0.0001
             elif roll > nerves:
                 read_description(attack.fail + [f'{attack.name} was ineffective!'], target)
                 return 0.5
