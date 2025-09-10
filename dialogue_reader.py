@@ -10,6 +10,8 @@ def read_dialogue_file(filepath):
 # Prints dialogue
 def read_dialogue(filepath):
 
+    print("\033c")
+
     # Gets dialogue string and beginning dialogue path
     dialogue = read_dialogue_file(filepath)
     target_path = '1'
@@ -36,6 +38,7 @@ def read_dialogue(filepath):
                     break
 
 def read_description(description, target):
+
     for line in description:
         if input(f'{line.format(tname=target.name)} (Enter to Continue)') == 'skip':
             break

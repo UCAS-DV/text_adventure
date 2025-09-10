@@ -107,6 +107,8 @@ def attack_them(att, dealer, targets, nerves):
 
         # Apply the effect
         #effects.apply(att.ability, target)
+        input("")
+        print("\033c")
 
 # Formats items so it can be used in UI
 def format(unformatted_list):
@@ -154,6 +156,7 @@ def use_item(item, allies, enemies):
                         enemy.nerves += item.nerves
 
                 input(f'All enemies lost {-item.hp} health.\nAll enemies lost {-item.nerves} nerves.')
+                print("\033c")
                 
                 break
             else:
@@ -181,6 +184,7 @@ def use_item(item, allies, enemies):
                 target = enemy_selected
 
                 input(f'{enemy_selected.name} lost {-item.hp} health.\n{enemy_selected.name} lost {-item.nerves} nerves.')
+                print("\033c")
                 break
         else:
             # IF item affects multiple allies
@@ -197,6 +201,7 @@ def use_item(item, allies, enemies):
                 read_description(item.a_desc, target)
 
                 input(f'All allies gained {item.hp} health.\nAll enemies gained {item.nerves} nerves.')
+                print("\033c")
 
                 break
             else:
@@ -220,6 +225,7 @@ def use_item(item, allies, enemies):
                 read_description(item.a_desc, target)
 
                 input(f'{ally_selected.name} gained {item.hp} health.\n{ally_selected.name} gained {item.nerves} nerves.')
+                print("\033c")
 
                 break
     return allies, enemies
@@ -228,11 +234,11 @@ def use_item(item, allies, enemies):
 def battle(allies, enemies, opening, closing, inventory):
     #print(allies)
     #print(enemies)
+    
     ent_ai.ent_ai_allies = allies
     ent_ai.ent_ai_enemies = enemies
-
+    
     all = allies+enemies
-
 
     read_dialogue(opening)
 
@@ -243,9 +249,11 @@ def battle(allies, enemies, opening, closing, inventory):
     battle_ended = False
     victory = False
 
+    for combatant in all:
+        combatant.effects = []
+
     while not battle_ended:
 
-        effects.track(all)
         
         # Checks if every ally has been knocked down
         lost = True
@@ -420,6 +428,7 @@ def battle(allies, enemies, opening, closing, inventory):
 
 
             if player_acted:
+                effects.track(all)
                 input("-~-~-~-~- ENEMIES' TURN -~-~-~-~-")
                 
         # Enemy Turn (Amber)

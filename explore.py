@@ -148,6 +148,13 @@ def explore(location, index):
 
     while not left:
 
+        if index == 3:
+            save_game({
+            "location": 3,
+            "allies": [player, skellybones_ally, zeep_vorp_ally, pepper],
+            "inventory": load_game()['inventory']
+            })
+
         if not boss_victory:
             choice = inq_select('Which place would you like to go?', *location['mini_locations'])
 

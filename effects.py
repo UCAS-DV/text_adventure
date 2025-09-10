@@ -40,7 +40,7 @@ def track(characters):
     for char, effect_id in to_remove:
         char.effects.remove(effect_id)
         del timers[(char.name, effect_id)]
-        print(f"{char.name}'s effect {effects_ids[effect_id]} has worn off")
+        input(f"{char.name}'s effect {effects_ids[effect_id]} has worn off")
 
 def run_effect_logic(effect_id, target):
     if effect_id == 3:  # terrified
