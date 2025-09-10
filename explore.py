@@ -205,6 +205,7 @@ def explore(location, index):
             player_data['allies'].append(location["ally"])
 
     player_data['location'] = index + 1
+    player_data['inventory'] = load_game()['inventory']
     save_game(player_data)
         
 # explore(main_locations[1], 1)

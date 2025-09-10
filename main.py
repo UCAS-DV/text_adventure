@@ -69,6 +69,14 @@ def load_game_main():
         # IF at Area 51
         case 1:
             explore(main_locations[1], 1)
+
+            save_game({
+            "location": 2,
+            "allies": [player, skellybones_ally, zeep_vorp_ally],
+            "inventory": load_game()['inventory']
+            })
+
+
             explore(main_locations[2], 2)
 
             save_game({
